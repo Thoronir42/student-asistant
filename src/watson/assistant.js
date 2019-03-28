@@ -10,7 +10,7 @@ class Asistant {
     }
 
     this.assistant = new AssistantV2({
-      version: '2018-11-08'
+      version: '2019-02-28'
     });
 
     this.newContext = {
@@ -87,7 +87,7 @@ class Asistant {
    });
 
    return promise;
-   
+
  }
 
 
