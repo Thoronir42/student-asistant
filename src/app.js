@@ -5,8 +5,19 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
 
-const indexRouter = require('./src/routes/index');
-const usersRouter = require('./src/routes/users');
+const indexRouter = require('./routes');
+const usersRouter = require('./routes/users');
+
+const Configurator = require('./di/Configurator');
+
+const config = new Configurator();
+
+const controllers = require('./controllers');
+
+config.addDefinitions(controllers.list);
+const container = config.getContainer();
+
+console.log(container.getService('signController'));
 
 const app = express();
 
