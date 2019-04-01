@@ -29,7 +29,8 @@ class RouterModule {
 
         return (req, resp, next) => {
             const result = this.container.call(func, instance, {
-                request: req
+                request: req,
+                response: resp
             });
 
             if (!result) {

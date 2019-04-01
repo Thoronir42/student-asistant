@@ -67,7 +67,7 @@ class Asistant {
      return promise;
  }
 
- async getSession(req) {
+ async createSession(req) {
 
    var resolve, reject;
 
@@ -94,4 +94,4 @@ class Asistant {
 
 }
 
-module.exports = new Assistant(process.env.ASSISTANT_ID);
+module.exports = Assistant;

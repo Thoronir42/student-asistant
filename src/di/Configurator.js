@@ -2,6 +2,8 @@ const Container = require("./Container");
 
 const Authenticator = require("../auth/Authenticator");
 
+const Assistant = require("../watson/Assistant");
+
 class Configurator {
 
     constructor() {
@@ -31,6 +33,7 @@ class Configurator {
         let container = new Container();
 
         container.setService("authenticator", new Authenticator());
+        container.setService("assistant", new Assistant(process.env.ASSISTANT_ID));
 
         for (let name in this._definitions) {
             container.setDefinition(name, this._definitions[name]);
