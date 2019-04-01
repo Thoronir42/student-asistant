@@ -6,8 +6,11 @@ class SignController {
     }
 
 
-    signIn(request, response, next) {
+    putCookie(request) {
 
+        return {
+            cookieStatus: 'not-set :(',
+        };
     }
 }
 

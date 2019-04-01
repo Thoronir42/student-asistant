@@ -17,7 +17,6 @@ const controllers = require('./controllers');
 config.addDefinitions(controllers.list);
 const container = config.getContainer();
 
-console.log(container.getService('signController'));
 
 const app = express();
 
@@ -37,8 +36,19 @@ app.use(sassMiddleware({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Routing
+const ModularRouter = require('./routes/ModularRouter');
+const SignRouter = require('./routes/SignRouterModule');
+
+const router = new ModularRouter(container);
+router.addModule(SignRouter, {
+    urlPrefix: '/sign'
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+app.use('/', router.compileRouter());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

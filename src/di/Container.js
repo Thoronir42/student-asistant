@@ -26,6 +26,10 @@ class Container {
         this._resolveStack = [];
 
         Object.assign(this._services, definitions);
+
+        this._services['container'] = {
+            instance: this
+        }
     }
 
     setDefinition(name, service, overwrite = false) {
@@ -88,14 +92,67 @@ class Container {
         return service.instance;
     }
 
+    callInjects(subject) {
+        const props = this.getProps(subject);
+
+        for (let i in props) {
+            const name = props[i];
+            if (typeof subject[name] !== "function") {
+                continue;
+            }
+
+            const method = subject[name];
+
+            if (!name.startsWith("inject")) {
+                continue;
+            }
+
+            this.call(method, subject);
+        }
+    }
+
+    getProps(subject) {
+        const props = [];
+
+        for (let prototype = subject; !!prototype; prototype = Object.getPrototypeOf(prototype)) {
+            let op = Object.getOwnPropertyNames(prototype);
+            for (let i = 0; i < op.length; i++)
+                if (props.indexOf(op[i]) === -1)
+                    props.push(op[i]);
+        }
+
+        return props;
+    }
+
+    call(method, instance, args = {}) {
+        const argArray = [];
+        const argNames = CodeInspection.functionArgumentNames(method);
+
+        for (let i in argNames) {
+            const argName = argNames[i];
+
+            if (args.hasOwnProperty(argName)) {
+                argArray.push(args[argNames]);
+                continue;
+            }
+
+            const service = this.getService(argNames);
+            argArray.push(service);
+        }
+
+        return method.apply(instance, argArray);
+    }
+
     /**
-     * @private
      * @param {function|Class} definition
      */
     createInstance(definition) {
         const dependencies = this.getDependencies(definition);
 
-        return new definition(...dependencies);
+        const instance = new definition(...dependencies);
+        this.callInjects(instance);
+
+        return instance;
     }
 
     /**
