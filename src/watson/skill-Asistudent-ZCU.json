@@ -1,0 +1,513 @@
+{
+  "name": "Asistudent ZCU",
+  "intents": [
+    {
+      "intent": "BotInformation",
+      "examples": [
+        {
+          "text": "Who are you ?"
+        },
+        {
+          "text": "tell me what you are"
+        },
+        {
+          "text": "tell me who you are"
+        },
+        {
+          "text": "what can you do ?"
+        },
+        {
+          "text": "who are you"
+        },
+        {
+          "text": "Tell me about yourself"
+        },
+        {
+          "text": "What are you ?"
+        }
+      ],
+      "description": "Information about bot"
+    },
+    {
+      "intent": "Exam",
+      "examples": [
+        {
+          "text": "What exam is waiting for me?"
+        },
+        {
+          "text": "what exams are awaiting me ?"
+        },
+        {
+          "text": "which exam I have next ?"
+        },
+        {
+          "text": "exam ?"
+        },
+        {
+          "text": "what exam is awaiting me ?"
+        },
+        {
+          "text": "What exams are waiting for me?"
+        },
+        {
+          "text": "I want to register on an exam"
+        }
+      ],
+      "description": "Questions about exam"
+    },
+    {
+      "intent": "Farewell",
+      "examples": [
+        {
+          "text": "Arrivederci"
+        },
+        {
+          "text": "Goodbye"
+        },
+        {
+          "text": "fare thee well"
+        },
+        {
+          "text": "best regards"
+        },
+        {
+          "text": "until next time"
+        },
+        {
+          "text": "see ya"
+        },
+        {
+          "text": "Regards"
+        },
+        {
+          "text": "Adieu"
+        },
+        {
+          "text": "Bye-bye"
+        },
+        {
+          "text": "So long"
+        },
+        {
+          "text": "Bye"
+        },
+        {
+          "text": "See you soon"
+        },
+        {
+          "text": "Thank you for conversation"
+        },
+        {
+          "text": "Good-bye"
+        },
+        {
+          "text": "Good bye"
+        },
+        {
+          "text": "Farewell"
+        },
+        {
+          "text": "Adios"
+        },
+        {
+          "text": "Au revoir"
+        },
+        {
+          "text": "See you later"
+        }
+      ],
+      "description": "Ending conversation"
+    },
+    {
+      "intent": "Timetable",
+      "examples": [
+        {
+          "text": "Tell me about my timetable"
+        },
+        {
+          "text": "timetable ?"
+        }
+      ],
+      "description": "About timetable"
+    },
+    {
+      "intent": "Greeting",
+      "examples": [
+        {
+          "text": "Good evening"
+        },
+        {
+          "text": "Hey"
+        },
+        {
+          "text": "Good afternoon"
+        },
+        {
+          "text": "Good morning"
+        },
+        {
+          "text": "What's up ?"
+        },
+        {
+          "text": "How are you ?"
+        },
+        {
+          "text": "Good day"
+        },
+        {
+          "text": "Hello"
+        },
+        {
+          "text": "Yo"
+        },
+        {
+          "text": "Hi"
+        },
+        {
+          "text": "How goes it ?"
+        }
+      ],
+      "description": "Starting conversation"
+    }
+  ],
+  "entities": [],
+  "language": "en",
+  "metadata": {
+    "api_version": {
+      "major_version": "v1",
+      "minor_version": "2018-09-20"
+    }
+  },
+  "description": "",
+  "dialog_nodes": [
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "When you launched me I already told you! "
+              },
+              {
+                "text": "I am a bot and I help with ZCU studying! What do you want me to help you with?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_10_1553183168097",
+      "context": {
+        "whoami": true
+      },
+      "disabled": true,
+      "metadata": {},
+      "dialog_node": "node_11_1553183380837"
+    },
+    {
+      "type": "standard",
+      "title": "Anything else",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "I didn't understand. You can try rephrasing."
+              },
+              {
+                "text": "Can you reword your statement? I'm not understanding."
+              },
+              {
+                "text": "I didn't get your meaning."
+              },
+              {
+                "text": "I don't think I understand. Care to rephrase?"
+              },
+              {
+                "text": "I do not know what you ask, my friend. "
+              },
+              {
+                "text": "Can you reword your statement? I don't understand."
+              },
+              {
+                "text": "Try speaking more clearly, I have trouble understanding."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "parent": "node_2_1553181756591",
+      "metadata": {},
+      "conditions": "anything_else",
+      "dialog_node": "Anything else",
+      "previous_sibling": "node_10_1553183168097"
+    },
+    {
+      "type": "standard",
+      "title": "Farewell",
+      "output": {
+        "generic": [
+          {
+            "values": [],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_2_1553181756591",
+      "metadata": {},
+      "conditions": "#Farewell",
+      "dialog_node": "node_1_1553182117009",
+      "previous_sibling": "node_3_1553181767015"
+    },
+    {
+      "type": "standard",
+      "title": "Bot information",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "When you launched me I already told you! I am a bot and I help with ZCU studying! What do you want me to help you with?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_2_1553181756591",
+      "metadata": {
+        "_customization": {
+          "mcr": false
+        }
+      },
+      "conditions": "#BotInformation",
+      "dialog_node": "node_10_1553183168097",
+      "digress_out": "allow_all",
+      "previous_sibling": "node_1_1553182117009"
+    },
+    {
+      "type": "standard",
+      "title": "Greeting",
+      "output": {},
+      "parent": "node_2_1553181756591",
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "conditions": "#Greeting",
+      "dialog_node": "node_3_1553181767015",
+      "digress_out": "allow_all",
+      "previous_sibling": "node_4_1553181802223"
+    },
+    {
+      "type": "standard",
+      "title": "Welcome",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "I am Asistudent ZCU. I provide information and help regarding matters of students of ZCU. You can ask me questions and I will provide answers as best as I can!"
+              },
+              {
+                "text": "Ask me something!"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_2_1553181756591",
+      "metadata": {},
+      "conditions": "welcome",
+      "dialog_node": "node_4_1553181802223"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Good afternoon! How may I help you?"
+              },
+              {
+                "text": "I hope you had a wonderful lunch! How may I help you?"
+              },
+              {
+                "text": "Studying hard I hope? How may I help you?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "parent": "node_3_1553181767015",
+      "metadata": {},
+      "conditions": "now().after('12:00:00') && now().before('16:59:59')",
+      "dialog_node": "node_7_1553182183550",
+      "previous_sibling": "node_6_1553182040504"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Good evening! How may I help you?"
+              },
+              {
+                "text": "Quiet evening I hope. How may I help you?"
+              },
+              {
+                "text": "I hope you had a wonderful dinner. How may I help you?"
+              },
+              {
+                "text": "Studying in the evenings I see. How may I help you?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "parent": "node_3_1553181767015",
+      "metadata": {},
+      "conditions": "now().after('17:00:00') && now().before('21:59:59')",
+      "dialog_node": "node_8_1553182308828",
+      "previous_sibling": "node_7_1553182183550"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Good night student! How may I help you?"
+              },
+              {
+                "text": "Shouldn't you be sleeping, young one? How may I help you?"
+              },
+              {
+                "text": "Quiet night for studying I say. How may I help you?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "parent": "node_3_1553181767015",
+      "metadata": {},
+      "conditions": "now().after('22:00:00') && now().before('06:59:59')",
+      "dialog_node": "node_9_1553182465276",
+      "previous_sibling": "node_8_1553182308828"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Good morning! How are you?"
+              },
+              {
+                "text": "Wonderful morning we have! How may I help you?"
+              },
+              {
+                "text": "You come in early today! How may I help you?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "parent": "node_3_1553181767015",
+      "metadata": {},
+      "conditions": "now().after('08:00:00') && now().before('11:59:59')",
+      "dialog_node": "node_6_1553182040504"
+    },
+    {
+      "type": "standard",
+      "title": "Exam",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "OK, I will tell you something about your exam"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_1_1553183261435",
+      "metadata": {},
+      "conditions": "#Exam",
+      "dialog_node": "node_2_1553183307242",
+      "previous_sibling": "node_1_1553181345159"
+    },
+    {
+      "type": "standard",
+      "title": "Timetable",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Sure, what do you want to know about your timetable?"
+              },
+              {
+                "text": "Of course, what do you want to know about it?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_1_1553183261435",
+      "metadata": {},
+      "conditions": "#Timetable",
+      "dialog_node": "node_1_1553181345159"
+    },
+    {
+      "type": "folder",
+      "title": "Small Talk",
+      "metadata": {},
+      "digress_in": "does_not_return",
+      "dialog_node": "node_2_1553181756591",
+      "previous_sibling": "node_1_1553183261435"
+    },
+    {
+      "type": "folder",
+      "title": "ZCU Talk",
+      "metadata": {},
+      "dialog_node": "node_1_1553183261435"
+    }
+  ],
+  "workspace_id": "fada0fb8-cee2-4537-8eae-a5bba382680c",
+  "counterexamples": [],
+  "system_settings": {
+    "tooling": {
+      "store_generic_responses": true
+    }
+  },
+  "learning_opt_out": false,
+  "status": "Available"
+}
