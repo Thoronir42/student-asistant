@@ -14,7 +14,7 @@ class WatsonRouterModule extends RouterModule {
 
     registerRoutes(router) {
         router.get('/api/session', this.action(this.watsonController.createSession, this.watsonController));
-        router.get('/api/message', this.action(this.watsonController.processMessage, this.watsonController));
+        router.post('/api/message', this.action(this.watsonController.processMessage, this.watsonController));
 
         return router;
     }

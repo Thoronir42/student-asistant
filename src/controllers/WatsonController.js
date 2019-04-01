@@ -7,22 +7,21 @@ class WatsonController {
         this.assistantService = assistant;
     }
 
-    processMessage(request, response) {
-
-        this.assistantService.processMessage(request)
-            .then((data) => {
-                response.json(data);
-            })
-            .catch((err) => {
-                response.status(err.code || 500).json(err);
-            });
+    async processMessage(request, response) {
+        try {
+            const data = await this.assistantService.processMessage(request)
+            response.json(data);
+        } catch (err) {
+            console.error(err);
+            response.status(err.code || 500).send(err);
+        }
     }
 
     async createSession(request, response) {
         try {
             const data = await this.assistantService.createSession(request);
             response.send(data);
-        } catch(err) {
+        } catch (err) {
             response.status(err.code || 500).send(err);
         }
     }

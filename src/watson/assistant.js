@@ -1,94 +1,74 @@
-const  AssistantV2 = require('watson-developer-cloud/assistant/v2'); // watson sdk
+const AssistantV2 = require('watson-developer-cloud/assistant/v2'); // watson sdk
+
+const AsyncUtils = require('../utils/AsyncUtils');
 
 class Assistant {
 
-  constructor(assistantId) {
-    this.assistantId = assistantId;
+    constructor(assistantId) {
+        this.assistantId = assistantId;
 
-    if (!assistantId) {
-      throw new Error("Missing assistant ID!");
+        if (!assistantId) {
+            throw new Error("Missing assistant ID!");
+        }
+
+        this.assistant = new AssistantV2({
+            version: '2019-02-28'
+        });
+
+        this.newContext = {
+            global: {
+                system: {
+                    turn_count: 1
+                }
+            }
+        };
     }
 
-    this.assistant = new AssistantV2({
-      version: '2019-02-28'
-    });
+    async processMessage(req) {
 
-    this.newContext = {
-      global : {
-        system : {
-          turn_count : 1
+        const contextWithAcc = (req.body.context) ? req.body.context : this.newContext;
+
+        if (req.body.context) {
+            contextWithAcc.global.system.turn_count += 1;
         }
-      }
-    };
-  }
 
- async processMessage(req) {
+        let textIn = '';
 
-     var contextWithAcc = (req.body.context) ? req.body.context : newContext;
+        if (req.body.input) {
+            textIn = req.body.input.text;
+        }
 
-     if (req.body.context) {
-       contextWithAcc.global.system.turn_count += 1;
-     }
+        let payload = {
+            assistant_id: this.assistantId,
+            session_id: req.body.session_id,
+            context: contextWithAcc,
+            input: {
+                message_type: 'text',
+                text: textIn,
+                options: {
+                    return_context: true
+                }
+            }
+        };
 
-     var textIn = '';
+        const promise = AsyncUtils.PromiseCallback();
 
-     if(req.body.input) {
-       textIn = req.body.input.text;
-     }
+        // Send the input to the assistant service
+        this.assistant.message(payload, promise.callback);
 
-     var payload = {
-       assistant_id: this.assistantId,
-       session_id: req.body.session_id,
-       context: contextWithAcc,
-       input: {
-         message_type : 'text',
-         text : textIn,
-         options : {
-           return_context : true
-         }
-       }
-     };
+        return promise;
+    }
 
-     var resolve, reject;
+    async createSession(req) {
 
-     var promise = new Promise( (_resolve, _reject) => {
-        resolve = _resolve;
-        reject = _reject;
-     });
+        const promise = AsyncUtils.PromiseCallback();
 
-     // Send the input to the assistant service
-     this.assistant.message(payload, function (err, data) {
-       if (err) {
-         reject(err);
-       }
-         resolve(data);
-     });
+        this.assistant.createSession({
+            assistant_id: this.assistantId,
+        }, promise.callback);
 
-     return promise;
- }
-
- async createSession(req) {
-
-   var resolve, reject;
-
-   var promise = new Promise( (_resolve, _reject) => {
-     resolve = _resolve;
-     reject = _reject;
-   });
-
-   this.assistant.createSession({
-     assistant_id: this.assistantId,
-   }, (err, data) => {
-      if (err) {
-        reject(err);
-      }
-
-      resolve(data);
-   });
-
-   return promise;
-
- }
+        return promise;
+    }
 
 }
 
