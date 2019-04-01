@@ -1,9 +1,9 @@
-var AssistantV2 = require('watson-developer-cloud/assistant/v2'); // watson sdk
+const  AssistantV2 = require('watson-developer-cloud/assistant/v2'); // watson sdk
 
-class Asistant {
+class Assistant {
 
   constructor(assistantId) {
-    this.assistantId = asisstantId;
+    this.assistantId = assistantId;
 
     if (!assistantId) {
       throw new Error("Missing assistant ID!");
@@ -89,8 +89,6 @@ class Asistant {
    return promise;
 
  }
-
-
 
 }
 

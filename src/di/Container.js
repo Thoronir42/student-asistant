@@ -129,10 +129,10 @@ class Container {
         const argNames = CodeInspection.functionArgumentNames(method);
 
         for (let i in argNames) {
-            const argName = argNames[i];
+            const name = argNames[i];
 
-            if (args.hasOwnProperty(argName)) {
-                argArray.push(args[argNames]);
+            if (args.hasOwnProperty(name)) {
+                argArray.push(args[name]);
                 continue;
             }
 

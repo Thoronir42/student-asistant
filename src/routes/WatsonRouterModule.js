@@ -5,10 +5,10 @@ const RouterModule = require('./RouterModule');
 class WatsonRouterModule extends RouterModule {
 
 
-    constructor(/**SignController*/ watsonController) {
+    constructor(/**WatsonController*/ watsonController) {
         super();
 
-        /** @type {watsonController} */
+        /** @type {WatsonController} */
         this.watsonController = watsonController;
     }
 

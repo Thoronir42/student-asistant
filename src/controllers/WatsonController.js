@@ -2,29 +2,29 @@
 
 class WatsonController {
 
-    constructor(assistantService) {
-      this.assistantService = assistantService;
+    constructor(/**Assistant*/ assistant) {
+        /** @type {Assistant} */
+        this.assistantService = assistant;
     }
 
     processMessage(request, response) {
 
-         this.assistantService.processMessage(request)
-         .then( (data) => {
-           response.json(data);
-         })
-         .catch( (err) => {
-            response.status(err.code || 500).json(err);
-         });
+        this.assistantService.processMessage(request)
+            .then((data) => {
+                response.json(data);
+            })
+            .catch((err) => {
+                response.status(err.code || 500).json(err);
+            });
     }
 
-    createSession(request, response) {
-      this.assistantService.createSession(request)
-      .then((data) => {
-          response.send(data);
-      })
-      .catch((err) => {
-          response.status(err.code || 500).send(err);
-      });
+    async createSession(request, response) {
+        try {
+            const data = await this.assistantService.createSession(request);
+            response.send(data);
+        } catch(err) {
+            response.status(err.code || 500).send(err);
+        }
     }
 }
 
