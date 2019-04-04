@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -40,12 +42,14 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Routing
 const ModularRouter = require('./routes/ModularRouter');
-const SignRouter = require('./routes/SignRouterModule');
+const SignRouterModule = require('./routes/SignRouterModule');
+const WatsonRouterModule = require('./routes/WatsonRouterModule');
 
 const router = new ModularRouter(container);
-router.addModule(SignRouter, {
+router.addModule(SignRouterModule, {
     urlPrefix: '/sign'
 });
+router.addModule(WatsonRouterModule);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

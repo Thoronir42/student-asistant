@@ -1,5 +1,18 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  #view-change-button.button(onclick='PayloadPanel.togglePanel(event, this)')
+    img.option.full(src='../img/Chat Button.png')
+    img.option.not-full(src='../img/Code Button.png')
+  #contentParent.responsive-columns-wrapper
+    #chat-column-holder.responsive-column.content-column
+      .chat-column
+        #scrollingChat
+        p#user-typing-field.user-typing
+        label.inputOutline(for='textInput')
+          input#textInput.input.responsive-column(placeholder='Type something', type='text', onkeydown='ConversationPanel.inputKeyDown(event, this)', autofocus='')
+    #payload-column.fixed-column.content-column
+      #payload-initial-message
+        | Type something to see the output
+      #payload-request.payload
+      #payload-response.payload

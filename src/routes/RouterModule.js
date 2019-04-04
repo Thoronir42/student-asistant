@@ -27,18 +27,40 @@ class RouterModule {
             throw new Error("Non funtion type provided")
         }
 
-        return (req, resp, next) => {
-            const result = this.container.call(func, instance, {
-                request: req
-            });
+        const argumentNames = CodeInspection.functionArgumentNames(func);
+        const handlesResponse = argumentNames.includes('response');
 
-            if (!result) {
-                const methodName = CodeInspection.functionName(func, instance);
-                next(new Error(`Method ${methodName} did not return any result`));
-                return;
+        return async (req, resp, next) => {
+            const args = {
+                request: req,
+            };
+            if (handlesResponse) {
+                args.response = resp;
             }
 
-            resp.json(result);
+            try {
+                const result = await this.container.call(func, instance, args);
+
+                if (handlesResponse) {
+                    if (!resp.finished) {
+                        const methodName = CodeInspection.functionName(func, instance);
+                        console.warn("Handler response of " + methodName + " not finished");
+                        resp.end();
+                    }
+                    return;
+                }
+
+                if (!result) {
+                    const methodName = CodeInspection.functionName(func, instance);
+                    next(new Error(`Method ${methodName} did not return any result`));
+                    return;
+                }
+
+                resp.json(result);
+            } catch (err) {
+                next(err);
+            }
+
         }
     }
 
