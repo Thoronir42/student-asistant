@@ -1,21 +1,18 @@
 extends layout
 
 block content
-  div.containe-fluid
-    h3.text-center Chat
-    div.messaging
-      div.mesgs
-        div.msg_history
-          div.incoming_msg
-            div.incoming_msg_img
-              img(src='https://ptetutorials.com/images/user-profile.png', alt='sunil')
-            div.received_msg
-              div.received_withd_msg
-                p Jsem AsiStudent, co jsi ty?
-                span.time_date 11:01 AM    |    June 9
-          div.outgoing_msg
-            div.sent_msg
-              p Já jsem zase asi student, haha
-              span.time_date 11:01 AM    |    June 9
-          div.form-group
-            input.form-control(id='textInput', placeholder='Type something', type='Type something')
+  #view-change-button.button(onclick='PayloadPanel.togglePanel(event, this)')
+    img.option.full(src='../img/Chat Button.png')
+    img.option.not-full(src='../img/Code Button.png')
+  #contentParent.responsive-columns-wrapper
+    #chat-column-holder.responsive-column.content-column
+      .chat-column
+        #scrollingChat
+        p#user-typing-field.user-typing
+        label.inputOutline(for='textInput')
+          input#textInput.input.responsive-column(placeholder='Type something', type='text', onkeydown='ConversationPanel.inputKeyDown(event, this)', autofocus='')
+    #payload-column.fixed-column.content-column
+      #payload-initial-message
+        | Type something to see the output
+      #payload-request.payload
+      #payload-response.payload
