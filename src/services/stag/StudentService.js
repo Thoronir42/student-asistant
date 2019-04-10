@@ -4,7 +4,7 @@
 class StudentService {
 
     /**
-     * @param adapter (StagAdapter)
+     * @param {StagAdapter} adapter 
      */
     constructor(adapter) {
         this.adapter = adapter;
