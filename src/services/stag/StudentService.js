@@ -14,6 +14,7 @@ class StudentService {
     /**
      * @param {string} stagUser
      * @param {string} osCislo
+     * @return {StudentInfo}
      */
     getStudentInfo(stagUser, osCislo) {
         console.log("StudentService.getStudentInfo()");
