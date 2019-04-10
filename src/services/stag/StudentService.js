@@ -9,7 +9,6 @@ class StudentService {
     constructor(adapter) {
         this.adapter = adapter;
         this.serviceEndpoint = 'student';
-        this.studentInfoMethod = 'getStudentInfo';
     }
 
     /**
@@ -19,12 +18,12 @@ class StudentService {
     getStudentInfo(stagUser, osCislo) {
         console.log("StudentService.getStudentInfo()");
 
-        let params = new Map([
-            ["stagUser", stagUser],
-            ["osCislo", osCislo]
-        ]);
+        const params = {
+            stagUser,
+            osCislo,
+        };
 
-        this.adapter.fetch(this.serviceEndpoint + "/" + this.studentInfoMethod, params);
+        this.adapter.fetch(this.serviceEndpoint + "/getStudentInfo" , params);
     }
 }
 

@@ -12,34 +12,27 @@ class StagAdapter {
 
     /**
      * @param {string} operation
-     * @param {Map} params
+     * @param {Object<string, string|number>} queryParams
      */
-    fetch(operation, params) {
-        params.set("outputFormat", "JSON");
+    fetch(operation, queryParams) {
+        queryParams.outputFormat = "JSON";
 
-        var url = new URL(this.baseUrl + "/" + operation);
-        params.forEach((value, key) => url.searchParams.append(key, value));
+        const url = new URL(this.baseUrl + "/" + operation);
+
+        Object.entries(queryParams).forEach((entry) => url.searchParams.append(entry[0], entry[1]));
 
         fetch(url)
             .then(
                 function (response) {
-                    //TODO better response handling (eg 204 ...)
-                    if (response.status !== 200) {
-                        console.log('Looks like there was a problem. Status Code: ' +
-                            response.status);
-                        return;
+                    if (response.status >= 400) {
+                        const errorMessage = 'Problem with API call. Status Code: ' + response.status;
+                        console.error(errorMessage);
+                        throw new Error(errorMessage);
                     }
-
-                    // Examine the text in the response
-                    response.json().then(function (data) {
-                        console.log(data);
-                        //TODO teturn data instead of log
-                    });
+                    return response.json();
                 }
             )
-            .catch(function (err) {
-                console.log('Fetch Error :-S', err);
-            });
+        ;
     }
 }
 
