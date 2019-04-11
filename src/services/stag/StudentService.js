@@ -31,8 +31,8 @@ class StudentService {
      * @param {string} stagUser
      * @return {Promise<GraduatedCourses>}
      */
-    getStudentPredmetyAbsolvoval(stagUser) {
-        console.log("StudentService.getStudentPredmetyAbsolvoval()");
+    getGraduatedCoursesByStudent(stagUser) {
+        console.log("StudentService.getGraduatedCoursesByStudent()");
 
         const params = {
             stagUser,
