@@ -22,12 +22,11 @@ class StagAdapter {
 
         Object.entries(queryParams).forEach((entry) => url.searchParams.append(entry[0], entry[1]));
 
-        fetch(url)
+        return fetch(url)
             .then(
                 function (response) {
                     if (response.status >= 400) {
                         const errorMessage = 'Problem with API call. Status Code: ' + response.status;
-                        console.error(errorMessage);
                         throw new Error(errorMessage);
                     }
                     return response.json();

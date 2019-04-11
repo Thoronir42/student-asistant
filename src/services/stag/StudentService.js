@@ -14,7 +14,7 @@ class StudentService {
     /**
      * @param {string} stagUser
      * @param {string} osCislo
-     * @return {StudentInfo}
+     * @return {Promise<StudentInfo>}
      */
     getStudentInfo(stagUser, osCislo) {
         console.log("StudentService.getStudentInfo()");
@@ -24,7 +24,7 @@ class StudentService {
             osCislo,
         };
 
-        this.adapter.fetch(this.serviceEndpoint + "/getStudentInfo" , params);
+        return this.adapter.fetch(this.serviceEndpoint + "/getStudentInfo", params);
     }
 }
 
