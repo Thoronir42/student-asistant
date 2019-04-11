@@ -26,6 +26,20 @@ class StudentService {
 
         return this.adapter.fetch(this.serviceEndpoint + "/getStudentInfo", params);
     }
+
+    /**
+     * @param {string} stagUser
+     * @return {Promise<GraduatedCourses>}
+     */
+    getStudentPredmetyAbsolvoval(stagUser) {
+        console.log("StudentService.getStudentPredmetyAbsolvoval()");
+
+        const params = {
+            stagUser,
+        };
+
+        return this.adapter.fetch(this.serviceEndpoint + "/getStudentPredmetyAbsolvoval", params);
+    }
 }
 
 module.exports = StudentService;
