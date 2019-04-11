@@ -7,9 +7,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
 
-const indexRouter = require('./routes');
-const usersRouter = require('./routes/users');
-
 const Configurator = require('./di/Configurator');
 
 const config = new Configurator();
@@ -42,17 +39,17 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Routing
 const ModularRouter = require('./routes/ModularRouter');
+
+const TemplateRouterModule = require('./routes/TemplateRouterModule');
 const SignRouterModule = require('./routes/SignRouterModule');
 const WatsonRouterModule = require('./routes/WatsonRouterModule');
 
 const router = new ModularRouter(container);
+router.addModule(TemplateRouterModule);
 router.addModule(SignRouterModule, {
     urlPrefix: '/sign'
 });
 router.addModule(WatsonRouterModule);
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 app.use('/', router.compileRouter());
 

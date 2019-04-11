@@ -9,7 +9,7 @@ class WatsonController {
 
     async processMessage(request, response) {
         try {
-            const data = await this.assistantService.processMessage(request)
+            const data = await this.assistantService.processMessage(request);
             response.json(data);
         } catch (err) {
             console.error(err);
