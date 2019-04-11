@@ -49,7 +49,11 @@ div {
 }
 
 #contentParent {
-  height: 100%;
+  height: 100vh;
+}
+
+.code-line.responsive-columns-wrapper {
+  flex: 1;
 }
 
 .responsive-columns-wrapper {
@@ -271,6 +275,21 @@ input:-moz-placeholder {
   width: 45%;
   max-width: 32.0625rem;
   min-width: 29.6875rem;
+
+  display: flex;
+  flex-direction: column;
+}
+
+#payload-response {
+  flex: 1;
+  flex-direction: column;
+  display: flex;
+
+  > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 #payload-column.full {
