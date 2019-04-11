@@ -2,40 +2,49 @@
   "name": "Asistudent ZCU",
   "intents": [
     {
-      "intent": "BotInformation",
+      "intent": "Greeting",
       "examples": [
         {
-          "text": "Who are you ?"
+          "text": "Good day"
         },
         {
-          "text": "tell me what you are"
+          "text": "Hello"
         },
         {
-          "text": "tell me who you are"
+          "text": "Yo"
         },
         {
-          "text": "what can you do ?"
+          "text": "Hi"
         },
         {
-          "text": "who are you"
+          "text": "How goes it ?"
         },
         {
-          "text": "Tell me about yourself"
+          "text": "Good evening"
         },
         {
-          "text": "What are you ?"
+          "text": "Hey"
+        },
+        {
+          "text": "Good afternoon"
+        },
+        {
+          "text": "Good morning"
+        },
+        {
+          "text": "What's up ?"
+        },
+        {
+          "text": "How are you ?"
         }
       ],
-      "description": "Information about bot"
+      "description": "Starting conversation"
     },
     {
       "intent": "Exam",
       "examples": [
         {
           "text": "What exam is waiting for me?"
-        },
-        {
-          "text": "what exams are awaiting me ?"
         },
         {
           "text": "which exam I have next ?"
@@ -51,13 +60,46 @@
         },
         {
           "text": "I want to register on an exam"
+        },
+        {
+          "text": "what exams are awaiting me ?"
         }
       ],
       "description": "Questions about exam"
     },
     {
+      "intent": "BotInformation",
+      "examples": [
+        {
+          "text": "tell me who you are"
+        },
+        {
+          "text": "Tell me about yourself"
+        },
+        {
+          "text": "who are you"
+        },
+        {
+          "text": "What are you ?"
+        },
+        {
+          "text": "what can you do ?"
+        },
+        {
+          "text": "Who are you ?"
+        },
+        {
+          "text": "tell me what you are"
+        }
+      ],
+      "description": "Information about bot"
+    },
+    {
       "intent": "Farewell",
       "examples": [
+        {
+          "text": "Adios"
+        },
         {
           "text": "Arrivederci"
         },
@@ -107,9 +149,6 @@
           "text": "Farewell"
         },
         {
-          "text": "Adios"
-        },
-        {
           "text": "Au revoir"
         },
         {
@@ -119,8 +158,38 @@
       "description": "Ending conversation"
     },
     {
+      "intent": "CurrentDate",
+      "examples": [
+        {
+          "text": "what is the current date"
+        },
+        {
+          "text": "day now"
+        },
+        {
+          "text": "date now"
+        },
+        {
+          "text": "what day is it"
+        }
+      ],
+      "description": "Returns current date"
+    },
+    {
       "intent": "Timetable",
       "examples": [
+        {
+          "text": "my schedule"
+        },
+        {
+          "text": "what is my timetable"
+        },
+        {
+          "text": "timetable please"
+        },
+        {
+          "text": "what is my schedule"
+        },
         {
           "text": "Tell me about my timetable"
         },
@@ -129,48 +198,104 @@
         }
       ],
       "description": "About timetable"
-    },
-    {
-      "intent": "Greeting",
-      "examples": [
-        {
-          "text": "Good evening"
-        },
-        {
-          "text": "Hey"
-        },
-        {
-          "text": "Good afternoon"
-        },
-        {
-          "text": "Good morning"
-        },
-        {
-          "text": "What's up ?"
-        },
-        {
-          "text": "How are you ?"
-        },
-        {
-          "text": "Good day"
-        },
-        {
-          "text": "Hello"
-        },
-        {
-          "text": "Yo"
-        },
-        {
-          "text": "Hi"
-        },
-        {
-          "text": "How goes it ?"
-        }
-      ],
-      "description": "Starting conversation"
     }
   ],
-  "entities": [],
+  "entities": [
+    {
+      "entity": "day",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "monday",
+          "synonyms": [
+            "mon"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "tuesday",
+          "synonyms": [
+            "tue"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "wednesday",
+          "synonyms": [
+            "wed"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "friday",
+          "synonyms": [
+            "fri"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "thursday",
+          "synonyms": [
+            "thur"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "saturday",
+          "synonyms": [
+            "sat"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "sunday",
+          "synonyms": [
+            "sun"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "sys-date",
+      "values": []
+    },
+    {
+      "entity": "sys-location",
+      "values": []
+    },
+    {
+      "entity": "timetable",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "today",
+          "synonyms": [
+            "current day",
+            "this day"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "date",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "day",
+          "synonyms": [
+            "week day",
+            "day of a week"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "sys-time",
+      "values": []
+    }
+  ],
   "language": "en",
   "metadata": {
     "api_version": {
@@ -187,10 +312,118 @@
           {
             "values": [
               {
-                "text": "When you launched me I already told you! "
+                "text": "Good evening! How may I help you?"
               },
               {
-                "text": "I am a bot and I help with ZCU studying! What do you want me to help you with?"
+                "text": "Quiet evening I hope. How may I help you?"
+              },
+              {
+                "text": "I hope you had a wonderful dinner. How may I help you?"
+              },
+              {
+                "text": "Studying in the evenings I see. How may I help you?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "parent": "node_3_1553181767015",
+      "metadata": {},
+      "conditions": "now().after('17:00:00') && now().before('21:59:59')",
+      "dialog_node": "node_8_1553182308828",
+      "previous_sibling": "node_7_1553182183550"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Good afternoon! How may I help you?"
+              },
+              {
+                "text": "I hope you had a wonderful lunch! How may I help you?"
+              },
+              {
+                "text": "Studying hard I hope? How may I help you?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "parent": "node_3_1553181767015",
+      "metadata": {},
+      "conditions": "now().after('12:00:00') && now().before('16:59:59')",
+      "dialog_node": "node_7_1553182183550",
+      "previous_sibling": "node_6_1553182040504"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Good night student! How may I help you?"
+              },
+              {
+                "text": "Shouldn't you be sleeping, young one? How may I help you?"
+              },
+              {
+                "text": "Quiet night for studying I say. How may I help you?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "parent": "node_3_1553181767015",
+      "metadata": {},
+      "conditions": "now().after('22:00:00') && now().before('05:59:59')",
+      "dialog_node": "node_9_1553182465276",
+      "previous_sibling": "node_8_1553182308828"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Good morning! How are you?"
+              },
+              {
+                "text": "Wonderful morning we have! How may I help you?"
+              },
+              {
+                "text": "You come in early today! How may I help you?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          }
+        ]
+      },
+      "parent": "node_3_1553181767015",
+      "metadata": {},
+      "conditions": "now().after('06:00:00') && now().before('11:59:59')",
+      "dialog_node": "node_6_1553182040504"
+    },
+    {
+      "type": "standard",
+      "title": "TimetableDate",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Date"
               }
             ],
             "response_type": "text",
@@ -198,13 +431,134 @@
           }
         ]
       },
-      "parent": "node_10_1553183168097",
-      "context": {
-        "whoami": true
+      "parent": "node_1_1553181345159",
+      "metadata": {},
+      "conditions": "@timetable:date",
+      "dialog_node": "node_10_1554971163125",
+      "previous_sibling": "node_8_1554971002509"
+    },
+    {
+      "type": "frame",
+      "title": "TimetableDay",
+      "output": {},
+      "parent": "node_1_1553181345159",
+      "metadata": {
+        "fallback": "leave",
+        "_customization": {
+          "mcr": true
+        }
       },
+      "conditions": "@timetable:day",
+      "dialog_node": "node_3_1554371348239",
+      "digress_out": "allow_all",
+      "previous_sibling": "node_10_1554971163125",
+      "digress_out_slots": "not_allowed"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Sure, I can tell you. Do you want to learn about your next action or timetable for a specific day?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_1_1553181345159",
       "disabled": true,
       "metadata": {},
-      "dialog_node": "node_11_1553183380837"
+      "dialog_node": "node_4_1554372053271",
+      "previous_sibling": "node_3_1554371348239"
+    },
+    {
+      "type": "standard",
+      "title": "TimetableToday",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Today"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_1_1553181345159",
+      "metadata": {},
+      "conditions": "@timetable:today",
+      "dialog_node": "node_8_1554971002509"
+    },
+    {
+      "type": "standard",
+      "title": "Bot information",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "When you launched me I already told you! I am a bot and I help with ZCU studying! What do you want me to help you with?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_2_1553181756591",
+      "metadata": {
+        "_customization": {
+          "mcr": false
+        }
+      },
+      "conditions": "#BotInformation",
+      "dialog_node": "node_10_1553183168097",
+      "digress_out": "allow_all",
+      "previous_sibling": "node_1_1553182117009"
+    },
+    {
+      "type": "standard",
+      "title": "Greeting",
+      "output": {},
+      "parent": "node_2_1553181756591",
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "conditions": "#Greeting",
+      "dialog_node": "node_3_1553181767015",
+      "digress_out": "allow_all",
+      "previous_sibling": "node_4_1553181802223"
+    },
+    {
+      "type": "standard",
+      "title": "CurrentDate",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "The current date is <? today() ?>."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_2_1553181756591",
+      "metadata": {},
+      "conditions": "#CurrentDate",
+      "dialog_node": "node_4_1554967374182",
+      "previous_sibling": "node_3_1553181767015"
     },
     {
       "type": "standard",
@@ -252,7 +606,11 @@
       "output": {
         "generic": [
           {
-            "values": [],
+            "values": [
+              {
+                "text": "Farewell!"
+              }
+            ],
             "response_type": "text",
             "selection_policy": "sequential"
           }
@@ -262,49 +620,7 @@
       "metadata": {},
       "conditions": "#Farewell",
       "dialog_node": "node_1_1553182117009",
-      "previous_sibling": "node_3_1553181767015"
-    },
-    {
-      "type": "standard",
-      "title": "Bot information",
-      "output": {
-        "generic": [
-          {
-            "values": [
-              {
-                "text": "When you launched me I already told you! I am a bot and I help with ZCU studying! What do you want me to help you with?"
-              }
-            ],
-            "response_type": "text",
-            "selection_policy": "sequential"
-          }
-        ]
-      },
-      "parent": "node_2_1553181756591",
-      "metadata": {
-        "_customization": {
-          "mcr": false
-        }
-      },
-      "conditions": "#BotInformation",
-      "dialog_node": "node_10_1553183168097",
-      "digress_out": "allow_all",
-      "previous_sibling": "node_1_1553182117009"
-    },
-    {
-      "type": "standard",
-      "title": "Greeting",
-      "output": {},
-      "parent": "node_2_1553181756591",
-      "metadata": {
-        "_customization": {
-          "mcr": true
-        }
-      },
-      "conditions": "#Greeting",
-      "dialog_node": "node_3_1553181767015",
-      "digress_out": "allow_all",
-      "previous_sibling": "node_4_1553181802223"
+      "previous_sibling": "node_4_1554967374182"
     },
     {
       "type": "standard",
@@ -337,108 +653,195 @@
           {
             "values": [
               {
-                "text": "Good afternoon! How may I help you?"
+                "text": "When you launched me I already told you! "
               },
               {
-                "text": "I hope you had a wonderful lunch! How may I help you?"
-              },
-              {
-                "text": "Studying hard I hope? How may I help you?"
+                "text": "I am a bot and I help with ZCU studying! What do you want me to help you with?"
               }
             ],
             "response_type": "text",
-            "selection_policy": "random"
+            "selection_policy": "sequential"
           }
         ]
       },
-      "parent": "node_3_1553181767015",
+      "parent": "node_10_1553183168097",
+      "context": {
+        "whoami": true
+      },
+      "disabled": true,
       "metadata": {},
-      "conditions": "now().after('12:00:00') && now().before('16:59:59')",
-      "dialog_node": "node_7_1553182183550",
-      "previous_sibling": "node_6_1553182040504"
+      "dialog_node": "node_11_1553183380837"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "text": {
+          "values": [
+            "Wednesday"
+          ]
+        }
+      },
+      "parent": "slot_15_1554372516569",
+      "metadata": {},
+      "conditions": "@day:wednesday",
+      "event_name": "filled",
+      "dialog_node": "handler_24_1554372740450",
+      "previous_sibling": "handler_23_1554372727971"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "text": {
+          "values": [
+            "Thursday"
+          ]
+        }
+      },
+      "parent": "slot_15_1554372516569",
+      "metadata": {},
+      "conditions": "@day:thursday",
+      "event_name": "filled",
+      "dialog_node": "handler_25_1554372747109",
+      "previous_sibling": "handler_24_1554372740450"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "text": {
+          "values": [
+            "I dont recognize that day. Can you repeat?"
+          ]
+        }
+      },
+      "parent": "slot_15_1554372516569",
+      "metadata": {},
+      "conditions": "true",
+      "event_name": "nomatch",
+      "dialog_node": "handler_22_1554372724211",
+      "previous_sibling": "handler_28_1554372749738"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_15_1554372516569",
+      "context": {
+        "day": "@day"
+      },
+      "metadata": {},
+      "conditions": "@day",
+      "event_name": "input",
+      "dialog_node": "handler_16_1554372516569",
+      "previous_sibling": "handler_17_1554372516569"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "text": {
+          "values": [
+            "Sunday"
+          ]
+        }
+      },
+      "parent": "slot_15_1554372516569",
+      "metadata": {},
+      "conditions": "@day:sunday",
+      "event_name": "filled",
+      "dialog_node": "handler_28_1554372749738",
+      "previous_sibling": "handler_27_1554372748842"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "text": {
+          "values": [
+            "Tuesday"
+          ]
+        }
+      },
+      "parent": "slot_15_1554372516569",
+      "metadata": {},
+      "conditions": "@day:tuesday",
+      "event_name": "filled",
+      "dialog_node": "handler_23_1554372727971",
+      "previous_sibling": "handler_20_1554372646834"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "text": {
+          "values": [
+            "Friday"
+          ]
+        }
+      },
+      "parent": "slot_15_1554372516569",
+      "metadata": {},
+      "conditions": "@day:friday",
+      "event_name": "filled",
+      "dialog_node": "handler_26_1554372747593",
+      "previous_sibling": "handler_25_1554372747109"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "text": {
+          "values": [
+            "Saturday"
+          ]
+        }
+      },
+      "parent": "slot_15_1554372516569",
+      "metadata": {},
+      "conditions": "@day:saturday",
+      "event_name": "filled",
+      "dialog_node": "handler_27_1554372748842",
+      "previous_sibling": "handler_26_1554372747593"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "text": {
+          "values": [
+            "Monday"
+          ]
+        }
+      },
+      "parent": "slot_15_1554372516569",
+      "metadata": {},
+      "conditions": "@day:monday",
+      "event_name": "filled",
+      "dialog_node": "handler_20_1554372646834",
+      "previous_sibling": "handler_16_1554372516569"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "text": "What day would you like to see your timetable for?"
+      },
+      "parent": "slot_15_1554372516569",
+      "metadata": {},
+      "event_name": "focus",
+      "dialog_node": "handler_17_1554372516569"
+    },
+    {
+      "type": "slot",
+      "output": {},
+      "parent": "node_3_1554371348239",
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "variable": "$day",
+      "dialog_node": "slot_15_1554372516569",
+      "previous_sibling": "node_11_1554971635863"
     },
     {
       "type": "response_condition",
-      "output": {
-        "generic": [
-          {
-            "values": [
-              {
-                "text": "Good evening! How may I help you?"
-              },
-              {
-                "text": "Quiet evening I hope. How may I help you?"
-              },
-              {
-                "text": "I hope you had a wonderful dinner. How may I help you?"
-              },
-              {
-                "text": "Studying in the evenings I see. How may I help you?"
-              }
-            ],
-            "response_type": "text",
-            "selection_policy": "random"
-          }
-        ]
-      },
-      "parent": "node_3_1553181767015",
+      "output": {},
+      "parent": "node_3_1554371348239",
       "metadata": {},
-      "conditions": "now().after('17:00:00') && now().before('21:59:59')",
-      "dialog_node": "node_8_1553182308828",
-      "previous_sibling": "node_7_1553182183550"
-    },
-    {
-      "type": "response_condition",
-      "output": {
-        "generic": [
-          {
-            "values": [
-              {
-                "text": "Good night student! How may I help you?"
-              },
-              {
-                "text": "Shouldn't you be sleeping, young one? How may I help you?"
-              },
-              {
-                "text": "Quiet night for studying I say. How may I help you?"
-              }
-            ],
-            "response_type": "text",
-            "selection_policy": "random"
-          }
-        ]
-      },
-      "parent": "node_3_1553181767015",
-      "metadata": {},
-      "conditions": "now().after('22:00:00') && now().before('06:59:59')",
-      "dialog_node": "node_9_1553182465276",
-      "previous_sibling": "node_8_1553182308828"
-    },
-    {
-      "type": "response_condition",
-      "output": {
-        "generic": [
-          {
-            "values": [
-              {
-                "text": "Good morning! How are you?"
-              },
-              {
-                "text": "Wonderful morning we have! How may I help you?"
-              },
-              {
-                "text": "You come in early today! How may I help you?"
-              }
-            ],
-            "response_type": "text",
-            "selection_policy": "random"
-          }
-        ]
-      },
-      "parent": "node_3_1553181767015",
-      "metadata": {},
-      "conditions": "now().after('08:00:00') && now().before('11:59:59')",
-      "dialog_node": "node_6_1553182040504"
+      "dialog_node": "node_11_1554971635863"
     },
     {
       "type": "standard",
@@ -468,23 +871,47 @@
       "output": {
         "generic": [
           {
-            "values": [
+            "title": "",
+            "options": [
               {
-                "text": "Sure, what do you want to know about your timetable?"
+                "label": "This day",
+                "value": {
+                  "input": {
+                    "text": "today"
+                  }
+                }
               },
               {
-                "text": "Of course, what do you want to know about it?"
+                "label": "Custom date",
+                "value": {
+                  "input": {
+                    "text": "date"
+                  }
+                }
+              },
+              {
+                "label": "Day of a week",
+                "value": {
+                  "input": {
+                    "text": "day"
+                  }
+                }
               }
             ],
-            "response_type": "text",
-            "selection_policy": "sequential"
+            "description": "Sure I can tell you about your timetable. What exactly do you want to know about?",
+            "response_type": "option"
           }
         ]
       },
       "parent": "node_1_1553183261435",
-      "metadata": {},
+      "metadata": {
+        "_customization": {
+          "mcr": false
+        }
+      },
       "conditions": "#Timetable",
-      "dialog_node": "node_1_1553181345159"
+      "dialog_node": "node_1_1553181345159",
+      "digress_out": "allow_all_never_return"
     },
     {
       "type": "folder",
@@ -506,8 +933,9 @@
   "system_settings": {
     "tooling": {
       "store_generic_responses": true
-    }
+    },
+    "spelling_auto_correct": true
   },
   "learning_opt_out": false,
-  "status": "Available"
+  "status": "Training"
 }
