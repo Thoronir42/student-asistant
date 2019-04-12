@@ -9,7 +9,11 @@ class WatsonController {
 
     async processMessage(request, response) {
         try {
-            const data = await this.assistantService.processMessage(request);
+            const {session_id, input, context} = request.body;
+            const data = await this.assistantService.processMessage(session_id, input, context);
+
+            console.log(data.getMaxConfidentIntent());
+
             response.json(data);
         } catch (err) {
             console.error(err);
