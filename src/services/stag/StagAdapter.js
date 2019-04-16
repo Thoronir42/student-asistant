@@ -13,7 +13,7 @@ class StagAdapter {
     /**
      * @param {string} operation
      * @param {Object<string, string|number>} queryParams
-     * @return {Object} API call result
+     * @return {Promise} API call result
      */
     fetch(operation, queryParams) {
         queryParams.outputFormat = "JSON";

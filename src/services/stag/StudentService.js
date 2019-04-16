@@ -1,6 +1,3 @@
-/**
- * @typedef (object) StudentService
- */
 class StudentService {
 
     /**
