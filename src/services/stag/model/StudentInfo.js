@@ -15,7 +15,7 @@ class StudentInfo {
         /** @type {string} */
         titulZa;
 
-        /** @type {char} */
+        /** @type {string} */
         stav;
 
         /** @type {string} */

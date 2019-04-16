@@ -29,12 +29,12 @@ class CourseEvent extends CourseBase {
 
 
     /**
-     * @type {int}
+     * @type {number}
      */
     hodinaOd;
 
     /**
-     * @type {int}
+     * @type {number}
      */
     hodinaDo;
 
