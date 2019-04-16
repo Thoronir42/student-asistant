@@ -2,7 +2,7 @@ const Container = require("./Container");
 
 const Authenticator = require("../services/auth/Authenticator");
 
-const Assistant = require("../watson/Assistant");
+const Assistant = require("../services/watson/Assistant");
 
 class Configurator {
 

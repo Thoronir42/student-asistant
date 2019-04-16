@@ -1,6 +1,6 @@
 const AssistantV2 = require('watson-developer-cloud/assistant/v2'); // watson sdk
 
-const AsyncUtils = require('../utils/AsyncUtils');
+const AsyncUtils = require('../../utils/AsyncUtils');
 
 class Assistant {
 
