@@ -1,6 +1,3 @@
-/**
- * @typedef (object) StudentService
- */
 class SchedulesService {
 
     /**
@@ -12,7 +9,7 @@ class SchedulesService {
     }
 
     /**
-     * @param date
+     * @param {Date} date
      * @return {string}
      * @private
      */
@@ -44,8 +41,8 @@ class SchedulesService {
      *
      * @param {string} stagUser
      * @param {string} osCislo
-     * @param {date} startDate
-     * @param {date} endDate
+     * @param {Date} startDate
+     * @param {Date} endDate
      * @return {Promise<ScheduledCourses>}
      */
     getScheduleByStudent(stagUser, osCislo, startDate, endDate) {
