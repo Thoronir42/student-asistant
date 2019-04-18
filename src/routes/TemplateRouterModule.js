@@ -14,6 +14,11 @@ class TemplateRouterModule extends RouterModule {
             res.render('index', {title: 'AsiStudent'});
         });
 
+        /* GET about page. */
+        router.get('/about', function (req, res, next) {
+            res.render('about');
+        });
+
         return router;
     }
 }
