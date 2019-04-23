@@ -28,7 +28,7 @@ class WatsonResponse {
             this.output.entities = [];
         }
 
-        this.context = {};
+        this.context = context || {};
     }
 
     hasIntent() {
