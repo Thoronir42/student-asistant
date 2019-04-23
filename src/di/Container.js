@@ -10,8 +10,9 @@ class Container {
     /**
      *
      * @param {Object<string, ServiceDefinition>} definitions
+     * @param {Object<string, *>} parameters
      */
-    constructor(definitions = {}) {
+    constructor(definitions = {}, parameters = {}) {
 
         /**
          * @type {Object<string, ServiceDefinition>}
@@ -85,9 +86,15 @@ class Container {
 
         this._resolveStack.push(name);
 
-        service.instance = this.createInstance(service.definition);
+        try {
+            service.instance = this.createInstance(service.definition, service.args);
+        } catch (e) {
+            const stack = this._resolveStack.join("->");
+            throw new Error(`Could not create service '${name}' (${stack}): ${e.message}`)
+        } finally {
+            this._resolveStack.pop();
+        }
 
-        this._resolveStack.pop();
 
         return service.instance;
     }
@@ -145,9 +152,13 @@ class Container {
 
     /**
      * @param {function|Class} definition
+     * @param {Object<string, *>} args
      */
-    createInstance(definition) {
-        const dependencies = this.getDependencies(definition);
+    createInstance(definition, args = {}) {
+        if (!definition) {
+            throw new Error("Definition is not set");
+        }
+        const dependencies = this.getDependencies(definition, args);
 
         const instance = new definition(...dependencies);
         this.callInjects(instance);
@@ -158,18 +169,32 @@ class Container {
     /**
      * @private
      * @param subject
+     * @param {Object<string, *>} args
      */
-    getDependencies(subject) {
+    getDependencies(subject, args) {
+        /** @type {string[]} */
+        let dependencyNames;
+
         if (subject.hasOwnProperty("_dependencies")) {
-            return this.getServices(subject._dependencies);
-        }
-        if (typeof subject === "function") {
-            const argNames = CodeInspection.functionArgumentNames(subject);
-            return this.getServices(argNames);
+            dependencyNames = subject._dependencies;
+        } else if (typeof subject === "function") {
+            dependencyNames = CodeInspection.functionArgumentNames(subject);
+        } else {
+            console.warn("Failed to get dependencies for ", subject);
+            dependencyNames = [];
         }
 
-        console.warn("Failed to get dependencies for ", subject);
-        return [];
+        if (!args) {
+            args = {};
+        }
+
+        return dependencyNames.map((dep) => {
+            if (args.hasOwnProperty(dep)) {
+                return args[dep];
+            }
+
+            return this.getService(dep);
+        });
     }
 }
 
@@ -180,4 +205,5 @@ module.exports = Container;
  *
  * @property {*} [instance]
  * @property {Function|Array} [definition]
+ * @property {Object} [args]
  */
