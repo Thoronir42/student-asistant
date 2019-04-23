@@ -13,7 +13,7 @@ class SchedulesService {
      * @return {string}
      * @private
      */
-    static _formatDateForStag(date){
+    static _formatDateForStag(date) {
         return date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear();
     }
 
@@ -51,8 +51,8 @@ class SchedulesService {
         const params = {
             stagUser,
             osCislo,
-            datumOd : SchedulesService._formatDateForStag(startDate),
-            datumDo : SchedulesService._formatDateForStag(endDate),
+            datumOd: SchedulesService._formatDateForStag(startDate),
+            datumDo: SchedulesService._formatDateForStag(endDate),
         };
 
         return this.adapter.fetch(this.serviceEndpoint + "/getRozvrhByStudent", params);

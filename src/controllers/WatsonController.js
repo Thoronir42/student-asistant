@@ -1,10 +1,13 @@
 "use strict";
 
+const Intents = require('../services/watson/Intent');
+
 class WatsonController {
 
-    constructor(/**Assistant*/ assistant) {
+    constructor(/**Assistant*/ assistant, /**Timetables*/ timetables) {
         /** @type {Assistant} */
         this.assistantService = assistant;
+        this.timetables = timetables;
     }
 
     async processMessage(request, response) {
@@ -12,12 +15,32 @@ class WatsonController {
             const {session_id, input, context} = request.body;
             const data = await this.assistantService.processMessage(session_id, input, context);
 
-            console.log(data.getMaxConfidentIntent());
+            if (data.hasIntent()) {
+                data.asistudent = await this.getExtraByResponse(data);
+                console.info(data.asistudent);
+            }
 
             response.json(data);
         } catch (err) {
             console.error(err);
             response.status(err.code || 500).send(err);
+        }
+    }
+
+    /**
+     * @param {WatsonResponse} response
+     * @return {Promise}
+     */
+    async getExtraByResponse(response) {
+        const intent = response.getMaxConfidentIntent();
+        console.log(intent);
+        if (!intent) {
+            return undefined;
+        }
+
+        switch (intent.intent) {
+            case Intents.TIMETABLE:
+                return await this.timetables.getTimetableForDay();
         }
     }
 

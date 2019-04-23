@@ -31,6 +31,10 @@ class WatsonResponse {
         this.context = {};
     }
 
+    hasIntent() {
+        return this.output.intents && this.output.intents.length > 0
+    }
+
     /**
      *
      * @return {WatsonResponseIntent|undefined}
