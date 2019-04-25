@@ -6,6 +6,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
+const SignController = require("./controllers/SignController");
 
 const Configurator = require('./di/Configurator');
 
@@ -43,6 +44,16 @@ const ModularRouter = require('./routes/ModularRouter');
 const TemplateRouterModule = require('./routes/TemplateRouterModule');
 const SignRouterModule = require('./routes/SignRouterModule');
 const WatsonRouterModule = require('./routes/WatsonRouterModule');
+
+app.use((req, res, next) => {
+    req.appVars = {
+        isSignedIn: !!req.cookies[SignController.COOKIE],
+    };
+
+    next();
+});
+
+
 
 const router = new ModularRouter(container);
 router.addModule(TemplateRouterModule);

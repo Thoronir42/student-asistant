@@ -31,6 +31,7 @@ div {
   right: 0.3125rem;
   line-height: 3.125rem;
   vertical-align: middle;
+  z-index: 1027;
 }
 
 #view-change-button img {
@@ -49,7 +50,7 @@ div {
 }
 
 #contentParent {
-  height: 100vh;
+  height: calc(100vh - 56px);
 }
 
 .code-line.responsive-columns-wrapper {

@@ -9,14 +9,21 @@ class TemplateRouterModule extends RouterModule {
     }
 
     registerRoutes(router) {
-        /* GET home page. */
+
         router.get('/', function (req, res, next) {
-            res.render('index', {title: 'AsiStudent'});
+            if (req.appVars.isSignedIn) {
+                res.redirect("/chat");
+            } else {
+                res.redirect("/sign/in");
+            }
         });
 
-        /* GET about page. */
         router.get('/about', function (req, res, next) {
             res.render('about');
+        });
+
+        router.get('/chat', function (req, res, next) {
+            res.render('chat', {title: 'AsiStudent'});
         });
 
         return router;
