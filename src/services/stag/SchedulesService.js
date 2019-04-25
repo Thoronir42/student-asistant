@@ -47,9 +47,15 @@ class SchedulesService {
      * @param {string} osCislo
      * @param {Date} startDate
      * @param {Date} endDate
+     * @param {Object} [optional]
+     * @param {string} [optional.zkratkaPredmetu]
+     * // todo: add optional fields
+     *
      * @return {Promise<ScheduledCourses>}
      */
-    getScheduleByStudent(stagUser, osCislo, startDate, endDate) {
+    getScheduleByStudent(stagUser, osCislo, startDate, endDate, optional = {}) {
+        console.log("StudentService.getScheduleByStudent()");
+
         const params = {
             stagUser,
             osCislo,
@@ -57,7 +63,10 @@ class SchedulesService {
             datumDo: SchedulesService._formatDateForStag(endDate),
         };
 
-        return this.stagAdapter.fetch(this.serviceEndpoint + "/getRozvrhByStudent", params);
+        // todo: check key functionality
+        Object.entries(optional).forEach(([key, value]) => params[key] = value);
+
+        return this.adapter.fetch(this.serviceEndpoint + "/getRozvrhByStudent", params);
     }
 
 }
