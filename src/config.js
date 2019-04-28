@@ -1,6 +1,7 @@
 "use strict";
 
 const Configurator = require('./di/Configurator');
+const DIExpression = require('./di/DIExpression');
 
 // system
 const Authenticator = require("./services/auth/Authenticator");
@@ -13,6 +14,8 @@ const StagAdapter = require("./services/stag/StagAdapter");
 
 // business
 const Timetables = require("./services/university/Timetables");
+const AssistantExtra = require("./services/watson/AssistantExtra");
+const TimetableExtraModule = require("./services/watsonExtras/TimetableExtraModule");
 
 /** @return {Configurator} */
 exports.getConfigurator = (parameters) => {
@@ -22,7 +25,6 @@ exports.getConfigurator = (parameters) => {
 
 const createConfigurator = (parameters) => {
     const config = new Configurator(parameters);
-    console.log(parameters);
 
     config.addDefinition("authenticator", Authenticator);
 
@@ -37,6 +39,15 @@ const createConfigurator = (parameters) => {
     });
 
     config.addDefinition('timetables', Timetables);
+
+    config.addDefinition('assistantExtra', {
+        definition: AssistantExtra,
+        args: {
+            modules: DIExpression.arrayOf([
+                TimetableExtraModule,
+            ])
+        }
+    });
 
     const controllers = require('./controllers');
     config.addDefinitions(controllers.list);
