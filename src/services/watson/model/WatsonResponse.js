@@ -28,7 +28,20 @@ class WatsonResponse {
             this.output.entities = [];
         }
 
-        this.context = context || {};
+        if (!context) {
+            context = {};
+        }
+        if (!context.skills) {
+            context.skills = {};
+        }
+        if (!context.skills['main skill']) {
+            context.skills['main skill'] = {};
+        }
+        if (!context.skills['main skill'].user_defined) {
+            context.skills['main skill'].user_defined = {};
+        }
+
+        this.context = context;
     }
 
     hasIntent() {
@@ -44,6 +57,21 @@ class WatsonResponse {
         let maxConfidenceIntent = this.output.intents.reduce((a, b) => a.confidence >= b.confidence ? a : b, dummy);
 
         return maxConfidenceIntent === dummy ? undefined : maxConfidenceIntent;
+    }
+
+    /**
+     *
+     * @param {string} name
+     * @return {*}
+     */
+    getUserSkill(name) {
+        // who the hay hay uses spaces?????
+        const mainSkill = this.context.skills['main skill'];
+        if (!mainSkill || !mainSkill.user_defined) {
+            return undefined;
+        }
+
+        return mainSkill.user_defined[name];
     }
 }
 

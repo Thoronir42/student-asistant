@@ -9,7 +9,7 @@ class Timetables {
      * todo: Fetch timetable entries properly
      * @return {Promise<{timeFrom: string, code: string, timeTo: string}[]>}
      */
-    async getTimetableForDay() {
+    async getTimetableForDay(date) {
         return [
             {
                 timeFrom: "8:25",
