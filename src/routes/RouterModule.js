@@ -1,6 +1,6 @@
 "use strict";
 
-const CodeInspection = require('../di/CodeInspection');
+const CodeInspection = require('../utils/CodeInspection');
 
 
 class RouterModule {

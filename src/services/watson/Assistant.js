@@ -2,6 +2,9 @@ const AssistantV2 = require('watson-developer-cloud/assistant/v2'); // watson sd
 
 const AsyncUtils = require('../../utils/AsyncUtils');
 
+const WatsonRequestContext = require('./model/ContextHelper');
+const WatsonResponse = require('./model/WatsonResponse');
+
 class Assistant {
 
     constructor(assistantId) {
@@ -11,63 +14,60 @@ class Assistant {
             throw new Error("Missing assistant ID!");
         }
 
-        this.assistant = new AssistantV2({
-            version: '2019-02-28'
+        this.client = new AssistantV2({
+            version: '2019-02-28',
         });
-
-        this.newContext = {
-            global: {
-                system: {
-                    turn_count: 1
-                }
-            }
-        };
     }
 
-    async processMessage(req) {
-
-        const contextWithAcc = (req.body.context) ? req.body.context : this.newContext;
-
-        if (req.body.context) {
-            contextWithAcc.global.system.turn_count += 1;
-        }
-
-        let textIn = '';
-
-        if (req.body.input) {
-            textIn = req.body.input.text;
-        }
-
-        let payload = {
-            assistant_id: this.assistantId,
-            session_id: req.body.session_id,
-            context: contextWithAcc,
-            input: {
-                message_type: 'text',
-                text: textIn,
-                options: {
-                    return_context: true
-                }
-            }
-        };
+    /**
+     *
+     * @param {string} session_id
+     * @param {MessageInput} input
+     * @param {Object|WatsonRequestContext} [context]
+     *
+     * @return {Promise<WatsonResponse>}
+     */
+    async processMessage(session_id, input, context) {
+        const payload = this.preparePayloadForWatson(session_id, input, context);
 
         const promise = AsyncUtils.PromiseCallback();
 
         // Send the input to the assistant service
-        this.assistant.message(payload, promise.callback);
+        this.client.message(payload, promise.callback);
 
-        return promise;
+        return promise
+            .then((response) => new WatsonResponse(response.output, response.context));
     }
 
     async createSession(req) {
 
         const promise = AsyncUtils.PromiseCallback();
 
-        this.assistant.createSession({
+        this.client.createSession({
             assistant_id: this.assistantId,
         }, promise.callback);
 
         return promise;
+    }
+
+    preparePayloadForWatson(session_id, input, context) {
+
+        const contextWithAcc = WatsonRequestContext.validate(context);
+
+        contextWithAcc.global.system.turn_count += 1;
+
+        return {
+            assistant_id: this.assistantId,
+            session_id: session_id,
+            context: contextWithAcc,
+            input: {
+                message_type: 'text',
+                text: input.text || '',
+                options: {
+                    return_context: true
+                }
+            }
+        };
     }
 
 }

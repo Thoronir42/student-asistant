@@ -8,15 +8,11 @@ const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
 const SignController = require("./controllers/SignController");
 
-const Configurator = require('./di/Configurator');
+const config = require('./config').getConfigurator({
+    stagBaseUrl: process.env.STAG_BASE_URL,
+});
 
-const config = new Configurator();
-
-const controllers = require('./controllers');
-
-config.addDefinitions(controllers.list);
 const container = config.getContainer();
-
 
 const app = express();
 

@@ -1,6 +1,8 @@
 "use strict";
 
-const CodeInspection = require('./CodeInspection');
+const CodeInspection = require('../utils/CodeInspection');
+
+const DIExpression = require('./DIExpression');
 
 /**
  * Simple DI container with no lazy service instantiation.
@@ -9,9 +11,10 @@ class Container {
 
     /**
      *
-     * @param {Object<string, ServiceDefinition>} definitions
+     * @param {{[string]: ServiceDefinition}} definitions
+     * @param {Object<string, *>} parameters
      */
-    constructor(definitions = {}) {
+    constructor(definitions = {}, parameters = {}) {
 
         /**
          * @type {Object<string, ServiceDefinition>}
@@ -32,43 +35,6 @@ class Container {
         }
     }
 
-    setDefinition(name, service, overwrite = false) {
-        if (this._services.hasOwnProperty(name) && !overwrite) {
-            return false;
-        }
-
-        this._services[name] = {
-            definition: service,
-        };
-
-        return true;
-    }
-
-    setService(name, service, overwrite = false) {
-        if (this._services.hasOwnProperty(name) && !overwrite) {
-            return false;
-        }
-
-        this._services[name] = {
-            instance: service,
-        };
-
-        return true;
-    }
-
-    /**
-     *
-     * @param {string[]} names
-     *
-     * @return {*[]}
-     */
-    getServices(names) {
-        if (!Array.isArray(names) || !names.every((item) => typeof item === "string")) {
-            throw new Error("Requests services must be a string array");
-        }
-        return names.map((name) => this.getService(name));
-    }
-
     getService(name) {
         if (!this._services.hasOwnProperty(name)) {
             throw new Error(`Service of name '${name}' not found`)
@@ -85,9 +51,18 @@ class Container {
 
         this._resolveStack.push(name);
 
-        service.instance = this.createInstance(service.definition);
+        try {
+            service.instance = this.createInstance(service.definition, service.args);
+        } catch (/**Error*/ e) {
+            const stack = this._resolveStack.join("->");
 
-        this._resolveStack.pop();
+            let error = new Error(`Could not create service '${name}' (stack:${stack}). Original error: ${e.message}`);
+            error.stack = error.stack + '\n' + e.stack;
+            throw error
+        } finally {
+            this._resolveStack.pop();
+        }
+
 
         return service.instance;
     }
@@ -145,9 +120,13 @@ class Container {
 
     /**
      * @param {function|Class} definition
+     * @param {Object<string, *>} args
      */
-    createInstance(definition) {
-        const dependencies = this.getDependencies(definition);
+    createInstance(definition, args = {}) {
+        if (!definition) {
+            throw new Error("Definition is not set");
+        }
+        const dependencies = this.getDependencies(definition, args);
 
         const instance = new definition(...dependencies);
         this.callInjects(instance);
@@ -158,18 +137,54 @@ class Container {
     /**
      * @private
      * @param subject
+     * @param {Object<string, *>} args
      */
-    getDependencies(subject) {
+    getDependencies(subject, args) {
+        /** @type {string[]} */
+        let dependencyNames;
+
         if (subject.hasOwnProperty("_dependencies")) {
-            return this.getServices(subject._dependencies);
-        }
-        if (typeof subject === "function") {
-            const argNames = CodeInspection.functionArgumentNames(subject);
-            return this.getServices(argNames);
+            dependencyNames = subject._dependencies;
+        } else if (typeof subject === "function") {
+            dependencyNames = CodeInspection.functionArgumentNames(subject);
+        } else {
+            console.warn("Failed to get dependencies for ", subject);
+            dependencyNames = [];
         }
 
-        console.warn("Failed to get dependencies for ", subject);
-        return [];
+        if (!args) {
+            args = {};
+        }
+
+        return dependencyNames.map((dep) => {
+            if (args.hasOwnProperty(dep)) {
+                if (args[dep] instanceof DIExpression) {
+                    try {
+                        return this.evaluateExpression(args[dep]);
+                    } catch (/**Error*/ e) {
+                        const name = CodeInspection.getSignatureName(subject);
+                        throw new Error(`Failed to evaluate parameter '${dep}' of '${name}': ${e.message}`);
+                    }
+                }
+
+                return args[dep];
+            }
+
+            return this.getService(dep);
+        });
+    }
+
+    /**
+     *
+     * @param {DIExpression} DIE
+     */
+    evaluateExpression(DIE) {
+        switch (DIE.type) {
+            case DIExpression.Type.arrayOf:
+                return DIE.expression.map((item) => this.createInstance(item));
+        }
+
+        throw new Error(`Unsupported expression type: ${DIE.type}`)
     }
 }
 
@@ -179,5 +194,6 @@ module.exports = Container;
  * @typedef {Object} ServiceDefinition
  *
  * @property {*} [instance]
- * @property {Function|Array} [definition]
+ * @property {Function|Class} [definition]
+ * @property {Object} [args]
  */

@@ -15,24 +15,24 @@ class StagAdapter {
      * @param {Object<string, string|number>} queryParams
      * @return {Promise} API call result
      */
-    fetch(operation, queryParams) {
+    async fetch(operation, queryParams) {
         queryParams.outputFormat = "JSON";
 
         const url = new URL(this.baseUrl + "/" + operation);
 
         Object.entries(queryParams).forEach((entry) => url.searchParams.append(entry[0], entry[1]));
 
-        return fetch(url)
-            .then(
-                function (response) {
-                    if (response.status >= 400) {
-                        const errorMessage = 'Problem with API call. Status Code: ' + response.status;
-                        throw new Error(errorMessage);
-                    }
-                    return response.json();
-                }
-            )
-        ;
+        try {
+            const response = await fetch(url);
+
+            if (response.status >= 400) {
+                const errorMessage = 'Bad status Code: ' + response.status + ".";
+                throw new Error(errorMessage);
+            }
+            return response.json();
+        } catch (e) {
+            throw new Error(`Failed fetching ${url.toString()}: ` + e.message);
+        }
     }
 }
 

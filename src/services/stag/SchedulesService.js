@@ -1,10 +1,14 @@
 class SchedulesService {
 
     /**
-     * @param {StagAdapter} adapter
+     * @param {StagAdapter} stagAdapter
      */
-    constructor(adapter) {
-        this.adapter = adapter;
+    constructor(stagAdapter) {
+        /**
+         * @private
+         * @type {StagAdapter}
+         */
+        this.stagAdapter = stagAdapter;
         this.serviceEndpoint = 'rozvrhy';
     }
 
@@ -13,7 +17,7 @@ class SchedulesService {
      * @return {string}
      * @private
      */
-    static _formatDateForStag(date){
+    static _formatDateForStag(date) {
         return date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear();
     }
 
@@ -33,7 +37,7 @@ class SchedulesService {
     //         jenBudouciAkce : true,
     //     };
     //
-    //     return this.adapter.fetch(this.serviceEndpoint + "/getRozvrhByStudent", params);
+    //     return this.stagAdapter.fetch(this.serviceEndpoint + "/getRozvrhByStudent", params);
     // }
 
     /**
@@ -46,16 +50,14 @@ class SchedulesService {
      * @return {Promise<ScheduledCourses>}
      */
     getScheduleByStudent(stagUser, osCislo, startDate, endDate) {
-        console.log("StudentService.getScheduleByStudent()");
-
         const params = {
             stagUser,
             osCislo,
-            datumOd : SchedulesService._formatDateForStag(startDate),
-            datumDo : SchedulesService._formatDateForStag(endDate),
+            datumOd: SchedulesService._formatDateForStag(startDate),
+            datumDo: SchedulesService._formatDateForStag(endDate),
         };
 
-        return this.adapter.fetch(this.serviceEndpoint + "/getRozvrhByStudent", params);
+        return this.stagAdapter.fetch(this.serviceEndpoint + "/getRozvrhByStudent", params);
     }
 
 }

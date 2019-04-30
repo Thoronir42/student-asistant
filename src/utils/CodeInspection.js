@@ -1,5 +1,7 @@
 "use strict";
 
+const SIGNATURE_PATTERN = /((class\s+\w+)|(function\s+\w*)|(\(((, ?)?(\/\*\*\w+\*\/\s+)?\w+)*\)\s=>))/g;
+
 class CodeInspection {
     /**
      *
@@ -11,6 +13,32 @@ class CodeInspection {
         const result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).match(CodeInspection.ARGUMENT_NAMES);
 
         return result || [];
+    }
+
+    /**
+     *
+     * @param funcOrClass
+     * @return {string}
+     */
+    static getSignatureName(funcOrClass) {
+        if (!funcOrClass) {
+            return '';
+        }
+
+        const str = funcOrClass.toString();
+        const match = SIGNATURE_PATTERN.exec(str);
+
+        if (!match) {
+            console.error("Could not match: " + str);
+            return "Signature matching error";
+        }
+
+        let name = match[1];
+        if (name.includes("=>")) {
+            return name + " {...}";
+        }
+
+        return name;
     }
 
     static functionName(func, instance) {

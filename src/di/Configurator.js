@@ -1,16 +1,30 @@
 const Container = require("./Container");
 
-const Authenticator = require("../services/auth/Authenticator");
-
-const Assistant = require("../services/watson/Assistant");
-
 class Configurator {
 
-    constructor() {
+    /**
+     *
+     * @param {Object<string, string|number>} parameters
+     */
+    constructor(parameters) {
         this._definitions = {};
+
+        this.parameters = parameters;
     }
 
+    /**
+     *
+     * @param {string} name
+     * @param {ServiceDefinition|Function} definition
+     */
     addDefinition(name, definition) {
+        if (!name) {
+            throw new Error("Annonymous definitions are not allowed");
+        }
+        if (typeof definition === "function") {
+            // wrap service constructor into a definition
+            definition = {definition}
+        }
         if (this._definitions.hasOwnProperty(name)) {
             throw new Error(`Definition '${name}' already exists`);
         }
@@ -18,6 +32,10 @@ class Configurator {
         this._definitions[name] = definition
     }
 
+    /**
+     *
+     * @param {Object<string, ServiceDefinition>} definitions
+     */
     addDefinitions(definitions) {
         for (let name in definitions) {
             this.addDefinition(name, definitions[name]);
@@ -30,14 +48,7 @@ class Configurator {
      * @return {Container}
      */
     getContainer() {
-        let container = new Container();
-
-        container.setService("authenticator", new Authenticator());
-        container.setService("assistant", new Assistant(process.env.ASSISTANT_ID));
-
-        for (let name in this._definitions) {
-            container.setDefinition(name, this._definitions[name]);
-        }
+        let container = new Container(this._definitions, this.parameters);
 
         return container;
     }
