@@ -723,6 +723,7 @@
       },
       "parent": "node_8_1554971002509",
       "context": {
+        "extraData": "schedule",
         "timetablePeriod": "today"
       },
       "metadata": {},
@@ -746,6 +747,7 @@
       },
       "parent": "node_10_1554971163125",
       "context": {
+        "extraData": "schedule",
         "timetablePeriod": "date"
       },
       "metadata": {},
@@ -791,6 +793,7 @@
       },
       "parent": "node_3_1554371348239",
       "context": {
+        "extraData": "schedule",
         "timetablePeriod": "day"
       },
       "metadata": {},
