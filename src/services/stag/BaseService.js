@@ -36,11 +36,10 @@ class BaseService {
      * Method attach all fields from
      * @param {object} params
      * @param {object} optional
-     * @protected
      */
-    static mergeOptional(params, optional){
+    mergeOptional(params, optional){
         Object.entries(optional).forEach(
-            ([key, value]) => params[key] = this.queryRepresentation(value));
+            ([key, value]) => params[key] = BaseService.queryRepresentation(value));
     }
 }
 

@@ -12,6 +12,7 @@ const Assistant = require("./services/watson/Assistant");
 // stag
 const StagAdapter = require("./services/stag/StagAdapter");
 const SchedulesService = require('./services/stag/SchedulesService');
+const ExamService = require("./services/stag/ExamService");
 
 // business
 const Timetables = require("./services/university/Timetables");
@@ -39,6 +40,7 @@ const createConfigurator = (parameters) => {
         args: {baseUrl: parameters.stagBaseUrl}
     });
     config.addDefinition('schedulesService', SchedulesService);
+    config.addDefinition("examService", ExamService);
 
     config.addDefinition('timetables', Timetables);
 
