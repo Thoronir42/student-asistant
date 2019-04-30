@@ -2,13 +2,15 @@
 
 const Intent = require('../watson/Intent');
 
+const CodeInspection = require('../../utils/CodeInspection');
+
 class WatsonExtraModule {
 
     /**
      * @returns {Object<string, Function>}
      */
-    getIntentMethods() {
-        console.warn("Method getIntentMethods not overriden in " + this);
+    getMethods() {
+        console.warn("Method getMethods not overriden in " + CodeInspection.instanceClassName(this));
         return {};
     }
 }

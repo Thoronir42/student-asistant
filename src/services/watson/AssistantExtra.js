@@ -7,11 +7,20 @@ class AssistantExtra {
      * @param {WatsonExtraModule[]} modules
      */
     constructor(modules) {
-        this._actionByIntent = {};
+        /**
+         *
+         * @type {Object<string, {exec: Function, definingModule: WatsonExtraModule}>}
+         * @private
+         */
+        this._actions = {};
 
         modules.forEach((module) => {
-            Object.entries(module.getIntentMethods()).forEach(([intent, callback]) => {
-                this._actionByIntent[intent] = {
+            Object.entries(module.getMethods()).forEach(([extraDataClass, callback]) => {
+                if (this._actions.hasOwnProperty(extraDataClass)) {
+                    throw new Error(`Cannot redeclare ${extraDataClass} - Already defined in ${this._actions[extraDataClass].definingModule}`)
+                }
+
+                this._actions[extraDataClass] = {
                     exec: callback,
                     definingModule: module
                 }
@@ -20,17 +29,17 @@ class AssistantExtra {
     }
 
     /**
-     * @param {string} intent
+     * @param {string} extraDataClass
      * @param {WatsonResponse} response
      *
      * @return {Promise<*>}
      */
-    async getExtraData(intent, response) {
-        if (!this._actionByIntent.hasOwnProperty(intent)) {
+    async getExtraData(extraDataClass, response) {
+        if (!this._actions.hasOwnProperty(extraDataClass)) {
             return {};
         }
 
-        return this._actionByIntent[intent].exec(response);
+        return this._actions[extraDataClass].exec(response);
     }
 
 

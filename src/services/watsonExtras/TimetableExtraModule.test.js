@@ -36,7 +36,7 @@ test('timetable with no value returns empty', async (t) => {
     t.deepEqual(result, undefined);
 });
 
-test.skip('\'day\' parses correct date in future', async (t) => {
+test('\'day\' parses correct date in future', async (t) => {
     const tem = createInstance();
 
     const now = new Date();

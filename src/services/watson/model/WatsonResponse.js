@@ -73,6 +73,11 @@ class WatsonResponse {
 
         return mainSkill.user_defined[name];
     }
+
+    setUserSkill(name, value) {
+        const mainSkill = this.context.skills['main skill'];
+        mainSkill.user_defined[name] = value;
+    }
 }
 
 module.exports = WatsonResponse;

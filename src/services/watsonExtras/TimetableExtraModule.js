@@ -2,8 +2,6 @@
 
 const WatsonExtraModule = require('../watson/WatsonExtraModule');
 
-const Intent = require('../watson/Intent');
-
 class TimetableExtraModule extends WatsonExtraModule {
     constructor(/**Timetables*/ timetables) {
         super();
@@ -13,10 +11,10 @@ class TimetableExtraModule extends WatsonExtraModule {
 
     }
 
-    getIntentMethods() {
+    getMethods() {
         const methods = {};
 
-        methods[Intent.TIMETABLE] = this.getTimetable.bind(this);
+        methods['schedule'] = this.getTimetable.bind(this);
 
         return methods;
     }
@@ -31,14 +29,20 @@ class TimetableExtraModule extends WatsonExtraModule {
             return undefined;
         }
 
+        let date;
+        const studentNumber = 'A12B3456P'; // todo: use actual student number
         switch (type) {
             case TimetablePeriodType.date:
-                const date = new Date(response.getUserSkill('date'));
-                return this.timetables.getTimetableForDate(date);
+                date = new Date(response.getUserSkill('date'));
+                return this.timetables.getTimetableForDate(studentNumber, date);
+
+            case TimetablePeriodType.today:
+                date = new Date();
+                return this.timetables.getTimetableForDate(studentNumber, date);
 
             case TimetablePeriodType.day:
-                const day = this.getDateOfNextNamedDay(response.getUserSkill('day'));
-                return this.timetables.getTimetableForDate(day);
+                date = this.getDateOfNextNamedDay(response.getUserSkill('day'));
+                return this.timetables.getTimetableForDate(studentNumber, date);
         }
 
         throw new Error(`Unknown timetable type '${type}'`);
@@ -64,6 +68,7 @@ class TimetableExtraModule extends WatsonExtraModule {
 
 const TimetablePeriodType = {
     date: "date",
+    today: "today",
     day: "day",
     none: "none",
 };

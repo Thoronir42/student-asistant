@@ -1,6 +1,6 @@
 "use strict";
 
-const CodeInspection = require('./CodeInspection');
+const CodeInspection = require('../utils/CodeInspection');
 
 const DIExpression = require('./DIExpression');
 

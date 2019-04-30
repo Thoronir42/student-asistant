@@ -9,7 +9,7 @@ const sassMiddleware = require('node-sass-middleware');
 const SignController = require("./controllers/SignController");
 
 const config = require('./config').getConfigurator({
-    stagBaseUrl: process.env.ASSISTANT_URL,
+    stagBaseUrl: process.env.STAG_BASE_URL,
 });
 
 const container = config.getContainer();

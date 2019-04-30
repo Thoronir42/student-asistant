@@ -1,32 +1,22 @@
 "use strict";
 
 class Timetables {
-    constructor() {
-        // todo: grab stag adapter here
+    constructor(/**SchedulesService*/ schedulesService) {
+        /**
+         * @private
+         * @type {SchedulesService}
+         */
+        this.schedulesService = schedulesService;
     }
 
     /**
-     * todo: Fetch timetable entries properly
-     * @return {Promise<{timeFrom: string, code: string, timeTo: string}[]>}
+     * @return {Promise<{scheduleEntries: CourseResult[]}>}
      */
-    async getTimetableForDay(date) {
-        return [
-            {
-                timeFrom: "8:25",
-                timeTo: "9:10",
-                code: "ABC/PRO",
-            },
-            {
-                timeFrom: "8:25",
-                timeTo: "9:10",
-                code: "ABC/PRO",
-            },
-            {
-                timeFrom: "8:25",
-                timeTo: "9:10",
-                code: "ABC/PRO",
-            },
-        ];
+    async getTimetableForDate(osCislo, date) {
+        const scheduleByStudent = await this.schedulesService.getScheduleByStudent('karel', osCislo, date, date);
+        return {
+            scheduleEntries: scheduleByStudent.rozvrhovaAkce,
+        };
     }
 }
 
