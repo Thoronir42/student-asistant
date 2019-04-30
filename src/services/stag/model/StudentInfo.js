@@ -1,25 +1,12 @@
-class StudentInfo {
+const PersonInfo = require("PersonInfo");
+
+class StudentInfo extends  PersonInfo{
 
         /** @type {string} */
         osCislo;
 
         /** @type {string} */
-        jmeno;
-
-        /** @type {string} */
-        prijmeni;
-
-        /** @type {string} */
-        titulPred;
-
-        /** @type {string} */
-        titulZa;
-
-        /** @type {string} */
         stav;
-
-        /** @type {string} */
-        email;
 
 }
 
