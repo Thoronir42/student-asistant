@@ -274,6 +274,20 @@ var ConversationPanel = (function () {
         }
     }
 
+    function getScheduleEntry(responses, entry) {
+
+        var subject = entry.katedra.concat("/", entry.predmet);
+        var place = entry.budova.concat("/", entry.mistnost);
+        var date = entry.hodinaSkutDo.value.concat(" - ", entry.hodinaSkutOd.value);
+        var temp = subject.concat("<br/>", place);
+        var whole = temp.concat("<br/>", date);
+
+        responses.push({
+            type: "scheduleEntry",
+            innerhtml: whole
+        });
+    }
+
     // Constructs new generic elements from a message payload
     function buildMessageDomElements(newPayload, isUser) {
         var textArray = isUser ? newPayload.input.text : newPayload.output.text;
@@ -292,6 +306,18 @@ var ConversationPanel = (function () {
                     getResponse(responses, gen);
                 });
             }
+        }
+
+        if (newPayload.hasOwnProperty('asistudent')) {
+            if (newPayload.asistudent.hasOwnProperty(('scheduleEntries'))) {
+
+                var scheduleEntries = newPayload.asistudent.scheduleEntries;
+
+                scheduleEntries.forEach(function (entry) {
+                    getScheduleEntry(responses, entry);
+                });
+            }
+
         } else if (newPayload.hasOwnProperty('input')) {
             var input = '';
             textArray.forEach(function (msg) {
