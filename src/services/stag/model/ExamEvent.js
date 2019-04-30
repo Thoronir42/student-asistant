@@ -62,6 +62,24 @@ class ExamEvent {
 
     /** @type {string} */
     typTerminu;
+
+    /** @type {string} */
+    osCislo;
+
+    /** @type {boolean} */
+    zapsan;
+
+    /** @type {boolean} */
+    lzeZapsatOdepsat;
+
+    /** @type {string} */
+    kodDuvoduProcNelzeZapsatOdepsat;
+
+    /** @type {string} */
+    textDuvoduProcNelzeZapsatOdepsat;
+
+    /** @type {string} */
+    popisDuvoduProcNelzeZapsatOdepsat;
 }
 
 module.exports = ExamEvent;
