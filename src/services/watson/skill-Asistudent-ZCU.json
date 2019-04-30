@@ -5,7 +5,10 @@
       "intent": "Greeting",
       "examples": [
         {
-          "text": "Good day"
+          "text": "Good evening"
+        },
+        {
+          "text": "Good afternoon"
         },
         {
           "text": "Hello"
@@ -20,13 +23,13 @@
           "text": "How goes it ?"
         },
         {
-          "text": "Good evening"
+          "text": "sup ?"
+        },
+        {
+          "text": "greetings"
         },
         {
           "text": "Hey"
-        },
-        {
-          "text": "Good afternoon"
         },
         {
           "text": "Good morning"
@@ -36,9 +39,39 @@
         },
         {
           "text": "How are you ?"
+        },
+        {
+          "text": "Good day"
         }
       ],
       "description": "Starting conversation"
+    },
+    {
+      "intent": "School",
+      "examples": [
+        {
+          "text": "what is zcu"
+        },
+        {
+          "text": "what about zcu"
+        },
+        {
+          "text": "what about my school"
+        },
+        {
+          "text": "can you tell me about zcu"
+        },
+        {
+          "text": "zcu"
+        },
+        {
+          "text": "can you tell me about my school"
+        },
+        {
+          "text": "school"
+        }
+      ],
+      "description": "Information about school"
     },
     {
       "intent": "Exam",
@@ -68,37 +101,10 @@
       "description": "Questions about exam"
     },
     {
-      "intent": "BotInformation",
-      "examples": [
-        {
-          "text": "tell me who you are"
-        },
-        {
-          "text": "Tell me about yourself"
-        },
-        {
-          "text": "who are you"
-        },
-        {
-          "text": "What are you ?"
-        },
-        {
-          "text": "what can you do ?"
-        },
-        {
-          "text": "Who are you ?"
-        },
-        {
-          "text": "tell me what you are"
-        }
-      ],
-      "description": "Information about bot"
-    },
-    {
       "intent": "Farewell",
       "examples": [
         {
-          "text": "Adios"
+          "text": "best regards"
         },
         {
           "text": "Arrivederci"
@@ -108,9 +114,6 @@
         },
         {
           "text": "fare thee well"
-        },
-        {
-          "text": "best regards"
         },
         {
           "text": "until next time"
@@ -149,6 +152,9 @@
           "text": "Farewell"
         },
         {
+          "text": "Adios"
+        },
+        {
           "text": "Au revoir"
         },
         {
@@ -179,16 +185,22 @@
       "intent": "Timetable",
       "examples": [
         {
-          "text": "my schedule"
-        },
-        {
-          "text": "what is my timetable"
+          "text": "timetables"
         },
         {
           "text": "timetable please"
         },
         {
           "text": "what is my schedule"
+        },
+        {
+          "text": "my schedule"
+        },
+        {
+          "text": "what is my timetable"
+        },
+        {
+          "text": "This day, please."
         },
         {
           "text": "Tell me about my timetable"
@@ -202,15 +214,12 @@
   ],
   "entities": [
     {
+      "entity": "sys-currency",
+      "values": []
+    },
+    {
       "entity": "day",
       "values": [
-        {
-          "type": "synonyms",
-          "value": "monday",
-          "synonyms": [
-            "mon"
-          ]
-        },
         {
           "type": "synonyms",
           "value": "tuesday",
@@ -252,6 +261,13 @@
           "synonyms": [
             "sun"
           ]
+        },
+        {
+          "type": "synonyms",
+          "value": "monday",
+          "synonyms": [
+            "mon"
+          ]
         }
       ],
       "fuzzy_match": true
@@ -269,14 +285,6 @@
       "values": [
         {
           "type": "synonyms",
-          "value": "today",
-          "synonyms": [
-            "current day",
-            "this day"
-          ]
-        },
-        {
-          "type": "synonyms",
           "value": "date",
           "synonyms": []
         },
@@ -287,9 +295,29 @@
             "week day",
             "day of a week"
           ]
+        },
+        {
+          "type": "synonyms",
+          "value": "today",
+          "synonyms": [
+            "current day",
+            "this day"
+          ]
         }
       ],
       "fuzzy_match": true
+    },
+    {
+      "entity": "sys-number",
+      "values": []
+    },
+    {
+      "entity": "sys-percentage",
+      "values": []
+    },
+    {
+      "entity": "sys-person",
+      "values": []
     },
     {
       "entity": "sys-time",
@@ -416,26 +444,21 @@
       "dialog_node": "node_6_1553182040504"
     },
     {
-      "type": "standard",
+      "type": "frame",
       "title": "TimetableDate",
-      "output": {
-        "generic": [
-          {
-            "values": [
-              {
-                "text": "Date"
-              }
-            ],
-            "response_type": "text",
-            "selection_policy": "sequential"
-          }
-        ]
-      },
+      "output": {},
       "parent": "node_1_1553181345159",
-      "metadata": {},
+      "metadata": {
+        "fallback": "leave",
+        "_customization": {
+          "mcr": true
+        }
+      },
       "conditions": "@timetable:date",
       "dialog_node": "node_10_1554971163125",
-      "previous_sibling": "node_8_1554971002509"
+      "digress_out": "allow_all",
+      "previous_sibling": "node_8_1554971002509",
+      "digress_out_slots": "not_allowed"
     },
     {
       "type": "frame",
@@ -478,87 +501,16 @@
     {
       "type": "standard",
       "title": "TimetableToday",
-      "output": {
-        "generic": [
-          {
-            "values": [
-              {
-                "text": "Today"
-              }
-            ],
-            "response_type": "text",
-            "selection_policy": "sequential"
-          }
-        ]
-      },
-      "parent": "node_1_1553181345159",
-      "metadata": {},
-      "conditions": "@timetable:today",
-      "dialog_node": "node_8_1554971002509"
-    },
-    {
-      "type": "standard",
-      "title": "Bot information",
-      "output": {
-        "generic": [
-          {
-            "values": [
-              {
-                "text": "When you launched me I already told you! I am a bot and I help with ZCU studying! What do you want me to help you with?"
-              }
-            ],
-            "response_type": "text",
-            "selection_policy": "sequential"
-          }
-        ]
-      },
-      "parent": "node_2_1553181756591",
-      "metadata": {
-        "_customization": {
-          "mcr": false
-        }
-      },
-      "conditions": "#BotInformation",
-      "dialog_node": "node_10_1553183168097",
-      "digress_out": "allow_all",
-      "previous_sibling": "node_1_1553182117009"
-    },
-    {
-      "type": "standard",
-      "title": "Greeting",
       "output": {},
-      "parent": "node_2_1553181756591",
+      "parent": "node_1_1553181345159",
       "metadata": {
         "_customization": {
           "mcr": true
         }
       },
-      "conditions": "#Greeting",
-      "dialog_node": "node_3_1553181767015",
-      "digress_out": "allow_all",
-      "previous_sibling": "node_4_1553181802223"
-    },
-    {
-      "type": "standard",
-      "title": "CurrentDate",
-      "output": {
-        "generic": [
-          {
-            "values": [
-              {
-                "text": "The current date is <? today() ?>."
-              }
-            ],
-            "response_type": "text",
-            "selection_policy": "sequential"
-          }
-        ]
-      },
-      "parent": "node_2_1553181756591",
-      "metadata": {},
-      "conditions": "#CurrentDate",
-      "dialog_node": "node_4_1554967374182",
-      "previous_sibling": "node_3_1553181767015"
+      "conditions": "@timetable:today",
+      "dialog_node": "node_8_1554971002509",
+      "digress_out": "allow_all"
     },
     {
       "type": "standard",
@@ -598,7 +550,37 @@
       "metadata": {},
       "conditions": "anything_else",
       "dialog_node": "Anything else",
-      "previous_sibling": "node_10_1553183168097"
+      "previous_sibling": "node_1_1553182117009"
+    },
+    {
+      "type": "standard",
+      "title": "Greeting",
+      "output": {},
+      "parent": "node_2_1553181756591",
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "conditions": "#Greeting",
+      "dialog_node": "node_3_1553181767015",
+      "digress_out": "allow_all",
+      "previous_sibling": "node_4_1553181802223"
+    },
+    {
+      "type": "standard",
+      "title": "School",
+      "output": {},
+      "parent": "node_2_1553181756591",
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "conditions": "#School",
+      "dialog_node": "node_1_1556175691437",
+      "digress_out": "allow_all",
+      "previous_sibling": "node_3_1553181767015"
     },
     {
       "type": "standard",
@@ -624,6 +606,28 @@
     },
     {
       "type": "standard",
+      "title": "CurrentDate",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "The current date is <? today() ?>."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_2_1553181756591",
+      "metadata": {},
+      "conditions": "#CurrentDate",
+      "dialog_node": "node_4_1554967374182",
+      "previous_sibling": "node_1_1556175691437"
+    },
+    {
+      "type": "standard",
       "title": "Welcome",
       "output": {
         "generic": [
@@ -642,83 +646,13 @@
         ]
       },
       "parent": "node_2_1553181756591",
+      "context": {
+        "extraData": "none",
+        "timetablePeriod": "none"
+      },
       "metadata": {},
       "conditions": "welcome",
       "dialog_node": "node_4_1553181802223"
-    },
-    {
-      "type": "response_condition",
-      "output": {
-        "generic": [
-          {
-            "values": [
-              {
-                "text": "When you launched me I already told you! "
-              },
-              {
-                "text": "I am a bot and I help with ZCU studying! What do you want me to help you with?"
-              }
-            ],
-            "response_type": "text",
-            "selection_policy": "sequential"
-          }
-        ]
-      },
-      "parent": "node_10_1553183168097",
-      "context": {
-        "whoami": true
-      },
-      "disabled": true,
-      "metadata": {},
-      "dialog_node": "node_11_1553183380837"
-    },
-    {
-      "type": "event_handler",
-      "output": {
-        "text": {
-          "values": [
-            "Wednesday"
-          ]
-        }
-      },
-      "parent": "slot_15_1554372516569",
-      "metadata": {},
-      "conditions": "@day:wednesday",
-      "event_name": "filled",
-      "dialog_node": "handler_24_1554372740450",
-      "previous_sibling": "handler_23_1554372727971"
-    },
-    {
-      "type": "event_handler",
-      "output": {
-        "text": {
-          "values": [
-            "Thursday"
-          ]
-        }
-      },
-      "parent": "slot_15_1554372516569",
-      "metadata": {},
-      "conditions": "@day:thursday",
-      "event_name": "filled",
-      "dialog_node": "handler_25_1554372747109",
-      "previous_sibling": "handler_24_1554372740450"
-    },
-    {
-      "type": "event_handler",
-      "output": {
-        "text": {
-          "values": [
-            "I dont recognize that day. Can you repeat?"
-          ]
-        }
-      },
-      "parent": "slot_15_1554372516569",
-      "metadata": {},
-      "conditions": "true",
-      "event_name": "nomatch",
-      "dialog_node": "handler_22_1554372724211",
-      "previous_sibling": "handler_28_1554372749738"
     },
     {
       "type": "event_handler",
@@ -738,79 +672,28 @@
       "output": {
         "text": {
           "values": [
-            "Sunday"
+            "I dont recognize that day. Can you repeat?"
           ]
         }
       },
       "parent": "slot_15_1554372516569",
       "metadata": {},
-      "conditions": "@day:sunday",
-      "event_name": "filled",
-      "dialog_node": "handler_28_1554372749738",
-      "previous_sibling": "handler_27_1554372748842"
+      "conditions": "true",
+      "event_name": "nomatch",
+      "dialog_node": "handler_22_1554372724211",
+      "previous_sibling": "handler_2_1555574899432"
     },
     {
       "type": "event_handler",
       "output": {
         "text": {
-          "values": [
-            "Tuesday"
-          ]
+          "values": []
         }
       },
       "parent": "slot_15_1554372516569",
-      "metadata": {},
-      "conditions": "@day:tuesday",
+      "conditions": "@day",
       "event_name": "filled",
-      "dialog_node": "handler_23_1554372727971",
-      "previous_sibling": "handler_20_1554372646834"
-    },
-    {
-      "type": "event_handler",
-      "output": {
-        "text": {
-          "values": [
-            "Friday"
-          ]
-        }
-      },
-      "parent": "slot_15_1554372516569",
-      "metadata": {},
-      "conditions": "@day:friday",
-      "event_name": "filled",
-      "dialog_node": "handler_26_1554372747593",
-      "previous_sibling": "handler_25_1554372747109"
-    },
-    {
-      "type": "event_handler",
-      "output": {
-        "text": {
-          "values": [
-            "Saturday"
-          ]
-        }
-      },
-      "parent": "slot_15_1554372516569",
-      "metadata": {},
-      "conditions": "@day:saturday",
-      "event_name": "filled",
-      "dialog_node": "handler_27_1554372748842",
-      "previous_sibling": "handler_26_1554372747593"
-    },
-    {
-      "type": "event_handler",
-      "output": {
-        "text": {
-          "values": [
-            "Monday"
-          ]
-        }
-      },
-      "parent": "slot_15_1554372516569",
-      "metadata": {},
-      "conditions": "@day:monday",
-      "event_name": "filled",
-      "dialog_node": "handler_20_1554372646834",
+      "dialog_node": "handler_2_1555574899432",
       "previous_sibling": "handler_16_1554372516569"
     },
     {
@@ -822,6 +705,61 @@
       "metadata": {},
       "event_name": "focus",
       "dialog_node": "handler_17_1554372516569"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Timetable for today is:"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_8_1554971002509",
+      "context": {
+        "timetablePeriod": "today"
+      },
+      "metadata": {},
+      "conditions": "true",
+      "dialog_node": "node_2_1556024440783"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "This is your timetable for the date of $date:"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_10_1554971163125",
+      "context": {
+        "timetablePeriod": "date"
+      },
+      "metadata": {},
+      "conditions": "true",
+      "dialog_node": "node_12_1554972578901",
+      "previous_sibling": "slot_13_1554972598630"
+    },
+    {
+      "type": "slot",
+      "output": {},
+      "parent": "node_10_1554971163125",
+      "metadata": {},
+      "variable": "$date",
+      "dialog_node": "slot_13_1554972598630"
     },
     {
       "type": "slot",
@@ -838,10 +776,49 @@
     },
     {
       "type": "response_condition",
-      "output": {},
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Your timetable for $day is:"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
       "parent": "node_3_1554371348239",
+      "context": {
+        "timetablePeriod": "day"
+      },
       "metadata": {},
+      "conditions": "true",
       "dialog_node": "node_11_1554971635863"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_13_1554972598630",
+      "context": {
+        "date": "@sys-date"
+      },
+      "metadata": {},
+      "conditions": "@sys-date",
+      "event_name": "input",
+      "dialog_node": "handler_14_1554972598630",
+      "previous_sibling": "handler_15_1554972598630"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "text": "Which date would you like to see your timetable for?"
+      },
+      "parent": "slot_13_1554972598630",
+      "metadata": {},
+      "event_name": "focus",
+      "dialog_node": "handler_15_1554972598630"
     },
     {
       "type": "standard",
@@ -877,7 +854,7 @@
                 "label": "This day",
                 "value": {
                   "input": {
-                    "text": "today"
+                    "text": "Timetable for this day, please."
                   }
                 }
               },
@@ -885,7 +862,7 @@
                 "label": "Custom date",
                 "value": {
                   "input": {
-                    "text": "date"
+                    "text": "Timetable for a custom date, please."
                   }
                 }
               },
@@ -893,7 +870,7 @@
                 "label": "Day of a week",
                 "value": {
                   "input": {
-                    "text": "day"
+                    "text": "Timetable for a day of a week, please."
                   }
                 }
               }
@@ -912,6 +889,58 @@
       "conditions": "#Timetable",
       "dialog_node": "node_1_1553181345159",
       "digress_out": "allow_all_never_return"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "ZCU is your school, dummy!"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          },
+          {
+            "title": "University of West Bohemia",
+            "source": "https://www.zcu.cz/export/sites/zcu/en/media/title-page/EN_homepage_hero_banner.jpg",
+            "response_type": "image"
+          },
+          {
+            "values": [
+              {
+                "text": "The University of West Bohemia comprises nine faculties focusing on a wide variety of fields from technology through humanities to arts. Our greatest asset is a multidisciplinary approach, which has earned us an important position among universities both in the Czech Republic and in Europe. We offer bachelor’s, master’s, and doctoral study programmes. You can study some of them in English, but if you are enticed by Czech as a foreign language, you can choose a Czech programme – we will help you with the Czech language at our Institute of Applied Language Studies. You can also choose from our offer of double-degree programmes."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          },
+          {
+            "values": [
+              {
+                "text": "We are based in Pilsen – a city of industry and beer. The Škoda company, with its traditional production of vehicles for urban and rail transport that gave rise to our technical disciplines, and Pilsner Urquell, one of the world’s top brewing companies, have become an integral part of the life of our city and the University. Both companies are important partners of the University of West Bohemia and are involved in the professional training of our students in various ways."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          },
+          {
+            "values": [
+              {
+                "text": "More info here! <a  target=\"_blank\" href=\"https://www.zcu.cz/en/index.html\">https://www.zcu.cz/en/index.html</a>"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_1_1556175691437",
+      "metadata": {},
+      "conditions": "true",
+      "dialog_node": "node_2_1556175712430"
     },
     {
       "type": "folder",
@@ -937,5 +966,5 @@
     "spelling_auto_correct": true
   },
   "learning_opt_out": false,
-  "status": "Training"
+  "status": "Available"
 }
