@@ -6,7 +6,7 @@ import WatsonResponse from '../watson/model/WatsonResponse';
 
 function createInstance() {
     const timetables = {
-        getTimetableForDate: (date) => ({
+        getTimetableForDate: (_, date) => ({
             parsedDate: date,
             schedule: ['a', 'b']
         }),
