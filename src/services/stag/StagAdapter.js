@@ -1,5 +1,9 @@
 const fetch = require('node-fetch');
 
+/**
+ * @typedef {string|object} queryParam
+ */
+
 class StagAdapter {
 
     /**
@@ -20,9 +24,11 @@ class StagAdapter {
     /**
      * @param {string} operation
      * @param {Object<string, string|number>} [queryParams]
+     *
      * @param {Object} [options]
      * @param {HTTPMethod} [options.method]
      * @param {StagOutputFormat} [options.outputFormat='JSON']
+     * @param {StagAuthorization} [options.authorization]
      *
      * @return {Promise} API call result
      */
@@ -47,6 +53,10 @@ class StagAdapter {
         if (queryParams.outputFormat === "JSON") {
             fetchOptions.Headers['Accept'] = 'application/json';
         }
+        if(options.authorization) {
+            fetchOptions.Headers.authorization = options.authorization;
+        }
+
         try {
             return await this.execute(url, fetchOptions);
         } catch (e) {
@@ -97,4 +107,9 @@ module.exports = StagAdapter;
 
 /**
  * @typedef {'JSON'} StagOutputFormat
+ */
+
+/**
+ * todo: describe stag authorization
+ * @typedef {*} StagAuthorization
  */

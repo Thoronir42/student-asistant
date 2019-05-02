@@ -3,8 +3,7 @@ const CourseBase = require('./CourseBase');
 class CourseResult extends CourseBase {
 
     /**
-     * @type {Object|null}
-     * @property {string} value
+     * @type {StagDatum|null}
      */
    datum;
 

@@ -1,14 +1,12 @@
-class SchedulesService {
+const BaseService = require('./BaseService');
+
+class SchedulesService extends BaseService{
 
     /**
      * @param {StagAdapter} stagAdapter
      */
     constructor(stagAdapter) {
-        /**
-         * @private
-         * @type {StagAdapter}
-         */
-        this.stagAdapter = stagAdapter;
+        super(stagAdapter);
         this.serviceEndpoint = 'rozvrhy';
     }
 
@@ -29,8 +27,6 @@ class SchedulesService {
     //  * @return {Promise<StudentInfo>}
     //  */
     // getScheduleByStudent(stagUser, osCislo) {
-    //     console.log("StudentService.getScheduleByStudent()");
-    //
     //     const params = {
     //         stagUser,
     //         osCislo,
@@ -43,19 +39,20 @@ class SchedulesService {
     /**
      * Vrací všechny akce pro zvolený rosah data
      *
-     * @param {string} stagUser
-     * @param {string} osCislo
-     * @param {Date} startDate
-     * @param {Date} endDate
+     * @param {string}  osCislo
+     * @param {Object}  [optional]
+     * @param {string}  [optional.zkratkaPredmetu]
+     * @param {Date}    [optional.datumOd]
+     * @param {Date}    [optional.datumDo]
+     *
      * @return {Promise<ScheduledCourses>}
      */
-    getScheduleByStudent(stagUser, osCislo, startDate, endDate) {
+    getScheduleByStudent(osCislo, optional = {}) {
         const params = {
-            stagUser,
-            osCislo,
-            datumOd: SchedulesService._formatDateForStag(startDate),
-            datumDo: SchedulesService._formatDateForStag(endDate),
+            osCislo
         };
+
+        this.mergeParams(params, optional);
 
         return this.stagAdapter.fetch(this.serviceEndpoint + "/getRozvrhByStudent", params);
     }

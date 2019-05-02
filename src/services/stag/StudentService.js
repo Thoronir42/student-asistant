@@ -14,8 +14,6 @@ class StudentService {
      * @return {Promise<StudentInfo>}
      */
     getStudentInfo(stagUser, osCislo) {
-        console.log("StudentService.getStudentInfo()");
-
         const params = {
             stagUser,
             osCislo,
@@ -29,8 +27,6 @@ class StudentService {
      * @return {Promise<GraduatedCourses>}
      */
     getGraduatedCoursesByStudent(stagUser) {
-        console.log("StudentService.getGraduatedCoursesByStudent()");
-
         const params = {
             stagUser,
         };
