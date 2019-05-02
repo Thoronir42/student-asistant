@@ -27,24 +27,16 @@ class ExamService extends BaseService{
      * @return {Promise<ExamEvents>}
      */
     getExamEvents(filterBy = {}, optional = {}){
-        console.log("ExamService.getExamEvents()");
-
-        const params = {};
-        this.mergeOptional(params, filterBy);
-        this.mergeOptional(params, optional);
-
-        return this.stagAdapter.fetch(this.serviceEndpoint + "/getTerminyZkousek", params);
+        return this.stagAdapter.fetch(this.serviceEndpoint + "/getTerminyZkousek", this.mergeParams(filterBy, optional));
     }
 
     /**
      * Metoda vrací seznam zkouškových termínů pro studenta s informací o možnosti přihlášení.
-     * @param {StagAuthorization} authorization  TODO definice objektu, který nese auth
+     * @param {StagAuthorization} authorization
      * @param {string} osCislo
      * @return {Promise<ExamEvents>}
      */
     getExamEventsByStudent(authorization, osCislo) {
-        console.log("ExamService.getExamEventsByStudent()");
-
         const params = {
             osCislo
         };
@@ -55,14 +47,12 @@ class ExamService extends BaseService{
     /**
      * Metoda provede přihlášení studenta na zvolený termín zkoušky
      *
-     * @param {Object} authorization TODO definice objektu, který nese auth
+     * @param {StagAuthorization} authorization
      * @param {string} osCislo
      * @param {number} termIdno
      * @return {Promise<ExamEvents>}
      */
     enrollExamEvent(authorization, osCislo, termIdno){
-        console.log("ExamService.enrollExam()");
-
         const params = {
             osCislo,
             termIdno
@@ -76,14 +66,12 @@ class ExamService extends BaseService{
      * Metoda provede odhlášení studenta z daného termínu.
      * (Jde o idempotentní operaci... i když nejsem přihlášený odhlášení skončí OK 200)
      *
-     * @param {Object} authorization TODO definice objektu, který nese auth
+     * @param {StagAuthorization} authorization
      * @param {string} osCislo
      * @param {number} termIdno
      * @return {Promise<ExamEvents>}
      */
     leaveExamEvent(authorization, osCislo, termIdno){
-        console.log("ExamService.enrollExam()");
-
         const params = {
             osCislo,
             termIdno

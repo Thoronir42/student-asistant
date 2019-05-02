@@ -27,8 +27,6 @@ class SchedulesService extends BaseService{
     //  * @return {Promise<StudentInfo>}
     //  */
     // getScheduleByStudent(stagUser, osCislo) {
-    //     console.log("StudentService.getScheduleByStudent()");
-    //
     //     const params = {
     //         stagUser,
     //         osCislo,
@@ -50,13 +48,11 @@ class SchedulesService extends BaseService{
      * @return {Promise<ScheduledCourses>}
      */
     getScheduleByStudent(osCislo, optional = {}) {
-        console.log("StudentService.getScheduleByStudent()");
-
         const params = {
             osCislo
         };
 
-        this.mergeOptional(params, optional);
+        this.mergeParams(params, optional);
 
         return this.stagAdapter.fetch(this.serviceEndpoint + "/getRozvrhByStudent", params);
     }

@@ -25,8 +25,8 @@ class BaseService {
      * @return {queryParam}
      * @protected
      */
-    static queryRepresentation(data){
-        if(data instanceof Date){
+    static queryRepresentation(data) {
+        if (data instanceof Date) {
             return this.formatDateForStag(data);
         }
         return data;
@@ -34,12 +34,21 @@ class BaseService {
 
     /**
      * Method attach all fields from
-     * @param {object} params
-     * @param {object} optional
+     * @param {...Object} objects
      */
-    mergeOptional(params, optional){
-        Object.entries(optional).forEach(
-            ([key, value]) => params[key] = BaseService.queryRepresentation(value));
+    mergeParams(...objects) {
+        const result = {};
+
+        objects.forEach((params) => {
+            if (!params) {
+                return;
+            }
+
+            Object.entries(params).forEach(
+                ([key, value]) => result[key] = BaseService.queryRepresentation(value));
+        });
+
+        return result;
     }
 }
 
