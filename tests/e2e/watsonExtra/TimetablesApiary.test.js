@@ -1,13 +1,11 @@
 import test from 'ava';
-import testConfig from '../../testConfig';
 
-import StagAdapter from '../../../src/services/stag/StagAdapter';
+import TestStagAdapter from '../TestStagAdapter';
 import SchedulesService from '../../../src/services/stag/SchedulesService';
 import Timetables from '../../../src/services/university/Timetables';
 
 function createInstance() {
-    const stagAdapter = new StagAdapter(testConfig.stagBaseUrl);
-    const schedulesService = new SchedulesService(stagAdapter);
+    const schedulesService = new SchedulesService(TestStagAdapter.create());
 
     return new Timetables(schedulesService);
 }
