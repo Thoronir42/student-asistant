@@ -12,13 +12,13 @@ class ExamService extends BaseService{
 
     /**
      * Vrací zkouškové termíny pro přihlášeného studenta
-     * Z mandatory bloku je třeba vybrat alespoň jeden prvek pro filtrovani
+     * Z filterBy bloku je třeba vybrat alespoň jeden prvek pro filtrovani
      *
-     * @param {Object}  [mandatory]
-     * @param {string}     [mandatory.zkratka]
-     * @param {string}     [mandatory.katedra]
-     * @param {string}     [mandatory.rok]
-     * @param {string}     [mandatory.osCislo]
+     * @param {Object}  filterBy - musí obsahovat alespoň jednu nastavenou vlastnost
+     * @param {string}     [filterBy.zkratka]
+     * @param {string}     [filterBy.katedra]
+     * @param {string}     [filterBy.rok]
+     * @param {string}     [filterBy.osCislo]
      * @param {Object}  [optional]
      * @param {boolean}    [optional.zobrazitProsle]
      * @param {boolean}    [optional.zobrazitZrusene]
@@ -26,11 +26,11 @@ class ExamService extends BaseService{
      *
      * @return {Promise<ExamEvents>}
      */
-    getExamEvents(mandatory = {}, optional = {}){
+    getExamEvents(filterBy = {}, optional = {}){
         console.log("ExamService.getExamEvents()");
 
         const params = {};
-        this.mergeOptional(params, mandatory);
+        this.mergeOptional(params, filterBy);
         this.mergeOptional(params, optional);
 
         return this.stagAdapter.fetch(this.serviceEndpoint + "/getTerminyZkousek", params);

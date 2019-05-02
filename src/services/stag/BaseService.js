@@ -22,7 +22,7 @@ class BaseService {
      *  Date format as - dd.MM.YYYY
      *
      * @param {object} data
-     * @return {object}
+     * @return {queryParam}
      * @protected
      */
     static queryRepresentation(data){

@@ -1,5 +1,9 @@
 const fetch = require('node-fetch');
 
+/**
+ * @typedef {string|object} queryParam
+ */
+
 class StagAdapter {
 
     /**
