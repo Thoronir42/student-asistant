@@ -12,12 +12,9 @@ class SignRouterModule extends RouterModule {
     }
 
     registerRoutes(router) {
-        router.get('/in', function (req, res, next) {
-            res.render('signInForm');
-        });
-
-        router.post('/in', this.action(this.signController.signIn, this.signController));
         router.get('/out', this.action(this.signController.signOut, this.signController));
+        router.get('/submit-webauth', this.action(this.signController.submitWebAuth, this.signController));
+
         return router;
     }
 }

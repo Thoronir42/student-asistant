@@ -3,3 +3,9 @@ extends layout
 block content
   div.container
     p Asistudent je pokus o ...
+
+    if !locals.identity
+      p Než budeme pokračovat, potřebujeme vědět, kdo jste, abychom pro vás mohli získávat údaje o rozvrzích.
+      a.btn.btn-lg.btn-outline-primary(href=locals.loginLink) Přihlásit se
+    else
+      a.btn.btn-lg.btn-outline-primary(href='/chat/') Začít chatovat

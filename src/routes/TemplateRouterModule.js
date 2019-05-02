@@ -4,27 +4,20 @@ const RouterModule = require("./RouterModule");
 
 class TemplateRouterModule extends RouterModule {
 
-    constructor() {
+    constructor(/**Authenticator*/ authenticator) {
         super();
+        this.authenticator = authenticator;
     }
 
     registerRoutes(router) {
 
-        router.get('/', function (req, res, next) {
-            if (req.appVars.isSignedIn) {
-                res.redirect("/chat");
-            } else {
-                res.redirect("/sign/in");
-            }
-        });
+        router.get('/', this.action((request, response) => {
+            const url = new URL(response.locals.baseUrl + "/sign/submit-webauth");
 
-        router.get('/about', function (req, res, next) {
-            res.render('about');
-        });
+            response.locals.loginLink = this.authenticator.getLoginLink(url);
 
-        router.get('/chat', function (req, res, next) {
-            res.render('chat', {title: 'AsiStudent'});
-        });
+            response.render('about');
+        }));
 
         return router;
     }
