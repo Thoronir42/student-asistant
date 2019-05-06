@@ -33,6 +33,16 @@ class UserIdentity {
     getUserInfo(activeUserInfo = undefined) {
         return this.userInfo[activeUserInfo || this.activeUserInfo];
     }
+
+    /**
+     * @return {{name: string, password: string}}
+     */
+    getStagAuthorization() {
+        return {
+            name: this.authToken,
+            password: '',
+        };
+    }
 }
 
 /**
