@@ -13,7 +13,11 @@ class Timetables {
      * @return {Promise<{scheduleEntries: CourseResult[]}>}
      */
     async getTimetableForDate(osCislo, date) {
-        const scheduleByStudent = await this.schedulesService.getScheduleByStudent('karel', osCislo, date, date);
+        const scheduleByStudent = await this.schedulesService.getScheduleByStudent(osCislo, {
+            datumOd: date,
+            datumDo: date
+        });
+
         return {
             scheduleEntries: scheduleByStudent.rozvrhovaAkce,
         };

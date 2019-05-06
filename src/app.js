@@ -66,7 +66,7 @@ app.use(function requestInformation(req, res, next) {
 });
 
 app.use(function identity(req, res, next) {
-    res.locals.identity = authenticator.loadIdentity(req.session);
+    req.userIdentity = res.locals.identity = authenticator.loadIdentity(req.session);
 
     next();
 });

@@ -11,6 +11,9 @@ class TimetableExtraModule extends WatsonExtraModule {
 
     }
 
+    /**
+     * @returns {Object<string, ExtraDataFunction>}
+     */
     getMethods() {
         const methods = {};
 
@@ -21,16 +24,17 @@ class TimetableExtraModule extends WatsonExtraModule {
 
     /**
      *
+     * @param {UserIdentity} user
      * @param {WatsonResponse} response
      */
-    async getTimetable(response) {
+    async getTimetable(user, response) {
         const type = response.getUserSkill('timetablePeriod');
         if (!type || type === TimetablePeriodType.none) {
             return undefined;
         }
 
         let date;
-        const studentNumber = 'A12B3456P'; // todo: use actual student number
+        const studentNumber = user.getUserInfo().userName;
         switch (type) {
             case TimetablePeriodType.date:
                 date = new Date(response.getUserSkill('date'));
