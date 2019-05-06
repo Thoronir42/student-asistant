@@ -9,7 +9,7 @@ class AssistantExtra {
     constructor(modules) {
         /**
          *
-         * @type {Object<string, {exec: Function, definingModule: WatsonExtraModule}>}
+         * @type {Object<string, {exec: ExtraDataFunction, definingModule: WatsonExtraModule}>}
          * @private
          */
         this._actions = {};
@@ -30,16 +30,17 @@ class AssistantExtra {
 
     /**
      * @param {string} extraDataClass
+     * @param {UserIdentity} user
      * @param {WatsonResponse} response
      *
      * @return {Promise<*>}
      */
-    async getExtraData(extraDataClass, response) {
+    async getExtraData(extraDataClass, user, response) {
         if (!this._actions.hasOwnProperty(extraDataClass)) {
             return {};
         }
 
-        return this._actions[extraDataClass].exec(response);
+        return this._actions[extraDataClass].exec(user, response);
     }
 
 

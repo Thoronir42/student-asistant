@@ -2,19 +2,28 @@ require('dotenv').config();
 
 const createError = require('http-errors');
 const express = require('express');
+const session = require('express-session');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
-const SignController = require("./controllers/SignController");
+
+const UnauthorizedError = require('./errors/UnauthorizedError');
 
 const config = require('./config').getConfigurator({
     stagBaseUrl: process.env.STAG_BASE_URL,
+    stagLoginUrl: process.env.STAG_LOGIN_URL,
 });
 
 const container = config.getContainer();
 
 const app = express();
+
+app.use(session({
+    resave: false,
+    saveUninitialized: false,
+    secret: 'wow. Such Secrit. Amazing Secure',
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -41,14 +50,26 @@ const TemplateRouterModule = require('./routes/TemplateRouterModule');
 const SignRouterModule = require('./routes/SignRouterModule');
 const WatsonRouterModule = require('./routes/WatsonRouterModule');
 
-app.use((req, res, next) => {
-    req.appVars = {
-        isSignedIn: !!req.cookies[SignController.COOKIE],
+/** @type {Authenticator} */
+const authenticator = container.getService('authenticator');
+
+app.locals = {
+    appName: 'AsiStudent',
+};
+
+app.use(function requestInformation(req, res, next) {
+    res.locals = {
+        baseUrl: `${req.protocol}://${req.get('host')}`,
     };
 
     next();
 });
 
+app.use(function identity(req, res, next) {
+    req.userIdentity = res.locals.identity = authenticator.loadIdentity(req.session);
+
+    next();
+});
 
 
 const router = new ModularRouter(container);
@@ -59,6 +80,14 @@ router.addModule(SignRouterModule, {
 router.addModule(WatsonRouterModule);
 
 app.use('/', router.compileRouter());
+
+app.use((error, req, res, next) => {
+    if (error instanceof UnauthorizedError) {
+        res.redirect('/');
+    }
+
+    next(error);
+});
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -7,7 +7,7 @@ const CodeInspection = require('../../utils/CodeInspection');
 class WatsonExtraModule {
 
     /**
-     * @returns {Object<string, Function>}
+     * @returns {Object<string, ExtraDataFunction>}
      */
     getMethods() {
         console.warn("Method getMethods not overriden in " + CodeInspection.instanceClassName(this));
@@ -16,3 +16,10 @@ class WatsonExtraModule {
 }
 
 module.exports = WatsonExtraModule;
+
+/**
+ * @typedef {Function} ExtraDataFunction
+ *
+ * @param {UserIdentity} user
+ * @param {WatsonResponse} response
+ */

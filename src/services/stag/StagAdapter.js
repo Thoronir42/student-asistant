@@ -48,13 +48,13 @@ class StagAdapter {
 
         const fetchOptions = {
             method,
-            Headers: {}
+            headers: {}
         };
         if (queryParams.outputFormat === "JSON") {
-            fetchOptions.Headers['Accept'] = 'application/json';
+            fetchOptions.headers['Accept'] = 'application/json';
         }
         if(options.authorization) {
-            fetchOptions.Headers.authorization = options.authorization;
+            fetchOptions.headers.Authorization = this.formatAuthorization(options.authorization);
         }
 
         try {
@@ -65,7 +65,6 @@ class StagAdapter {
 
             throw error;
         }
-
     }
 
     /**
@@ -85,6 +84,12 @@ class StagAdapter {
         return url;
     }
 
+    /**
+     * @private
+     * @param {string|URL} url
+     * @param {fetch.options} options
+     * @return {Promise<*>}
+     */
     async execute(url, options) {
         const response = await fetch(url, options);
 
@@ -96,6 +101,17 @@ class StagAdapter {
         }
 
         return await response.json();
+    }
+
+    /**
+     *
+     * @param {StagAuthorization} authorization
+     * @return {string}
+     */
+    formatAuthorization(authorization) {
+        const buffer = Buffer.from(authorization.name + ":" + authorization.password);
+
+        return "Basic " + buffer.toString('base64');
     }
 }
 
@@ -110,6 +126,13 @@ module.exports = StagAdapter;
  */
 
 /**
- * todo: describe stag authorization
- * @typedef {*} StagAuthorization
+ * @typedef {Object} StagAuthorization
+ * @property {string} name
+ * @property {string} password
+ *
+ * @description A HTTP Basic authorization in format of `Basic B64-code`
+ * where B64-code is a base64 encoded string of either:
+ *   - 'login:password'
+ *   - 'userTicker:'
+ *
  */

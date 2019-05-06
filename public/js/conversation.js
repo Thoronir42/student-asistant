@@ -274,18 +274,20 @@ var ConversationPanel = (function () {
         }
     }
 
-    function getScheduleEntry(responses, entry) {
+    function getScheduleEntry(entry) {
+        var subject = entry.katedra + '/' + entry.predmet;
+        var place = entry.budova + "/" + entry.mistnost;
+        var date = entry.hodinaSkutDo.value + " - " + entry.hodinaSkutOd.value;
 
-        var subject = entry.katedra.concat("/", entry.predmet);
-        var place = entry.budova.concat("/", entry.mistnost);
-        var date = entry.hodinaSkutDo.value.concat(" - ", entry.hodinaSkutOd.value);
-        var temp = subject.concat("<br/>", place);
-        var whole = temp.concat("<br/>", date);
-
-        responses.push({
+        return {
             type: "scheduleEntry",
-            innerhtml: whole
-        });
+            innerhtml: '<div>' +
+                '<span title="' + entry.nazev + '">' + subject + '</span>' +
+                '<span>' + entry.typAkce + '</span><br/>' +
+                '<span>' + place + '</span><br/>' +
+                '<span>' + date + '</span>' +
+                '</div>'
+        };
     }
 
     // Constructs new generic elements from a message payload
@@ -314,7 +316,7 @@ var ConversationPanel = (function () {
                 var scheduleEntries = newPayload.asistudent.scheduleEntries;
 
                 scheduleEntries.forEach(function (entry) {
-                    getScheduleEntry(responses, entry);
+                    responses.push(getScheduleEntry(entry));
                 });
             }
 

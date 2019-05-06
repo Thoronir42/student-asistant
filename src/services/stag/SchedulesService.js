@@ -52,9 +52,7 @@ class SchedulesService extends BaseService{
             osCislo
         };
 
-        this.mergeParams(params, optional);
-
-        return this.stagAdapter.fetch(this.serviceEndpoint + "/getRozvrhByStudent", params);
+        return this.stagAdapter.fetch(this.serviceEndpoint + "/getRozvrhByStudent", this.mergeParams(params, optional));
     }
 
 }

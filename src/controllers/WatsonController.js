@@ -16,7 +16,7 @@ class WatsonController {
 
             const extraDataClass = data.getUserSkill('extraData');
             if (extraDataClass && extraDataClass !== "none") {
-                data.asistudent = await this.assistantExtra.getExtraData(extraDataClass, data);
+                data.asistudent = await this.assistantExtra.getExtraData(extraDataClass, request.userIdentity, data);
 
                 data.setUserSkill('extraData', 'none');
                 data.setUserSkill('timetablePeriod', 'none');

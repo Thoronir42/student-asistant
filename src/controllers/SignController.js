@@ -5,19 +5,27 @@ class SignController {
         this.authenticator = authenticator;
     }
 
-    signIn(request, response) {
-        let authValue = {
-            orion: request.body.orion,
-            password: request.body.password
-        };
-
-        response.cookie(SignController.COOKIE, authValue, { expires: new Date(Date.now() + 900000), httpOnly: true });
-        response.redirect("/chat");
+    signOut(request, response) {
+        this.authenticator.logout(request.session);
+        response.redirect("/");
     }
 
-    signOut(request, response) {
-        response.clearCookie(SignController.COOKIE);
-        response.redirect("/");
+    async submitWebAuth(request, response) {
+        const {stagUserInfo, stagUserTicket} = request.query;
+
+        try {
+            let text = Buffer.from(stagUserInfo, 'base64').toString();
+            /** @type {StagUserInfoResponse} */
+            const userInfo = JSON.parse(text);
+            this.authenticator.useIdentity(request.session, stagUserTicket, userInfo.stagUserInfo);
+
+            response.redirect('/');
+        } catch (e) {
+            response.status(400).json({
+                result: 'noo',
+                message: e.message,
+            });
+        }
     }
 }
 
