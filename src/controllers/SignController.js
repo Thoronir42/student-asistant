@@ -5,13 +5,6 @@ class SignController {
         this.authenticator = authenticator;
     }
 
-    async signIn(request, response) {
-        const result = await this.authenticator.signIn(request.body.orion, request.body.password);
-
-        response.cookie(SignController.COOKIE, authValue, {expires: new Date(Date.now() + 900000), httpOnly: true});
-        response.redirect("/chat");
-    }
-
     signOut(request, response) {
         this.authenticator.logout(request.session);
         response.redirect("/");

@@ -13,12 +13,6 @@ class StagAuthService {
         return url.toString();
     }
 
-    async signIn(name, password) {
-        await this._adapter.fetch('/ws/login/', {}, {
-            method: "POST",
-        });
-    }
-
     /**
      *
      * @param {string} stagUserTicket
