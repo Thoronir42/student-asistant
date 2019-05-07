@@ -28,7 +28,7 @@ class TimetableExtraModule extends WatsonExtraModule {
      * @param {WatsonResponse} response
      */
     async getTimetable(user, response) {
-        const type = response.getUserSkill('timetablePeriod');
+        const type = response.removeUserSkill('timetablePeriod');
         if (!type || type === TimetablePeriodType.none) {
             return undefined;
         }
@@ -37,7 +37,7 @@ class TimetableExtraModule extends WatsonExtraModule {
         const studentNumber = user.getUserInfo().userName;
         switch (type) {
             case TimetablePeriodType.date:
-                date = new Date(response.getUserSkill('date'));
+                date = new Date(response.removeUserSkill('date'));
                 return this.timetables.getTimetableForDate(user.getStagAuthorization(), studentNumber, date);
 
             case TimetablePeriodType.today:
@@ -45,7 +45,7 @@ class TimetableExtraModule extends WatsonExtraModule {
                 return this.timetables.getTimetableForDate(user.getStagAuthorization(), studentNumber, date);
 
             case TimetablePeriodType.day:
-                date = this.getDateOfNextNamedDay(response.getUserSkill('day'));
+                date = this.getDateOfNextNamedDay(response.removeUserSkill('day'));
                 return this.timetables.getTimetableForDate(user.getStagAuthorization(), studentNumber, date);
         }
 

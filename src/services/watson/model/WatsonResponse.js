@@ -74,8 +74,21 @@ class WatsonResponse {
         return mainSkill.user_defined[name];
     }
 
+    removeUserSkill(name) {
+        const val = this.getUserSkill(name);
+        const mainSkill = this.context.skills['main skill'];
+        if (mainSkill && mainSkill.user_defined) {
+            mainSkill.user_defined[name] = null;
+        }
+
+        return val;
+    }
+
     setUserSkill(name, value) {
         const mainSkill = this.context.skills['main skill'];
+        if (!mainSkill.user_defined) {
+            mainSkill.user_defined = {};
+        }
         mainSkill.user_defined[name] = value;
     }
 }

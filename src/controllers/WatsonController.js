@@ -32,7 +32,6 @@ class WatsonController {
                 extraData = await this.assistantExtra.getExtraData(extraDataClass, request.userIdentity, watsonResponse);
 
                 watsonResponse.setUserSkill('extraData', 'none');
-                watsonResponse.setUserSkill('timetablePeriod', 'none');
             }
         } catch (e) {
             console.error(e);
