@@ -13,12 +13,17 @@ class CourseBase {
     /**
      * @type {string}
      */
-    nazevPredmetu;
+    predmet;
 
     /**
      * @type {int}
      */
     pocetKreditu;
+
+    /**
+     * @type {string}
+     */
+    nazev;
 
 }
 
