@@ -11,32 +11,6 @@ class SchedulesService extends BaseService{
     }
 
     /**
-     * @param {Date} date
-     * @return {string}
-     * @private
-     */
-    static _formatDateForStag(date) {
-        return date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear();
-    }
-
-    // /**
-    //  * Vrací všechny akce v rozvrhu studenta v budoucnu.
-    //  *
-    //  * @param {string} stagUser
-    //  * @param {string} osCislo
-    //  * @return {Promise<StudentInfo>}
-    //  */
-    // getScheduleByStudent(stagUser, osCislo) {
-    //     const params = {
-    //         stagUser,
-    //         osCislo,
-    //         jenBudouciAkce : true,
-    //     };
-    //
-    //     return this.stagAdapter.fetch(this.serviceEndpoint + "/getRozvrhByStudent", params);
-    // }
-
-    /**
      * Vrací všechny akce pro zvolený rosah data
      *
      * @param {string}  osCislo
@@ -44,15 +18,19 @@ class SchedulesService extends BaseService{
      * @param {string}  [optional.zkratkaPredmetu]
      * @param {Date}    [optional.datumOd]
      * @param {Date}    [optional.datumDo]
+     * @param {boolean} [optional.jenBudouciAkce]
+     * @param {StagAuthorization} authorization
      *
      * @return {Promise<ScheduledCourses>}
      */
-    getScheduleByStudent(osCislo, optional = {}) {
+    getScheduleByStudent(authorization, osCislo, optional = {}) {
         const params = {
             osCislo
         };
 
-        return this.stagAdapter.fetch(this.serviceEndpoint + "/getRozvrhByStudent", this.mergeParams(params, optional));
+        return this.stagAdapter.fetch(this.serviceEndpoint + "/getRozvrhByStudent"
+            , this.mergeParams(params, optional)
+            , {authorization});
     }
 
 }

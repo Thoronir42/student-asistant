@@ -38,15 +38,15 @@ class TimetableExtraModule extends WatsonExtraModule {
         switch (type) {
             case TimetablePeriodType.date:
                 date = new Date(response.getUserSkill('date'));
-                return this.timetables.getTimetableForDate(studentNumber, date);
+                return this.timetables.getTimetableForDate(user.getStagAuthorization(), studentNumber, date);
 
             case TimetablePeriodType.today:
                 date = new Date();
-                return this.timetables.getTimetableForDate(studentNumber, date);
+                return this.timetables.getTimetableForDate(user.getStagAuthorization(), studentNumber, date);
 
             case TimetablePeriodType.day:
                 date = this.getDateOfNextNamedDay(response.getUserSkill('day'));
-                return this.timetables.getTimetableForDate(studentNumber, date);
+                return this.timetables.getTimetableForDate(user.getStagAuthorization(), studentNumber, date);
         }
 
         throw new Error(`Unknown timetable type '${type}'`);

@@ -10,10 +10,14 @@ class Timetables {
     }
 
     /**
+     * @param {StagAuthorization} authorization
+     * @param {string} osCislo
+     * @param {Date} date
+     *
      * @return {Promise<{scheduleEntries: CourseResult[]}>}
      */
-    async getTimetableForDate(osCislo, date) {
-        const scheduleByStudent = await this.schedulesService.getScheduleByStudent(osCislo, {
+    async getTimetableForDate(authorization, osCislo, date) {
+        const scheduleByStudent = await this.schedulesService.getScheduleByStudent(authorization, osCislo, {
             datumOd: date,
             datumDo: date
         });
