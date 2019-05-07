@@ -213,11 +213,13 @@ var ConversationPanel = (function () {
         var i = 0;
         if (optionsList !== null) {
             if (preference === 'text') {
-                list = '<ul>';
+                list = '<div class="row response-options">';
                 for (i = 0; i < optionsList.length; i++) {
                     if (optionsList[i].value) {
-                        list += '<li><div class="options-list" onclick="ConversationPanel.sendMessage(\'' +
-                            optionsList[i].value.input.text + '\');" >' + optionsList[i].label + '</div></li>';
+                        list += '<div class="col-sm-12 col-md-6"><button class="option-button btn btn-outline-primary"' +
+                            ' onclick="ConversationPanel.sendMessage(\'' + optionsList[i].value.input.text + '\');" >'
+                            + optionsList[i].label +
+                            '</button></div>';
                     }
                 }
                 list += '</ul>';
