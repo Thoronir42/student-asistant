@@ -17,8 +17,10 @@ const ExamService = require("./services/stag/ExamService");
 
 // business
 const Timetables = require("./services/university/Timetables");
+const Exams = require("./services/university/Exams");
 const AssistantExtra = require("./services/watson/AssistantExtra");
 const TimetableExtraModule = require("./services/watsonExtras/TimetableExtraModule");
+const ExamExtraModule = require("./services/watsonExtras/ExamExtraModule");
 
 /** @return {Configurator} */
 exports.getConfigurator = (parameters) => {
@@ -50,12 +52,14 @@ const createConfigurator = (parameters) => {
     config.addDefinition("examService", ExamService);
 
     config.addDefinition('timetables', Timetables);
+    config.addDefinition('exams', Exams);
 
     config.addDefinition('assistantExtra', {
         definition: AssistantExtra,
         args: {
             modules: DIExpression.arrayOf([
                 TimetableExtraModule,
+                ExamExtraModule,
             ])
         }
     });

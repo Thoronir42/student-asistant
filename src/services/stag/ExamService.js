@@ -14,6 +14,7 @@ class ExamService extends BaseService{
      * Vrací zkouškové termíny pro přihlášeného studenta
      * Z filterBy bloku je třeba vybrat alespoň jeden prvek pro filtrovani
      *
+     * @param {StagAuthorization} authorization
      * @param {Object}  filterBy - musí obsahovat alespoň jednu nastavenou vlastnost
      * @param {string}     [filterBy.zkratka]
      * @param {string}     [filterBy.katedra]
@@ -26,7 +27,7 @@ class ExamService extends BaseService{
      *
      * @return {Promise<ExamEvents>}
      */
-    getExamEvents(filterBy = {}, optional = {}){
+    getExamEvents(authorization, filterBy = {}, optional = {}){
         return this.stagAdapter.fetch(this.serviceEndpoint + "/getTerminyZkousek", this.mergeParams(filterBy, optional));
     }
 
