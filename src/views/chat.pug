@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  #view-change-button.button(onclick='PayloadPanel.togglePanel(event, this)')
+  #view-change-button.button.hide.d-none.d-md-flex(onclick='PayloadPanel.togglePanel(event, this)')
     img.option.full(src='../img/Chat Button.png')
     img.option.not-full(src='../img/Code Button.png')
   #contentParent.responsive-columns-wrapper
@@ -11,7 +11,7 @@ block content
         p#user-typing-field.user-typing
         label.inputOutline(for='textInput')
           input#textInput.input.responsive-column(placeholder='Type something', type='text', onkeydown='ConversationPanel.inputKeyDown(event, this)', autofocus='')
-    #payload-column.fixed-column.content-column
+    #payload-column.fixed-column.content-column.hide.d-none.d-md-flex
       #payload-initial-message
         | Type something to see the output
       #payload-request.payload
@@ -23,3 +23,4 @@ block scripts
   script(src='/js/conversation.js')
   script(src='/js/payload.js')
   script(src='/js/global.js')
+  script(src='/js/chatDebug.js')

@@ -482,3 +482,7 @@ html{
   cursor: pointer;
   display: inline-block;
 }
+
+#view-change-button.hide, #payload-column.hide {
+  display: none!important;
+}
