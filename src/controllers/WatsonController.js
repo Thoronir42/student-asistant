@@ -16,6 +16,7 @@ class WatsonController {
             const {session_id, input, context} = request.body;
             watsonResponse = await this.assistantService.processMessage(session_id, input, context);
         } catch (e) {
+            console.error(e);
             response.status(500).json({
                 status: 'error',
                 cause: 'watsonCall',
@@ -34,6 +35,7 @@ class WatsonController {
                 watsonResponse.setUserSkill('timetablePeriod', 'none');
             }
         } catch (e) {
+            console.error(e);
             response.status(500).json({
                 status: 'error',
                 cause: 'stagCall',
