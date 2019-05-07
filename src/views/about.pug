@@ -2,10 +2,10 @@ extends layout
 
 block content
   div.container
-    p Asistudent je pokus o ...
+    p AsiStudents aim is to allow the student to find out everything they needs via natural languages means.
 
     if !locals.identity
-      p Než budeme pokračovat, potřebujeme vědět, kdo jste, abychom pro vás mohli získávat údaje o rozvrzích.
-      a.btn.btn-lg.btn-outline-primary(href=locals.loginLink) Přihlásit se
+      p Before we continue, we need to know who you are so we can get your student data for you.
+      a.btn.btn-lg.btn-outline-primary(href=locals.loginLink) Log in
     else
-      a.btn.btn-lg.btn-outline-primary(href='/chat/') Začít chatovat
+      a.btn.btn-lg.btn-outline-primary(href='/chat/') Start chatting
