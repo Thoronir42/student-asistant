@@ -10,23 +10,43 @@ class WatsonController {
     }
 
     async processMessage(request, response) {
+        let watsonResponse, extraData;
+
         try {
             const {session_id, input, context} = request.body;
-            const data = await this.assistantService.processMessage(session_id, input, context);
+            watsonResponse = await this.assistantService.processMessage(session_id, input, context);
+        } catch (e) {
+            response.status(500).json({
+                status: 'error',
+                cause: 'watsonCall',
+                message: e.message,
+            });
 
-            const extraDataClass = data.getUserSkill('extraData');
-            if (extraDataClass && extraDataClass !== "none") {
-                data.asistudent = await this.assistantExtra.getExtraData(extraDataClass, request.userIdentity, data);
-
-                data.setUserSkill('extraData', 'none');
-                data.setUserSkill('timetablePeriod', 'none');
-            }
-
-            response.json(data);
-        } catch (err) {
-            console.error(err);
-            response.status(err.code || 500).send(err);
+            return;
         }
+
+        try {
+            const extraDataClass = watsonResponse.getUserSkill('extraData');
+            if (extraDataClass && extraDataClass !== "none") {
+                extraData = await this.assistantExtra.getExtraData(extraDataClass, request.userIdentity, watsonResponse);
+
+                watsonResponse.setUserSkill('extraData', 'none');
+                watsonResponse.setUserSkill('timetablePeriod', 'none');
+            }
+        } catch (e) {
+            response.status(500).json({
+                status: 'error',
+                cause: 'stagCall',
+                message: e.message,
+            });
+            return;
+        }
+
+        if (extraData) {
+            watsonResponse.asistudent = extraData;
+        }
+
+        response.json(watsonResponse);
     }
 
     async createSession(request, response) {
