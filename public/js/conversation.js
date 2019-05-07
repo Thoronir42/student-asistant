@@ -281,6 +281,57 @@ var ConversationPanel = (function () {
         }
     }
 
+    /**
+     *
+     * @param {CourseEvent} entry
+     * @return {{innerhtml: string, type: string}}
+     */
+    function getScheduleEntry(entry) {
+        var subject = entry.katedra + '/' + entry.predmet;
+        var place = entry.budova + "-" + entry.mistnost;
+        var date = entry.hodinaSkutOd.value + " - " + entry.hodinaSkutDo.value;
+
+        var typeClass = 'schedule-entry-' + entry.typAkceZkr;
+
+        return '<div class="schedule-entry ' + typeClass + '">\n' +
+            '<span title="' + entry.nazev + '">' + subject + '</span>' +
+            ' - ' +
+            '<span>' + entry.typAkce + '</span><br/>\n' +
+            '<span>' + place + '</span><br/>\n' +
+            '<span>' + date + '</span>\n' +
+            '</div>';
+    }
+
+    /**
+     *
+     * @param  {ExamEvent} entry
+     * @return {{innerhtml: string, type: string}}
+     */
+    function getExamEvents(entry) {
+        var subject = entry.katedra + '/' + entry.predmet;
+        var place = entry.budova + "-" + entry.mistnost;
+        var date = entry.casOd + " - " + entry.casDo;
+        var obsazeno = "";
+        var style = "open";
+        if (!entry.lzeZapsatOdepsat) {
+            obsazeno = '<span>' + entry.popisDuvoduProcNelzeZapsatOdepsat + '</span>';
+            style = "closed";
+        }
+
+        return {
+            type: "ExamEvent",
+            innerhtml: '<div class="' + style + '">' +
+                '<span title="' + entry.typTerminu + '">' + subject + '</span> ' +
+                '<span>' + entry.termIdno + '</span><br/> ' +
+                '<span>' + entry.typTerminu + '</span><br/>' +
+              //  '<span>:' + entry.obsazeni + '</span><br/>' +
+                '<span>' + place + '</span><br/>' +
+                '<span>' + date + '</span>' +
+                obsazeno +
+                '</div>'
+        };
+    }
+
     // Constructs new generic elements from a message payload
     function buildMessageDomElements(newPayload, isUser) {
         var textArray = isUser ? newPayload.input.text : newPayload.output.text;
@@ -303,6 +354,30 @@ var ConversationPanel = (function () {
 
         if (newPayload.hasOwnProperty('asistudent')) {
             responseRenderer.render(responses, newPayload.asistudent, newPayload);
+
+                var scheduleEntries = newPayload.asistudent.scheduleEntries;
+
+                var entries = '<div class="schedule-entries">';
+
+                scheduleEntries.forEach(function (entry) {
+                    entries += getScheduleEntry(entry);
+                });
+
+                entries += '</div>';
+
+                responses.push({
+                    type: "schedule-entry",
+                    innerhtml: entries
+                });
+            }
+            if (newPayload.asistudent.hasOwnProperty(('examEvents'))) {
+
+                var examEvents = newPayload.asistudent.examEvents;
+
+                examEvents.forEach(function (entry) {
+                    responses.push(getExamEvents(entry));
+                });
+            }
 
         } else if (newPayload.hasOwnProperty('input')) {
             var input = '';
