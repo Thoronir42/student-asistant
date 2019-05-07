@@ -277,7 +277,7 @@ var ConversationPanel = (function () {
     function getScheduleEntry(entry) {
         var subject = entry.katedra + '/' + entry.predmet;
         var place = entry.budova + "-" + entry.mistnost;
-        var date = entry.hodinaSkutDo.value + " - " + entry.hodinaSkutOd.value;
+        var date = entry.hodinaSkutOd.value + " - " + entry.hodinaSkutDo.value;
 
         return {
             type: "scheduleEntry",
