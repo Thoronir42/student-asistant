@@ -1,0 +1,18 @@
+.schedule-entry {
+  margin: 0 1.5em;
+  padding: 0.15em 0.5em;
+
+  border: 1px solid #494949;
+  border-radius: 4px;
+}
+.schedule-entry:not(:first-child) {
+  margin-top: 0.25em;
+}
+
+.schedule-entry.schedule-entry-Př {
+  background: #e3e3e3;
+}
+
+.schedule-entry.schedule-entry-Cv {
+  background: #9ee5c1;
+}

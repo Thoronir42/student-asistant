@@ -281,16 +281,15 @@ var ConversationPanel = (function () {
         var place = entry.budova + "-" + entry.mistnost;
         var date = entry.hodinaSkutOd.value + " - " + entry.hodinaSkutDo.value;
 
-        return {
-            type: "scheduleEntry",
-            innerhtml: '<div>' +
-                '<span title="' + entry.nazev + '">' + subject + '</span>' +
-                ' - ' +
-                '<span>' + entry.typAkce + '</span><br/>' +
-                '<span>' + place + '</span><br/>' +
-                '<span>' + date + '</span>' +
-                '</div>'
-        };
+        var typeClass = 'schedule-entry-' + entry.typAkceZkr;
+
+        return '<div class="schedule-entry ' + typeClass + '">\n' +
+            '<span title="' + entry.nazev + '">' + subject + '</span>' +
+            ' - ' +
+            '<span>' + entry.typAkce + '</span><br/>\n' +
+            '<span>' + place + '</span><br/>\n' +
+            '<span>' + date + '</span>\n' +
+            '</div>';
     }
 
     // Constructs new generic elements from a message payload
@@ -318,8 +317,17 @@ var ConversationPanel = (function () {
 
                 var scheduleEntries = newPayload.asistudent.scheduleEntries;
 
+                var entries = '<div class="schedule-entries">';
+
                 scheduleEntries.forEach(function (entry) {
-                    responses.push(getScheduleEntry(entry));
+                    entries += getScheduleEntry(entry);
+                });
+
+                entries += '</div>';
+
+                responses.push({
+                    type: "schedule-entry",
+                    innerhtml: entries
                 });
             }
 
