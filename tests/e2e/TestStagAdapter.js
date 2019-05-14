@@ -8,7 +8,7 @@ class TestStagAdapter {
 }
 
 TestStagAdapter.create = function () {
-    return new StagAdapter(process.env.STAG_BASE_URL);
+    return new StagAdapter('https://stag-demo.zcu.cz/ws/services/rest2/');
 };
 
 module.exports = TestStagAdapter;

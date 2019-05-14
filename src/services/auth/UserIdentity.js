@@ -1,5 +1,10 @@
 class UserIdentity {
 
+    /**
+     *
+     * @param {string} authToken
+     * @param {StagUserInfo[]} userInfo
+     */
     constructor(authToken, userInfo) {
         /**
          * @type {string}

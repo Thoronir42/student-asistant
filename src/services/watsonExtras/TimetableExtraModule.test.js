@@ -3,10 +3,12 @@ import test from 'ava';
 import TimetableExtraModule from './TimetableExtraModule';
 import WatsonResponse from '../watson/model/WatsonResponse';
 
+import MockIdentity from '../../../tests/utils/MockIdentity'
+
 
 function createInstance() {
     const timetables = {
-        getTimetableForDate: (_, date) => ({
+        getTimetableForDate: (_identity, _studentNumber, date) => ({
             parsedDate: date,
             schedule: ['a', 'b']
         }),
@@ -29,7 +31,7 @@ function mockResponse(userSkills) {
 test('timetable with no value returns empty', async (t) => {
     const tem = createInstance();
 
-    const result = await tem.getTimetable(mockResponse({
+    const result = await tem.getTimetable(MockIdentity.mockStudent(), mockResponse({
         timetablePeriod: 'none'
     }));
 
@@ -52,7 +54,7 @@ test('\'day\' parses correct date in future', async (t) => {
     ];
 
     for (let i = 0; i < days.length; i++) {
-        const result = await tem.getTimetable(mockResponse({
+        const result = await tem.getTimetable(MockIdentity.mockStudent(), mockResponse({
             timetablePeriod: 'day',
             day: days[i].name,
         }));
@@ -66,7 +68,7 @@ test('\'day\' parses correct date in future', async (t) => {
 test('\'date\' parses the given date string', async (t) => {
     const tem = createInstance();
 
-    const result = await tem.getTimetable(mockResponse({
+    const result = await tem.getTimetable(MockIdentity.mockStudent(), mockResponse({
         timetablePeriod: 'date',
         date: '2012-12-21',
     }));

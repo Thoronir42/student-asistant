@@ -1,6 +1,6 @@
 const BaseService = require('./BaseService');
 
-class SchedulesService extends BaseService{
+class SchedulesService extends BaseService {
 
     /**
      * @param {StagAdapter} stagAdapter

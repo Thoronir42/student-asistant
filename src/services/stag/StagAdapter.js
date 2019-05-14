@@ -53,7 +53,14 @@ class StagAdapter {
         if (queryParams.outputFormat === "JSON") {
             fetchOptions.headers['Accept'] = 'application/json';
         }
+        if(!options.timeout) {
+            options.timeout = 5000;
+        }
         if(options.authorization) {
+            if(typeof options.authorization !== "object") {
+                throw new Error("Authorization must be an object");
+            }
+
             fetchOptions.headers.Authorization = this.formatAuthorization(options.authorization);
         }
 
