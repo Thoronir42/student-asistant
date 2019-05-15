@@ -310,11 +310,11 @@ var ConversationPanel = (function () {
     function getExamEvents(entry) {
         var subject = entry.katedra + '/' + entry.predmet;
         var place = entry.budova + "-" + entry.mistnost;
-        var date = entry.casOd + " - " + entry.casDo;
+        var date = entry.datum.value + " " + entry.casOd + " - " + entry.casDo;
         var obsazeno = "";
-        var style = "open";
+        var style = "exam open";
         if (!entry.lzeZapsatOdepsat) {
-            obsazeno = '<span>' + entry.popisDuvoduProcNelzeZapsatOdepsat + '</span>';
+            obsazeno = '<span>' + entry.textDuvoduProcNelzeZapsatOdepsat + '</span>';
             style = "closed";
         }
 
@@ -322,11 +322,11 @@ var ConversationPanel = (function () {
             type: "ExamEvent",
             innerhtml: '<div class="' + style + '">' +
                 '<span title="' + entry.typTerminu + '">' + subject + '</span> ' +
-                '<span>' + entry.termIdno + '</span><br/> ' +
-                '<span>' + entry.typTerminu + '</span><br/>' +
-              //  '<span>:' + entry.obsazeni + '</span><br/>' +
+                // '<span>' + entry.termIdno + '</span><br/> ' +
+                //  '<span>' + entry.typTerminu + '</span><br/>' +
+                '<span>(' + entry.obsazeni + '/' + entry.limit + ')</span><br/>' +
                 '<span>' + place + '</span><br/>' +
-                '<span>' + date + '</span>' +
+                '<span>' + date + '</span><br/>' +
                 obsazeno +
                 '</div>'
         };
