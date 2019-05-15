@@ -313,13 +313,16 @@ var ConversationPanel = (function () {
         var date = entry.datum.value + " " + entry.casOd + " - " + entry.casDo;
         var obsazeno = "";
         var style = "exam open";
+        var action = "";
         if (!entry.lzeZapsatOdepsat) {
             obsazeno = '<span>' + entry.textDuvoduProcNelzeZapsatOdepsat + '</span>';
             style = "closed";
         }
-        var operation = entry.zapsan ? "Withdraw" : "Assign";
-        var sentense = operation + " exam event " + entry.termIdno;
-        var action = '<div class="options-list" onclick="ConversationPanel.sendMessage(\'' + sentense + '!\');">' + operation + '</div>';
+        else {
+            var operation = entry.zapsan ? "Withdraw" : "Assign";
+            var sentense = operation + " exam event " + entry.termIdno;
+            action = '<div class="options-list" onclick="ConversationPanel.sendMessage(\'' + sentense + '!\');">' + operation + '</div>';
+        }
 
         return {
             type: "ExamEvent",
