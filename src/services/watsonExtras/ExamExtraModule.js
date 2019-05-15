@@ -39,7 +39,7 @@ class ExamExtraModule extends WatsonExtraModule {
      */
     async getRegisteredExams(user, response) {
         const studentNumber = user.getUserInfo().userName;
-        return this.exams.getRegistredExams(user.getStagAuthorization(), studentNumber);
+        return this.exams.getRegisteredExams(user.getStagAuthorization(), studentNumber);
     }
 }
 

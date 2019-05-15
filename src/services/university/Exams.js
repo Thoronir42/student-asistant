@@ -13,9 +13,9 @@ class Exams {
      * @param {StagAuthorization} authorization
      * @param {string} osCislo
      *
-     * @return {Promise<{scheduleEntries: CourseResult[]}>}
+     * @return {Promise<{examEvents: ExamEvent[]}>}
      */
-    async getRegistredExams(authorization, osCislo) {
+    async getRegisteredExams(authorization, osCislo) {
         const examsForStudent = await this.examService.getExamEventsByStudent(authorization, osCislo);
 
         return {
