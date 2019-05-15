@@ -317,6 +317,9 @@ var ConversationPanel = (function () {
             obsazeno = '<span>' + entry.textDuvoduProcNelzeZapsatOdepsat + '</span>';
             style = "closed";
         }
+        var operation = entry.zapsan ? "Withdraw" : "Assign";
+        var sentense = operation + " exam event " + entry.termIdno;
+        var action = '<div class="options-list" onclick="ConversationPanel.sendMessage(\'' + sentense + '!\');">' + operation + '</div>';
 
         return {
             type: "ExamEvent",
@@ -327,7 +330,7 @@ var ConversationPanel = (function () {
                 '<span>(' + entry.obsazeni + '/' + entry.limit + ')</span><br/>' +
                 '<span>' + place + '</span><br/>' +
                 '<span>' + date + '</span><br/>' +
-                obsazeno +
+                obsazeno + " " + action +
                 '</div>'
         };
     }
