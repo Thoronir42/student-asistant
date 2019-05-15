@@ -19,6 +19,20 @@ class Exams {
         const examsForStudent = await this.examService.getExamEventsByStudent(authorization, osCislo);
 
         return {
+            examEvents: examsForStudent.termin.filter((item)=>{return item.zapsan;}),
+        };
+    }
+
+    /**
+     * @param {StagAuthorization} authorization
+     * @param {string} osCislo
+     *
+     * @return {Promise<{examEvents: ExamEvent[]}>}
+     */
+    async getMyCourseExams(authorization, osCislo) {
+        const examsForStudent = await this.examService.getExamEventsByStudent(authorization, osCislo);
+
+        return {
             examEvents: examsForStudent.termin,
         };
     }

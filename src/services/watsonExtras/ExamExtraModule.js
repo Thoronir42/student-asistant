@@ -37,6 +37,15 @@ class ExamExtraModule extends WatsonExtraModule {
      * @param {UserIdentity} user
      * @param {WatsonResponse} response
      */
+    async getMyCourseExams(user, response) {
+        const studentNumber = user.getUserInfo().userName;
+        return this.exams.getMyCourseExams(user.getStagAuthorization(), studentNumber);
+    }
+
+    /**
+     * @param {UserIdentity} user
+     * @param {WatsonResponse} response
+     */
     async getRegisteredExams(user, response) {
         const studentNumber = user.getUserInfo().userName;
         return this.exams.getRegisteredExams(user.getStagAuthorization(), studentNumber);
