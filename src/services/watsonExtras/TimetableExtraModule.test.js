@@ -5,12 +5,14 @@ import WatsonResponse from '../watson/model/WatsonResponse';
 
 import MockIdentity from '../../../tests/utils/MockIdentity'
 
+const testScheduleEntries = require('./TimetableExtraModule.testData.json');
 
 function createInstance() {
     const timetables = {
+        data: testScheduleEntries,
         getTimetableForDate: (_identity, _studentNumber, date) => ({
             parsedDate: date,
-            schedule: ['a', 'b']
+            schedule: timetables.data
         }),
     };
 
@@ -59,7 +61,6 @@ test('\'day\' parses correct date in future', async (t) => {
             day: days[i].name,
         }));
 
-        t.deepEqual(result.schedule, ['a', 'b']);
         t.true(result.parsedDate >= now, `Date for '${days[i].name}' is in the future`);
         t.is(i, result.parsedDate.getDay());
     }
@@ -77,8 +78,7 @@ test('\'date\' parses the given date string', async (t) => {
     expectedDate.setFullYear(2012, 11, 21);
     expectedDate.setHours(1, 0, 0, 0);
 
-    t.deepEqual(result, {
-        parsedDate: expectedDate,
-        schedule: ['a', 'b']
-    });
+    t.deepEqual(result.parsedDate, expectedDate);
 });
+
+test('\'nextCourse\' ')
