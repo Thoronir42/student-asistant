@@ -107,7 +107,11 @@ class StagAdapter {
             throw new Error(errorMessage);
         }
 
-        return await response.json();
+
+        if(response.headers.get('Content-Type') === "application/json"){
+            return await response.json();
+        }
+        return await response.text();
     }
 
     /**
