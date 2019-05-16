@@ -47,7 +47,7 @@ class Exams {
         const examsByDepartment = await this.examService.getExamEvents(authorization, {katedra: department});
 
         return {
-            examEvents: examsByDepartment.terminy,
+            examEvents: examsByDepartment.termin,
         };
     }
 }
