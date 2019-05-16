@@ -19,6 +19,7 @@ class ExamExtraModule extends WatsonExtraModule {
 
         methods['departmentExams'] = this.getExamsByDepartment.bind(this);
         methods['registeredExams'] = this.getRegisteredExams.bind(this);
+        methods['myExams'] = this.getMyCourseExams.bind(this);
 
         return methods;
     }
@@ -28,7 +29,7 @@ class ExamExtraModule extends WatsonExtraModule {
      * @param {WatsonResponse} response
      */
     async getExamsByDepartment(user, response) {
-        const department = response.getUserSkill('dep_abbr');
+        const department = response.getUserSkill('dep_abbr'); //todo use removeSkill
         return this.exams.getExamsByDepartment(user.getStagAuthorization(), department);
     }
 
