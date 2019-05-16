@@ -32,15 +32,16 @@ class AssistantExtra {
      * @param {string} extraDataClass
      * @param {UserIdentity} user
      * @param {WatsonResponse} response
+     * @param {RequestContext} context
      *
      * @return {Promise<*>}
      */
-    async getExtraData(extraDataClass, user, response) {
+    async getExtraData(extraDataClass, user, response, context) {
         if (!this._actions.hasOwnProperty(extraDataClass)) {
             return {};
         }
 
-        return this._actions[extraDataClass].exec(user, response);
+        return this._actions[extraDataClass].exec(user, response, context);
     }
 
 

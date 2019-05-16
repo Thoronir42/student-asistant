@@ -22,4 +22,5 @@ module.exports = WatsonExtraModule;
  *
  * @param {UserIdentity} user
  * @param {WatsonResponse} response
+ * @param {RequestContext} context
  */

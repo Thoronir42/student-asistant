@@ -1,5 +1,7 @@
 "use strict";
 
+const RequestContext = require('./RequestContext');
+
 class WatsonController {
 
     constructor(/**Assistant*/ assistant, /**AssistantExtra*/ assistantExtra) {
@@ -27,11 +29,13 @@ class WatsonController {
         }
 
         try {
-            const extraDataClass = watsonResponse.getUserSkill('extraData');
-            if (extraDataClass && extraDataClass !== "none") {
-                extraData = await this.assistantExtra.getExtraData(extraDataClass, request.userIdentity, watsonResponse);
+            const context = new RequestContext();
+            context.now = new Date();
 
-                watsonResponse.setUserSkill('extraData', 'none');
+            const extraDataClass = watsonResponse.removeUserSkill('extraData');
+
+            if (extraDataClass && extraDataClass !== "none") {
+                extraData = await this.assistantExtra.getExtraData(extraDataClass, request.userIdentity, watsonResponse, context);
             }
         } catch (e) {
             console.error(e);

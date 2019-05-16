@@ -3,7 +3,8 @@ import test from 'ava';
 import TimetableExtraModule from './TimetableExtraModule';
 import WatsonResponse from '../watson/model/WatsonResponse';
 
-import MockIdentity from '../../../tests/utils/MockIdentity'
+import TestHelper from '../../../tests/utils/TestHelper';
+import DateHelper from '../../utils/DateHelper';
 
 const testScheduleEntries = require('./TimetableExtraModule.testData.json');
 
@@ -32,18 +33,18 @@ function mockResponse(userSkills) {
 
 test('timetable with no value returns empty', async (t) => {
     const tem = createInstance();
+    const context = TestHelper.getContext(new Date('11-12-2019'));
 
-    const result = await tem.getTimetable(MockIdentity.mockStudent(), mockResponse({
+    const result = await tem.getTimetable(TestHelper.mockStudent(), mockResponse({
         timetablePeriod: 'none'
-    }));
+    }), context);
 
     t.deepEqual(result, undefined);
 });
 
 test('\'day\' parses correct date in future', async (t) => {
     const tem = createInstance();
-
-    const now = new Date();
+    const context = TestHelper.getContext(new Date('11-12-2019'));
 
     const days = [
         {name: 'sunday'},
@@ -56,23 +57,24 @@ test('\'day\' parses correct date in future', async (t) => {
     ];
 
     for (let i = 0; i < days.length; i++) {
-        const result = await tem.getTimetable(MockIdentity.mockStudent(), mockResponse({
+        const result = await tem.getTimetable(TestHelper.mockStudent(), mockResponse({
             timetablePeriod: 'day',
             day: days[i].name,
-        }));
+        }), context);
 
-        t.true(result.parsedDate >= now, `Date for '${days[i].name}' is in the future`);
+        t.true(result.parsedDate >= context.now, `Date for '${days[i].name}'(${DateHelper.formatYMD(result.parsedDate)}) is after the ${DateHelper.formatYMD(context.now)}`);
         t.is(i, result.parsedDate.getDay());
     }
 });
 
 test('\'date\' parses the given date string', async (t) => {
     const tem = createInstance();
+    const context = TestHelper.getContext(new Date('2019-12-11'));
 
-    const result = await tem.getTimetable(MockIdentity.mockStudent(), mockResponse({
+    const result = await tem.getTimetable(TestHelper.mockStudent(), mockResponse({
         timetablePeriod: 'date',
         date: '2012-12-21',
-    }));
+    }), context);
 
     const expectedDate = new Date();
     expectedDate.setFullYear(2012, 11, 21);
@@ -81,4 +83,4 @@ test('\'date\' parses the given date string', async (t) => {
     t.deepEqual(result.parsedDate, expectedDate);
 });
 
-test('\'nextCourse\' ')
+// test('\'nextCourse\' ')

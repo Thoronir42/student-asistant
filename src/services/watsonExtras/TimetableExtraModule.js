@@ -26,8 +26,9 @@ class TimetableExtraModule extends WatsonExtraModule {
      *
      * @param {UserIdentity} user
      * @param {WatsonResponse} response
+     * @param {RequestContext} context
      */
-    async getTimetable(user, response) {
+    async getTimetable(user, response, context) {
         const type = response.removeUserSkill('timetablePeriod');
         if (!type || type === TimetablePeriodType.none) {
             return undefined;
@@ -43,18 +44,25 @@ class TimetableExtraModule extends WatsonExtraModule {
                 return this.timetables.getTimetableForDate(authorization, studentNumber, date);
 
             case TimetablePeriodType.today:
-                date = new Date();
+                date = context.now;
                 return this.timetables.getTimetableForDate(authorization, studentNumber, date);
 
             case TimetablePeriodType.day:
-                date = this.getDateOfNextNamedDay(response.removeUserSkill('day'));
+                date = this.getDateOfNextNamedDay(response.removeUserSkill('day'), context.now);
                 return this.timetables.getTimetableForDate(authorization, studentNumber, date);
         }
 
         throw new Error(`Unknown timetable type '${type}'`);
     }
 
-    getDateOfNextNamedDay(day) {
+    /**
+     *
+     * @param {string} day
+     * @param {Date} now
+     *
+     * @return {Date}
+     */
+    getDateOfNextNamedDay(day, now) {
         const dayOffset = {
             monday: 1,
             tuesday: 2,
@@ -65,7 +73,7 @@ class TimetableExtraModule extends WatsonExtraModule {
             sunday: 0,
         };
 
-        const d = new Date();
+        const d = new Date(now.getTime());
         d.setDate(d.getDate() + (dayOffset[day] + 7 - d.getDay()) % 7);
 
         return d;

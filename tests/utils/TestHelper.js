@@ -1,6 +1,8 @@
 const UserIdentity = require('../../src/services/auth/UserIdentity');
+const RequestContext = require('../../src/controllers/RequestContext');
 
-class MockIdentity {
+class TestHelper {
+    /** @return {UserIdentity} */
     static mockStudent() {
         return new UserIdentity('invalid-mock-token-lol', [
             {
@@ -14,8 +16,21 @@ class MockIdentity {
                 hasAnyRozvrharRole: false,
 
             }
-        ])
+        ]);
+    }
+
+    /**
+     *
+     * @param {Date} now
+     *
+     * @returns {RequestContext}
+     */
+    static getContext(now) {
+        const context = new RequestContext();
+        context.now = now;
+
+        return context;
     }
 }
 
-module.exports = MockIdentity;
+module.exports = TestHelper;
