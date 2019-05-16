@@ -53,11 +53,11 @@ class StagAdapter {
         if (queryParams.outputFormat === "JSON") {
             fetchOptions.headers['Accept'] = 'application/json';
         }
-        if(!options.timeout) {
+        if (!options.timeout) {
             options.timeout = 5000;
         }
-        if(options.authorization) {
-            if(typeof options.authorization !== "object") {
+        if (options.authorization) {
+            if (typeof options.authorization !== "object") {
                 throw new Error("Authorization must be an object");
             }
 
@@ -108,9 +108,18 @@ class StagAdapter {
         }
 
 
-        if(response.headers.get('Content-Type') === "application/json"){
+        let acceptType = options.headers['Accept'];
+        let responseType = response.headers.get('Content-Type');
+
+        if (acceptType === 'application/json') {
+            if (responseType !== acceptType) {
+                console.warn("Response body: " + await response.text());
+                throw new Error(`Invalid response type, expected ${acceptType}, got ${responseType}`);
+            }
+
             return await response.json();
         }
+
         return await response.text();
     }
 

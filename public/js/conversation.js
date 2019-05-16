@@ -284,7 +284,7 @@ var ConversationPanel = (function () {
     /**
      *
      * @param {CourseEvent} entry
-     * @return {{innerhtml: string, type: string}}
+     * @return {string}
      */
     function getScheduleEntry(entry) {
         var subject = entry.katedra + '/' + entry.predmet;
@@ -362,7 +362,6 @@ var ConversationPanel = (function () {
 
         if (newPayload.hasOwnProperty('output')) {
             if (newPayload.output.hasOwnProperty('generic')) {
-
                 var generic = newPayload.output.generic;
 
                 generic.forEach(function (gen) {
@@ -372,8 +371,7 @@ var ConversationPanel = (function () {
         }
 
         if (newPayload.hasOwnProperty('asistudent')) {
-            responseRenderer.render(responses, newPayload.asistudent, newPayload);
-
+            if (newPayload.asistudent.hasOwnProperty(('scheduleEntries'))) {
                 var scheduleEntries = newPayload.asistudent.scheduleEntries;
 
                 var entries = '<div class="schedule-entries">';
@@ -390,7 +388,6 @@ var ConversationPanel = (function () {
                 });
             }
             if (newPayload.asistudent.hasOwnProperty(('message'))) {
-
                 var message = newPayload.asistudent.message;
 
                 responses.push(getMessage(message));
