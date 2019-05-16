@@ -311,18 +311,17 @@ var ConversationPanel = (function () {
         var subject = entry.katedra + '/' + entry.predmet;
         var place = entry.budova + "-" + entry.mistnost;
         var date = entry.datum.value + " " + entry.casOd + " - " + entry.casDo;
-        var obsazeno = "";
         var style = "exam open";
         var action = "";
         if (!entry.lzeZapsatOdepsat) {
-            obsazeno = '<span>' + entry.textDuvoduProcNelzeZapsatOdepsat + '</span>';
-            style = "closed";
-        }
-        else {
+            action = '<span>' + entry.textDuvoduProcNelzeZapsatOdepsat + '</span>';
+            style = "exam closed";
+        } else {
             var operation = entry.zapsan ? "Withdraw" : "Assign";
             var sentense = operation + " exam event " + entry.termIdno;
             action = '<div class="options-list" onclick="ConversationPanel.sendMessage(\'' + sentense + '!\');">' + operation + '</div>';
         }
+
 
         return {
             type: "ExamEvent",
@@ -333,7 +332,7 @@ var ConversationPanel = (function () {
                 '<span>(' + entry.obsazeni + '/' + entry.limit + ')</span><br/>' +
                 '<span>' + place + '</span><br/>' +
                 '<span>' + date + '</span><br/>' +
-                obsazeno + " " + action +
+                action +
                 '</div>'
         };
     }
