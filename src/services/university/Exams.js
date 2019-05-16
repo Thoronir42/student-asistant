@@ -41,7 +41,7 @@ class Exams {
      * @param {StagAuthorization} authorization
      * @param {string} [department]
      *
-     * @return {Promise<{scheduleEntries: CourseResult[]}>}
+     * @return {Promise<{examEvents: ExamEvent[]}>}
      */
     async getExamsByDepartment(authorization, department) {
         const examsByDepartment = await this.examService.getExamEvents(authorization, {katedra: department});
