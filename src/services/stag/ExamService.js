@@ -51,7 +51,7 @@ class ExamService extends BaseService{
      * @param {StagAuthorization} authorization
      * @param {string} osCislo
      * @param {number} termIdno
-     * @return {Promise<ExamEvents>}
+     * @return {Promise<String>}
      */
     enrollExamEvent(authorization, osCislo, termIdno){
         const params = {
@@ -60,7 +60,13 @@ class ExamService extends BaseService{
         };
 
         // TODO vyřešit že nevrací JSON je to problém?
-        return this.stagAdapter.fetch(this.serviceEndpoint + "/zapisStudentaNaTermin", params, {authorization});
+        return this.stagAdapter.fetch(this.serviceEndpoint + "/zapisStudentaNaTermin",
+            params, {authorization}).catch(
+            error => {
+                console.log(error);
+                return "Fail calling STAG web services. :(";
+            }
+        );
     }
 
     /**
@@ -70,7 +76,7 @@ class ExamService extends BaseService{
      * @param {StagAuthorization} authorization
      * @param {string} osCislo
      * @param {number} termIdno
-     * @return {Promise<ExamEvents>}
+     * @return {Promise<String>}
      */
     leaveExamEvent(authorization, osCislo, termIdno){
         const params = {
@@ -78,8 +84,14 @@ class ExamService extends BaseService{
             termIdno
         };
 
-        // TODO vyřešit že nevrací JSON je to problém?
-        return this.stagAdapter.fetch(this.serviceEndpoint + "/odhlasStudentaZTerminu", params, authorization);
+        //TODO vyřešit, že se nevrací JSON....
+        return this.stagAdapter.fetch(this.serviceEndpoint + "/odhlasStudentaZTerminu",
+            params, {authorization}).catch(
+                error => {
+                    console.log(error);
+                    return "Fail calling STAG web services. :(";
+                }
+        );
     }
 
 }

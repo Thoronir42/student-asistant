@@ -20,6 +20,8 @@ class ExamExtraModule extends WatsonExtraModule {
         methods['departmentExams'] = this.getExamsByDepartment.bind(this);
         methods['registeredExams'] = this.getRegisteredExams.bind(this);
         methods['myExams'] = this.getMyCourseExams.bind(this);
+        methods['leaveExam'] = this.leaveExam.bind(this);
+        methods['enrollExam'] = this.enrollExam.bind(this);
 
         return methods;
     }
@@ -50,6 +52,27 @@ class ExamExtraModule extends WatsonExtraModule {
     async getRegisteredExams(user, response) {
         const studentNumber = user.getUserInfo().userName;
         return this.exams.getRegisteredExams(user.getStagAuthorization(), studentNumber);
+    }
+
+
+    /**
+     * @param {UserIdentity} user
+     * @param {WatsonResponse} response
+     */
+    async enrollExam(user, response) {
+        const studentNumber = user.getUserInfo().userName;
+        const termIdno = response.getUserSkill('termIdno'); //todo use removeSkill
+        return this.exams.enrollExam(user.getStagAuthorization(), studentNumber, termIdno);
+    }
+
+    /**
+     * @param {UserIdentity} user
+     * @param {WatsonResponse} response
+     */
+    async leaveExam(user, response) {
+        const studentNumber = user.getUserInfo().userName;
+        const termIdno = response.getUserSkill('termIdno'); //todo use removeSkill
+        return this.exams.leaveExam(user.getStagAuthorization(), studentNumber, termIdno);
     }
 }
 

@@ -337,6 +337,20 @@ var ConversationPanel = (function () {
         };
     }
 
+    /**
+     * @param  {string} entry
+     * @return {{innerhtml: string, type: string}}
+     */
+    function getMessage(entry) {
+        return {
+            type: "ExamEvent",
+            innerhtml: '<div class="">' +
+                '<span>' + entry + '</span> ' +
+                '</div>'
+        };
+    }
+
+
     // Constructs new generic elements from a message payload
     function buildMessageDomElements(newPayload, isUser) {
         var textArray = isUser ? newPayload.input.text : newPayload.output.text;
@@ -374,6 +388,12 @@ var ConversationPanel = (function () {
                     type: "schedule-entry",
                     innerhtml: entries
                 });
+            }
+            if (newPayload.asistudent.hasOwnProperty(('message'))) {
+
+                var message = newPayload.asistudent.message;
+
+                responses.push(getMessage(message));
             }
             if (newPayload.asistudent.hasOwnProperty(('examEvents'))) {
 

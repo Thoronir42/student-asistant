@@ -19,7 +19,9 @@ class Exams {
         const examsForStudent = await this.examService.getExamEventsByStudent(authorization, osCislo);
 
         return {
-            examEvents: examsForStudent.termin.filter((item)=>{return item.zapsan;}),
+            examEvents: examsForStudent.termin.filter((item) => {
+                return item.zapsan;
+            }),
         };
     }
 
@@ -49,6 +51,35 @@ class Exams {
         return {
             examEvents: examsByDepartment.termin,
         };
+    }
+
+    /**
+     * @param {StagAuthorization} authorization
+     * @param {string} [osCislo]
+     * @param {number} [termIdno]
+     *
+     * @return {Promise<{message: string}>}
+     */
+    async enrollExam(authorization, osCislo, termIdno) {
+        const response = await this.examService.enrollExamEvent(authorization, osCislo, termIdno);
+
+        return {
+            message: response,
+        };
+    }
+
+    /**
+     * @param {StagAuthorization} authorization
+     * @param {string} [osCislo]
+     * @param {number} [termIdno]
+     *
+     * @return {Promise<{message:string}>}>}
+     */
+    async leaveExam(authorization, osCislo, termIdno) {
+        const response = await this.examService.leaveExamEvent(authorization, osCislo, termIdno);
+        return {
+            message: response,
+        }
     }
 }
 
