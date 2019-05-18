@@ -1,0 +1,18 @@
+.exam-entry {
+  margin: 0 1.5em;
+  padding: 0.15em 0.5em;
+
+  border: 1px solid #494949;
+  border-radius: 4px;
+}
+.exam-entry:not(:first-child) {
+  margin-top: 0.25em;
+}
+
+.exam-entry.exam-entry-open {
+  background: #f4f2f2;
+}
+
+.exam-entry.exam-entry-closed {
+  background: #ffd2c2;
+}

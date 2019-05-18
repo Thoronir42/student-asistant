@@ -311,21 +311,22 @@ var ConversationPanel = (function () {
         var subject = entry.katedra + '/' + entry.predmet;
         var place = entry.budova + "-" + entry.mistnost;
         var date = entry.datum.value + " " + entry.casOd + " - " + entry.casDo;
-        var style = "exam open";
+        var typeClass = "";
         var action = "";
+
         if (!entry.lzeZapsatOdepsat) {
             action = '<span>' + entry.textDuvoduProcNelzeZapsatOdepsat + '</span>';
-            style = "exam closed";
+            typeClass = "exam-entry-closed";
         } else {
             var operation = entry.zapsan ? "Withdraw" : "Assign";
+            typeClass = entry.zapsan ? "exam-entry-closed" : "exam-entry-open";
             var sentense = operation + " exam event " + entry.termIdno;
             action = '<div class="options-list" onclick="ConversationPanel.sendMessage(\'' + sentense + '!\');">' + operation + '</div>';
         }
 
-
         return {
             type: "ExamEvent",
-            innerhtml: '<div class="' + style + '">' +
+            innerhtml: '<div class="exam-entry ' + typeClass + '">' +
                 '<span title="' + entry.typTerminu + '">' + subject + '</span> ' +
                 // '<span>' + entry.termIdno + '</span><br/> ' +
                 //  '<span>' + entry.typTerminu + '</span><br/>' +
