@@ -400,10 +400,13 @@ var ConversationPanel = (function () {
             if (newPayload.asistudent.hasOwnProperty(('examEvents'))) {
 
                 var examEvents = newPayload.asistudent.examEvents;
-
-                examEvents.forEach(function (entry) {
-                    responses.push(getExamEvents(entry));
-                });
+                if (examEvents.length > 0) {
+                    examEvents.forEach(function (entry) {
+                        responses.push(getExamEvents(entry));
+                    });
+                } else {
+                    responses.push(getMessage("No events found."))
+                }
             }
 
         } else if (newPayload.hasOwnProperty('input')) {
