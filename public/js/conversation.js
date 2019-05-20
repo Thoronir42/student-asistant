@@ -324,13 +324,15 @@ var ConversationPanel = (function () {
             action = '<div class="options-list" onclick="ConversationPanel.sendMessage(\'' + sentense + '!\');">' + operation + '</div>';
         }
 
+        var maxCount = entry.limit ? entry.limit : '-';
+
         return {
             type: "ExamEvent",
             innerhtml: '<div class="exam-entry ' + typeClass + '">' +
                 '<span title="' + entry.typTerminu + '">' + subject + '</span> ' +
                 // '<span>' + entry.termIdno + '</span><br/> ' +
                 //  '<span>' + entry.typTerminu + '</span><br/>' +
-                '<span>(' + entry.obsazeni + '/' + entry.limit + ')</span><br/>' +
+                '<span>(' + entry.obsazeni + '/' + maxCount + ')</span><br/>' +
                 '<span>' + place + '</span><br/>' +
                 '<span>' + date + '</span><br/>' +
                 action +
@@ -345,7 +347,7 @@ var ConversationPanel = (function () {
     function getMessage(entry) {
         return {
             type: "Message",
-            innerhtml: '<div class="">' +
+            innerhtml: '<div class="technical-message">' +
                 '<span>' + entry + '</span> ' +
                 '</div>'
         };
