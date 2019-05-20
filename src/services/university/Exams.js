@@ -41,7 +41,7 @@ class Exams {
 
     /**
      * @param {StagAuthorization} authorization
-     * @param {string} [department]
+     * @param {string} department
      *
      * @return {Promise<{examEvents: ExamEvent[]}>}
      */
@@ -55,8 +55,8 @@ class Exams {
 
     /**
      * @param {StagAuthorization} authorization
-     * @param {string} [osCislo]
-     * @param {number} [termIdno]
+     * @param {string} osCislo
+     * @param {number} termIdno
      *
      * @return {Promise<{message: string}>}
      */
@@ -70,8 +70,8 @@ class Exams {
 
     /**
      * @param {StagAuthorization} authorization
-     * @param {string} [osCislo]
-     * @param {number} [termIdno]
+     * @param {string} osCislo
+     * @param {number} termIdno
      *
      * @return {Promise<{message:string}>}>}
      */
