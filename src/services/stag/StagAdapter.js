@@ -25,10 +25,7 @@ class StagAdapter {
      * @param {string} operation
      * @param {Object<string, string|number>} [queryParams]
      *
-     * @param {Object} [options]
-     * @param {HTTPMethod} [options.method]
-     * @param {StagOutputFormat} [options.outputFormat='JSON']
-     * @param {StagAuthorization} [options.authorization]
+     * @param {StagFetchOptions} [options]
      *
      * @return {Promise} API call result
      */
@@ -36,10 +33,16 @@ class StagAdapter {
         if (!options) {
             options = {};
         }
+        if (!options.outputFormat) options.outputFormat = "JSON";
+
         if (!queryParams) {
             queryParams = {};
         }
-        queryParams.outputFormat = options.outputFormat || "JSON";
+        queryParams.outputFormat = options.outputFormat;
+        if (queryParams.outputFormat === 'TEXT') {
+            queryParams.outputFormat = 'JSON';
+        }
+
 
         const method = options.method || 'GET';
 
@@ -50,7 +53,7 @@ class StagAdapter {
             method,
             headers: {}
         };
-        if (queryParams.outputFormat === "JSON") {
+        if (options.outputFormat === "JSON") {
             fetchOptions.headers['Accept'] = 'application/json';
         }
         if (!options.timeout) {
@@ -142,7 +145,14 @@ module.exports = StagAdapter;
  */
 
 /**
- * @typedef {'JSON'} StagOutputFormat
+ * @typedef {'JSON'|'XML'|'TEXT'} StagOutputFormat
+ */
+
+/**
+ * @typedef {Object} StagFetchOptions
+ * @property {HTTPMethod} [method]
+ * @property {StagOutputFormat} [outputFormat]
+ * @property {StagAuthorization} [authorization]
  */
 
 /**
