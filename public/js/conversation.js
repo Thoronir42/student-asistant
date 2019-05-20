@@ -17,6 +17,9 @@ var ConversationPanel = (function () {
         }
     };
 
+    var responseRenderer = new ResponseRenderer();
+    var chatController = new ChatController();
+
     // Publicly accessible methods defined
     return {
         init: init,
@@ -213,7 +216,9 @@ var ConversationPanel = (function () {
         var i = 0;
         if (optionsList !== null) {
             if (preference === 'text') {
-                list = '<div class="row response-options">';
+                var optionSetId = btoa(new Date().getTime());
+                chatController.activeOptionSet = optionSetId;
+                list = '<div class="row response-options" data-option-set="' + optionSetId + '">';
                 for (i = 0; i < optionsList.length; i++) {
                     if (optionsList[i].value) {
                         list += '<div class="col-sm-12 col-md-6"><button class="option-button btn btn-outline-primary"' +
@@ -276,22 +281,6 @@ var ConversationPanel = (function () {
         }
     }
 
-    function getScheduleEntry(entry) {
-        var subject = entry.katedra + '/' + entry.predmet;
-        var place = entry.budova + "-" + entry.mistnost;
-        var date = entry.hodinaSkutOd.value + " - " + entry.hodinaSkutDo.value;
-
-        var typeClass = 'schedule-entry-' + entry.typAkceZkr;
-
-        return '<div class="schedule-entry ' + typeClass + '">\n' +
-            '<span title="' + entry.nazev + '">' + subject + '</span>' +
-            ' - ' +
-            '<span>' + entry.typAkce + '</span><br/>\n' +
-            '<span>' + place + '</span><br/>\n' +
-            '<span>' + date + '</span>\n' +
-            '</div>';
-    }
-
     // Constructs new generic elements from a message payload
     function buildMessageDomElements(newPayload, isUser) {
         var textArray = isUser ? newPayload.input.text : newPayload.output.text;
@@ -313,23 +302,7 @@ var ConversationPanel = (function () {
         }
 
         if (newPayload.hasOwnProperty('asistudent')) {
-            if (newPayload.asistudent.hasOwnProperty(('scheduleEntries'))) {
-
-                var scheduleEntries = newPayload.asistudent.scheduleEntries;
-
-                var entries = '<div class="schedule-entries">';
-
-                scheduleEntries.forEach(function (entry) {
-                    entries += getScheduleEntry(entry);
-                });
-
-                entries += '</div>';
-
-                responses.push({
-                    type: "schedule-entry",
-                    innerhtml: entries
-                });
-            }
+            responseRenderer.render(responses, newPayload.asistudent, newPayload);
 
         } else if (newPayload.hasOwnProperty('input')) {
             var input = '';
@@ -365,6 +338,8 @@ var ConversationPanel = (function () {
             context = latestResponse.context;
         }
 
+        chatController.disableActiveOptions();
+
         // Send the user message
         Api.sendRequest(text, context);
     }
@@ -379,4 +354,13 @@ var ConversationPanel = (function () {
             Common.fireEvent(inputBox, 'input');
         }
     }
+
+    /**
+     * @typedef {Object} ConversationMessage
+     *
+     * @property {string} type
+     * @property {string} innerhtml
+     *
+     */
+
 }());
