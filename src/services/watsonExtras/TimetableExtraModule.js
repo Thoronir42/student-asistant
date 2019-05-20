@@ -18,6 +18,7 @@ class TimetableExtraModule extends WatsonExtraModule {
         const methods = {};
 
         methods['schedule'] = this.getTimetable.bind(this);
+        methods['nextCourse'] = this.getNextCourses.bind(this);
 
         return methods;
     }
@@ -27,6 +28,8 @@ class TimetableExtraModule extends WatsonExtraModule {
      * @param {UserIdentity} user
      * @param {WatsonResponse} response
      * @param {RequestContext} context
+     *
+     * @returns {{scheduleEntries: CourseEvent[]}}
      */
     async getTimetable(user, response, context) {
         const type = response.removeUserSkill('timetablePeriod');
@@ -57,10 +60,24 @@ class TimetableExtraModule extends WatsonExtraModule {
 
     /**
      *
+     * @param {UserIdentity} user
+     * @param {WatsonResponse} response
+     * @param {RequestContext} context
+     *
+     * @returns {Promise<{scheduleEntries: CourseEvent[]}>}
+     */
+    async getNextCourses(user, response, context) {
+        let timetables = await this.timetables.getNextCourses(user.getStagAuthorization(), user.getUserInfo().userName, context.now);
+
+        return {scheduleEntries: timetables};
+    }
+
+    /**
+     *
      * @param {string} day
      * @param {Date} now
      *
-     * @return {Date}
+     * @returns {Date}
      */
     getDateOfNextNamedDay(day, now) {
         const dayOffset = {

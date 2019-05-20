@@ -6,18 +6,10 @@ import WatsonResponse from '../watson/model/WatsonResponse';
 import TestHelper from '../../../tests/utils/TestHelper';
 import DateHelper from '../../utils/DateHelper';
 
-const testScheduleEntries = require('./TimetableExtraModule.testData.json');
-
 function createInstance() {
-    const timetables = {
-        data: testScheduleEntries,
-        getTimetableForDate: (_identity, _studentNumber, date) => ({
-            parsedDate: date,
-            schedule: timetables.data
-        }),
-    };
-
-    return new TimetableExtraModule(timetables);
+    return new TimetableExtraModule({
+        getTimetableForDate: (_auth, _studentNumber, date) => ({parsedDate: date})
+    });
 }
 
 function mockResponse(userSkills) {
@@ -83,4 +75,3 @@ test('\'date\' parses the given date string', async (t) => {
     t.deepEqual(result.parsedDate, expectedDate);
 });
 
-// test('\'nextCourse\' ')

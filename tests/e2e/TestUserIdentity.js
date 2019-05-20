@@ -50,7 +50,7 @@ TestUserIdentity.login = async (username, password = "demo") => {
  * @return {Promise<UserIdentity>}
  */
 TestUserIdentity.loginStudent = async () => {
-    return TestUserIdentity.login("K16B6638P");
+    return TestUserIdentity.login("K16B5802P");
 };
 
 /**
@@ -61,6 +61,10 @@ TestUserIdentity.loginStudent = async () => {
 function findLoginDataIn(html) {
     // todo: polish parsing
     const returnUrlParams = html.match(/test:\/\/back.url\?([^"]+)/);
+    if(!returnUrlParams) {
+        console.warn(html);
+        throw new Error("Failed to parse login response");
+    }
     const linkParams = returnUrlParams[1];
 
     const data = {};
