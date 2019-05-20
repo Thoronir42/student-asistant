@@ -315,7 +315,9 @@ var ConversationPanel = (function () {
         var action = "";
 
         if (!entry.lzeZapsatOdepsat) {
-            action = '<span>' + entry.textDuvoduProcNelzeZapsatOdepsat + '</span>';
+            if (entry.textDuvoduProcNelzeZapsatOdepsat) {
+                action = '<span>' + entry.textDuvoduProcNelzeZapsatOdepsat + '</span>';
+            }
             typeClass = "exam-entry-closed";
         } else {
             var operation = entry.zapsan ? "Withdraw" : "Assign";
