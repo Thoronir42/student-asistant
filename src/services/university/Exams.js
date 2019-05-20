@@ -56,14 +56,31 @@ class Exams {
     /**
      * @param {StagAuthorization} authorization
      * @param {string} subjectAbbr
-     * @param {string} [department]
+     * @param {string} department
      *
      * @return {Promise<{examEvents: ExamEvent[]}>}
      */
-    async getExamsBySubject(authorization, subjectAbbr, department = "" ) {
+    async getExamsByFullSubject(authorization, subjectAbbr, department) {
         const examsByDepartment = await this.examService.getExamEvents(authorization,
             {
                 katedra: department,
+                zkratka: subjectAbbr
+            });
+
+        return {
+            examEvents: examsByDepartment.termin,
+        };
+    }
+
+    /**
+     * @param {StagAuthorization} authorization
+     * @param {string} subjectAbbr
+     *
+     * @return {Promise<{examEvents: ExamEvent[]}>}
+     */
+    async getExamsBySubject(authorization, subjectAbbr) {
+        const examsByDepartment = await this.examService.getExamEvents(authorization,
+            {
                 zkratka: subjectAbbr
             });
 

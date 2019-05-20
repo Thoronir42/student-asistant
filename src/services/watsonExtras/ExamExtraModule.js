@@ -46,7 +46,7 @@ class ExamExtraModule extends WatsonExtraModule {
 
         if(subjectAbbr.includes("/")){
             const parts = subjectAbbr.split('/');
-            return this.exams.getExamsBySubject(user.getStagAuthorization(), parts[1] , parts[0]);
+            return this.exams.getExamsByFullSubject(user.getStagAuthorization(), parts[1] , parts[0]);
         }else {
             return this.exams.getExamsBySubject(user.getStagAuthorization(), subjectAbbr);
         }
