@@ -38,6 +38,15 @@ class CourseEvent extends CourseBase {
      */
     hodinaDo;
 
+    /** @type {StagDatum} */
+    datum;
+
+    /** @type {SkutHodina}*/
+    hodinaSkutOd;
+
+    /** @type {SkutHodina}*/
+    hodinaSkutDo;
+
 }
 
 module.exports = CourseEvent;

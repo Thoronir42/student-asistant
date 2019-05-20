@@ -8,7 +8,7 @@ class CourseBase {
     /**
      * @type {string}
      */
-    zkratka;
+    predmet;
 
     /**
      * @type {string}
