@@ -32,7 +32,7 @@ class ExamExtraModule extends WatsonExtraModule {
      * @param {WatsonResponse} response
      */
     async getExamsByDepartment(user, response) {
-        const department = response.getUserSkill('dep_abbr'); //todo use removeSkill
+        const department = response.removeUserSkill('dep_abbr');
         return this.exams.getExamsByDepartment(user.getStagAuthorization(), department);
     }
 
@@ -42,7 +42,7 @@ class ExamExtraModule extends WatsonExtraModule {
      */
     async getExamsBySubject(user, response) {
         /** @type {string} */
-        const subjectAbbr = response.getUserSkill('subjectId'); //todo use removeSkill
+        const subjectAbbr = response.removeUserSkill('subjectId');
 
         if(subjectAbbr.includes("/")){
             const parts = subjectAbbr.split('/');
@@ -79,7 +79,7 @@ class ExamExtraModule extends WatsonExtraModule {
      */
     async enrollExam(user, response) {
         const studentNumber = user.getUserInfo().userName;
-        const termIdno = response.getUserSkill('termIdno'); //todo use removeSkill
+        const termIdno = response.removeUserSkill('termIdno');
         return this.exams.enrollExam(user.getStagAuthorization(), studentNumber, termIdno);
     }
 
@@ -89,7 +89,7 @@ class ExamExtraModule extends WatsonExtraModule {
      */
     async leaveExam(user, response) {
         const studentNumber = user.getUserInfo().userName;
-        const termIdno = response.getUserSkill('termIdno'); //todo use removeSkill
+        const termIdno = response.removeUserSkill('termIdno');
         return this.exams.leaveExam(user.getStagAuthorization(), studentNumber, termIdno);
     }
 }
