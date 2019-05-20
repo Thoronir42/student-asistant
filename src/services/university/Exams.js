@@ -65,6 +65,8 @@ class Exams {
             {
                 katedra: department,
                 zkratka: subjectAbbr
+            }, {
+                zobrazitProsle: false
             });
 
         return {
@@ -81,7 +83,9 @@ class Exams {
     async getExamsBySubject(authorization, subjectAbbr) {
         const examsByDepartment = await this.examService.getExamEvents(authorization,
             {
-                zkratka: subjectAbbr
+                zkratka: subjectAbbr,
+            }, {
+                zobrazitProsle: false
             });
 
         return {
