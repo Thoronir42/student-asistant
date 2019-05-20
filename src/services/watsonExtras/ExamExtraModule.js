@@ -18,6 +18,7 @@ class ExamExtraModule extends WatsonExtraModule {
         const methods = {};
 
         methods['departmentExams'] = this.getExamsByDepartment.bind(this);
+        methods['subjectExams'] = this.getExamsBySubject.bind(this);
         methods['registeredExams'] = this.getRegisteredExams.bind(this);
         methods['myExams'] = this.getMyCourseExams.bind(this);
         methods['leaveExam'] = this.leaveExam.bind(this);
@@ -33,6 +34,23 @@ class ExamExtraModule extends WatsonExtraModule {
     async getExamsByDepartment(user, response) {
         const department = response.getUserSkill('dep_abbr'); //todo use removeSkill
         return this.exams.getExamsByDepartment(user.getStagAuthorization(), department);
+    }
+
+    /**
+     * @param {UserIdentity} user
+     * @param {WatsonResponse} response
+     */
+    async getExamsBySubject(user, response) {
+        /** @type {string} */
+        const subjectAbbr = response.getUserSkill('subjectId'); //todo use removeSkill
+
+        if(subjectAbbr.includes("/")){
+            const parts = subjectAbbr.split('/');
+            return this.exams.getExamsBySubject(user.getStagAuthorization(), parts[1] , parts[0]);
+        }else {
+            return this.exams.getExamsBySubject(user.getStagAuthorization(), subjectAbbr);
+        }
+
     }
 
 
