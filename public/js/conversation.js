@@ -344,7 +344,7 @@ var ConversationPanel = (function () {
      */
     function getMessage(entry) {
         return {
-            type: "ExamEvent",
+            type: "Message",
             innerhtml: '<div class="">' +
                 '<span>' + entry + '</span> ' +
                 '</div>'
