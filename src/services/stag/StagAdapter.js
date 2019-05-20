@@ -34,6 +34,8 @@ class StagAdapter {
             options = {};
         }
         if (!options.outputFormat) options.outputFormat = "JSON";
+        if (!options.method) options.method = "GET";
+        if (!options.timeout) options.timeout = 5000;
 
         if (!queryParams) {
             queryParams = {};
@@ -43,21 +45,14 @@ class StagAdapter {
             queryParams.outputFormat = 'JSON';
         }
 
-
-        const method = options.method || 'GET';
-
         const url = this.createUrl(operation, queryParams);
 
-
         const fetchOptions = {
-            method,
+            method: options.method,
             headers: {}
         };
         if (options.outputFormat === "JSON") {
             fetchOptions.headers['Accept'] = 'application/json';
-        }
-        if (!options.timeout) {
-            options.timeout = 5000;
         }
         if (options.authorization) {
             if (typeof options.authorization !== "object") {
@@ -114,12 +109,12 @@ class StagAdapter {
         let acceptType = options.headers['Accept'];
         let responseType = response.headers.get('Content-Type');
 
-        if (acceptType === 'application/json') {
-            if (responseType !== acceptType) {
-                console.warn("Response body: " + await response.text());
-                throw new Error(`Invalid response type, expected ${acceptType}, got ${responseType}`);
-            }
+        if (acceptType && responseType !== acceptType) {
+            console.warn("Response body: " + await response.text());
+            throw new Error(`Invalid response type, expected ${acceptType}, got ${responseType}`);
+        }
 
+        if (acceptType === 'application/json') {
             return await response.json();
         }
 
@@ -153,6 +148,7 @@ module.exports = StagAdapter;
  * @property {HTTPMethod} [method]
  * @property {StagOutputFormat} [outputFormat]
  * @property {StagAuthorization} [authorization]
+ * @property {number} [timeout] - milliseconds before request times out
  */
 
 /**
