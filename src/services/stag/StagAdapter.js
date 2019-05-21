@@ -147,9 +147,10 @@ module.exports = StagAdapter;
 
 /**
  * @typedef {Object} StagFetchOptions
+ *
  * @property {HTTPMethod} [method]
  * @property {StagOutputFormat} [outputFormat]
- * @property {string} lang
+ * @property {string} [lang]
  * @property {StagAuthorization} [authorization]
  * @property {number} [timeout] - milliseconds before request times out
  */

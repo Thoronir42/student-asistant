@@ -42,7 +42,9 @@ class ExamService extends BaseService {
             osCislo
         };
 
-        return this.stagAdapter.fetch(this.serviceEndpoint + "/getTerminyProStudenta", params, {authorization});
+        return this.stagAdapter.fetch(this.serviceEndpoint + "/getTerminyProStudenta", params, {
+            authorization
+        });
     }
 
     /**
@@ -59,14 +61,10 @@ class ExamService extends BaseService {
             termIdno
         };
 
-        // TODO vyřešit že nevrací JSON je to problém?
-        return this.stagAdapter.fetch(this.serviceEndpoint + "/zapisStudentaNaTermin",
-            params, {authorization, outputFormat: "TEXT"}).catch(
-            error => {
-                console.log(error);
-                return "Fail calling STAG web services. :(";
-            }
-        );
+        return this.stagAdapter.fetch(this.serviceEndpoint + "/zapisStudentaNaTermin", params, {
+            authorization,
+            outputFormat: "TEXT"
+        });
     }
 
     /**
@@ -84,12 +82,10 @@ class ExamService extends BaseService {
             termIdno
         };
 
-        return this.stagAdapter.fetch(this.serviceEndpoint + "/odhlasStudentaZTerminu",
-            params, {authorization, outputFormat: "TEXT"})
-            .catch(error => {
-                console.log(error);
-                return "Fail calling STAG web services. :(";
-            });
+        return this.stagAdapter.fetch(this.serviceEndpoint + "/odhlasStudentaZTerminu", params, {
+            authorization,
+            outputFormat: "TEXT"
+        });
     }
 
 }

@@ -74,6 +74,10 @@ var Api = (function () {
             body: params,
         })
             .then(function (response) {
+                if(response.status === 500) {
+                    throw new Error('Fail happened');
+                }
+
                 return response.text();
             })
             .then(function (text) {
@@ -86,9 +90,9 @@ var Api = (function () {
                         'generic': [
                             {
                                 'response_type': 'text',
-                                'text': 'I\'m having trouble connecting to the server, please refresh the page'
+                                'text': 'An unexpected error happened during your inquiry, please try again later.'
                             }
-                        ],
+                        ]
                     }
                 });
             });
