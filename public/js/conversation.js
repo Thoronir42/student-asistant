@@ -281,83 +281,6 @@ var ConversationPanel = (function () {
         }
     }
 
-    /**
-     *
-     * @param {CourseEvent} entry
-     * @return {string}
-     */
-    function getScheduleEntry(entry) {
-        var subject = entry.katedra + '/' + entry.predmet;
-        var place = entry.budova + "-" + entry.mistnost;
-        var date = entry.hodinaSkutOd.value + " - " + entry.hodinaSkutDo.value;
-
-        var typeClass = 'schedule-entry-' + entry.typAkceZkr;
-
-        return '<div class="schedule-entry ' + typeClass + '">\n' +
-            '<span title="' + entry.nazev + '">' + subject + '</span>' +
-            ' - ' +
-            '<span>' + entry.typAkce + '</span><br/>\n' +
-            '<span>' + place + '</span><br/>\n' +
-            '<span>' + date + '</span>\n' +
-            '</div>';
-    }
-
-    /**
-     *
-     * @param  {ExamEvent} entry
-     * @return {{innerhtml: string, type: string}}
-     */
-    function getExamEvents(entry) {
-        var subject = entry.katedra + '/' + entry.predmet;
-        var place = entry.budova + "-" + entry.mistnost;
-        var date = entry.datum.value + " " + entry.casOd + " - " + entry.casDo;
-        var typeClass = "";
-        var action = "";
-
-        typeClass = 'exam-entry-' + entry.kodDuvoduProcNelzeZapsatOdepsat;
-
-        if (!entry.lzeZapsatOdepsat) {
-            if (entry.textDuvoduProcNelzeZapsatOdepsat) {
-                action = '<span>' + entry.textDuvoduProcNelzeZapsatOdepsat + '</span>';
-            }
-
-
-        } else {
-            var operation = entry.zapsan ? "Withdraw" : "Assign";
-            // typeClass = entry.zapsan ? "exam-entry-closed" : "exam-entry-open";
-            var sentense = operation + " exam event " + entry.termIdno;
-            action = '<div class="options-list" onclick="ConversationPanel.sendMessage(\'' + sentense + '!\');">' + operation + '</div>';
-        }
-
-        var maxCount = entry.limit ? entry.limit : '-';
-
-        return {
-            type: "ExamEvent",
-            innerhtml: '<div class="exam-entry ' + typeClass + '">' +
-                '<span title="' + entry.typTerminu + '">' + subject + '</span> ' +
-                // '<span>' + entry.termIdno + '</span><br/> ' +
-                //  '<span>' + entry.typTerminu + '</span><br/>' +
-                '<span>(' + entry.obsazeni + '/' + maxCount + ')</span><br/>' +
-                '<span>' + place + '</span><br/>' +
-                '<span>' + date + '</span><br/>' +
-                action +
-                '</div>'
-        };
-    }
-
-    /**
-     * @param  {string} entry
-     * @return {{innerhtml: string, type: string}}
-     */
-    function getMessage(entry) {
-        return {
-            type: "Message",
-            innerhtml: '<div class="technical-message">' +
-                '<span>' + entry + '</span> ' +
-                '</div>'
-        };
-    }
-
 
     // Constructs new generic elements from a message payload
     function buildMessageDomElements(newPayload, isUser) {
@@ -379,38 +302,8 @@ var ConversationPanel = (function () {
         }
 
         if (newPayload.hasOwnProperty('asistudent')) {
-            if (newPayload.asistudent.hasOwnProperty(('scheduleEntries'))) {
-                var scheduleEntries = newPayload.asistudent.scheduleEntries;
+            responseRenderer.render(responses, newPayload.asistudent, newPayload);
 
-                var entries = '<div class="schedule-entries">';
-
-                scheduleEntries.forEach(function (entry) {
-                    entries += getScheduleEntry(entry);
-                });
-
-                entries += '</div>';
-
-                responses.push({
-                    type: "schedule-entry",
-                    innerhtml: entries
-                });
-            }
-            if (newPayload.asistudent.hasOwnProperty(('message'))) {
-                var message = newPayload.asistudent.message;
-
-                responses.push(getMessage(message));
-            }
-            if (newPayload.asistudent.hasOwnProperty(('examEvents'))) {
-
-                var examEvents = newPayload.asistudent.examEvents;
-                if (examEvents.length > 0) {
-                    examEvents.forEach(function (entry) {
-                        responses.push(getExamEvents(entry));
-                    });
-                } else {
-                    responses.push(getMessage("No events found."))
-                }
-            }
 
         } else if (newPayload.hasOwnProperty('input')) {
             var input = '';
