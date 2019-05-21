@@ -53,7 +53,7 @@ class ExamService extends BaseService {
      * @param {StagAuthorization} authorization
      * @param {string} osCislo
      * @param {number} termIdno
-     * @return {Promise<String>}
+     * @return {Promise<string>}
      */
     enrollExamEvent(authorization, osCislo, termIdno) {
         const params = {
@@ -74,7 +74,7 @@ class ExamService extends BaseService {
      * @param {StagAuthorization} authorization
      * @param {string} osCislo
      * @param {number} termIdno
-     * @return {Promise<String>}
+     * @return {Promise<string>}
      */
     leaveExamEvent(authorization, osCislo, termIdno) {
         const params = {
