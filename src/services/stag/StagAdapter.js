@@ -36,11 +36,13 @@ class StagAdapter {
         if (!options.outputFormat) options.outputFormat = "JSON";
         if (!options.method) options.method = "GET";
         if (!options.timeout) options.timeout = 5000;
+        if (!options.lang) options.lang = 'en';
 
         if (!queryParams) {
             queryParams = {};
         }
         queryParams.outputFormat = options.outputFormat;
+        queryParams.lang = options.lang;
         if (queryParams.outputFormat === 'TEXT') {
             queryParams.outputFormat = 'JSON';
         }
@@ -147,6 +149,7 @@ module.exports = StagAdapter;
  * @typedef {Object} StagFetchOptions
  * @property {HTTPMethod} [method]
  * @property {StagOutputFormat} [outputFormat]
+ * @property {string} lang
  * @property {StagAuthorization} [authorization]
  * @property {number} [timeout] - milliseconds before request times out
  */
