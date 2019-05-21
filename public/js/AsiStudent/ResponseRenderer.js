@@ -118,8 +118,9 @@
                 typeClass = 'exam-entry-' + entry.kodDuvoduProcNelzeZapsatOdepsat;
             } else {
                 var action = entry.zapsan ? "Withdraw" : "Register";
+                var btnClass = entry.zapsan ? 'btn-primary' : 'btn-default';
                 var sentence = action + " exam event " + entry.termIdno;
-                actionEl = '<button class="btn btn-in-exam btn-primary" onclick="ConversationPanel.sendMessage(\'' + sentence + '!\');">' + action + '</button>';
+                actionEl = '<button class="btn btn-in-exam ' + btnClass + '" onclick="ConversationPanel.sendMessage(\'' + sentence + '!\');">' + action + '</button>';
                 typeClass = entry.zapsan ? 'exam-entry-registered' : 'exam-entry-OK';
             }
 
