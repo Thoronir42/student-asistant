@@ -281,6 +281,7 @@ var ConversationPanel = (function () {
         }
     }
 
+
     // Constructs new generic elements from a message payload
     function buildMessageDomElements(newPayload, isUser) {
         var textArray = isUser ? newPayload.input.text : newPayload.output.text;
@@ -292,7 +293,6 @@ var ConversationPanel = (function () {
 
         if (newPayload.hasOwnProperty('output')) {
             if (newPayload.output.hasOwnProperty('generic')) {
-
                 var generic = newPayload.output.generic;
 
                 generic.forEach(function (gen) {
@@ -303,6 +303,7 @@ var ConversationPanel = (function () {
 
         if (newPayload.hasOwnProperty('asistudent')) {
             responseRenderer.render(responses, newPayload.asistudent, newPayload);
+
 
         } else if (newPayload.hasOwnProperty('input')) {
             var input = '';

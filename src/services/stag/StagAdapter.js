@@ -25,10 +25,7 @@ class StagAdapter {
      * @param {string} operation
      * @param {Object<string, string|number>} [queryParams]
      *
-     * @param {Object} [options]
-     * @param {HTTPMethod} [options.method]
-     * @param {StagOutputFormat} [options.outputFormat='JSON']
-     * @param {StagAuthorization} [options.authorization]
+     * @param {StagFetchOptions} [options]
      *
      * @return {Promise} API call result
      */
@@ -36,28 +33,31 @@ class StagAdapter {
         if (!options) {
             options = {};
         }
+        if (!options.outputFormat) options.outputFormat = "JSON";
+        if (!options.method) options.method = "GET";
+        if (!options.timeout) options.timeout = 5000;
+        if (!options.lang) options.lang = 'en';
+
         if (!queryParams) {
             queryParams = {};
         }
-        queryParams.outputFormat = options.outputFormat || "JSON";
-
-        const method = options.method || 'GET';
+        queryParams.outputFormat = options.outputFormat;
+        queryParams.lang = options.lang;
+        if (queryParams.outputFormat === 'TEXT') {
+            queryParams.outputFormat = 'JSON';
+        }
 
         const url = this.createUrl(operation, queryParams);
 
-
         const fetchOptions = {
-            method,
+            method: options.method,
             headers: {}
         };
-        if (queryParams.outputFormat === "JSON") {
+        if (options.outputFormat === "JSON") {
             fetchOptions.headers['Accept'] = 'application/json';
         }
-        if(!options.timeout) {
-            options.timeout = 5000;
-        }
-        if(options.authorization) {
-            if(typeof options.authorization !== "object") {
+        if (options.authorization) {
+            if (typeof options.authorization !== "object") {
                 throw new Error("Authorization must be an object");
             }
 
@@ -107,7 +107,20 @@ class StagAdapter {
             throw new Error(errorMessage);
         }
 
-        return await response.json();
+
+        let acceptType = options.headers['Accept'];
+        let responseType = response.headers.get('Content-Type');
+
+        if (acceptType && responseType !== acceptType) {
+            console.warn("Response body: " + await response.text());
+            throw new Error(`Invalid response type, expected ${acceptType}, got ${responseType}`);
+        }
+
+        if (acceptType === 'application/json') {
+            return await response.json();
+        }
+
+        return await response.text();
     }
 
     /**
@@ -129,7 +142,17 @@ module.exports = StagAdapter;
  */
 
 /**
- * @typedef {'JSON'} StagOutputFormat
+ * @typedef {'JSON'|'XML'|'TEXT'} StagOutputFormat
+ */
+
+/**
+ * @typedef {Object} StagFetchOptions
+ *
+ * @property {HTTPMethod} [method]
+ * @property {StagOutputFormat} [outputFormat]
+ * @property {string} [lang]
+ * @property {StagAuthorization} [authorization]
+ * @property {number} [timeout] - milliseconds before request times out
  */
 
 /**

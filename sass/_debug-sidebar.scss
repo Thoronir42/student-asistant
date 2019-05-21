@@ -1,0 +1,76 @@
+@import "asistudent-variables";
+
+#payload-column {
+  font-family: Monaco, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0;
+  line-height: 1.125rem;
+  background-color: #23292A;
+  color: #fff;
+  overflow-x: auto;
+
+  width: 45%;
+  max-width: 32.0625rem;
+  min-width: 29.6875rem;
+
+  display: flex;
+  flex-direction: column;
+
+  #payload-response {
+    flex: 1;
+    flex-direction: column;
+    display: flex;
+
+    > div {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .header-text, #payload-initial-message {
+    font-family: Helvetica Neue for IBM, Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-size: 1.125rem;
+    color: #9E9E9E;
+    letter-spacing: 0.01875rem;
+    padding: 0.5rem;
+    padding-left: 2.5rem;
+    background: #383D3E;
+  }
+
+  .payload .line-numbers, .payload .payload-text {
+    padding: 0.5rem;
+  }
+
+  .line-numbers {
+    width: 2rem;
+    color: #898989;
+    text-align: right;
+  }
+
+  pre {
+    margin: 0;
+    word-wrap: normal;
+    color: white;
+  }
+
+  .string {
+    color: #5ED;
+  }
+
+  .boolean, .null, .number {
+    color: #CE8EFF;
+  }
+
+  .key {
+    color: #66B7FF;
+  }
+
+}
+
+#payload-column.full {
+  width: 100%;
+  max-width: none;
+  min-width: initial;
+}
+

@@ -1,0 +1,30 @@
+.exam-entry {
+  margin: 0 1.5em;
+  padding: 0.15em 0.5em;
+
+  border: 1px solid #494949;
+  border-radius: 4px;
+}
+.exam-entry:not(:first-child) {
+  margin-top: 0.25em;
+}
+
+.exam-entry.exam-entry-OK {
+  background: #f4f2f2;
+}
+.exam-entry.exam-entry-registered {
+  background: #ffd2c2;
+}
+
+.exam-entry.exam-entry-ZAPSAN_NA_JINEM_TERMINU {
+  background: #f4f2f2;
+}
+
+.exam-entry.exam-entry-OBSAZENO {
+  background: #aeaeae;
+}
+
+.btn-in-exam {
+  padding: 2px 8px;
+  margin-top: 4px;
+}

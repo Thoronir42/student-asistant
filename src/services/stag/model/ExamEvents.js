@@ -1,7 +1,7 @@
 class ExamEvents {
 
     /** @type {Array<ExamEvent>} */
-    terminy;
+    termin;
 }
 
 module.exports = ExamEvents;
