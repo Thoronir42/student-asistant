@@ -314,14 +314,17 @@ var ConversationPanel = (function () {
         var typeClass = "";
         var action = "";
 
+        typeClass = 'exam-entry-' + entry.kodDuvoduProcNelzeZapsatOdepsat;
+
         if (!entry.lzeZapsatOdepsat) {
             if (entry.textDuvoduProcNelzeZapsatOdepsat) {
                 action = '<span>' + entry.textDuvoduProcNelzeZapsatOdepsat + '</span>';
             }
-            typeClass = "exam-entry-closed";
+
+
         } else {
             var operation = entry.zapsan ? "Withdraw" : "Assign";
-            typeClass = entry.zapsan ? "exam-entry-closed" : "exam-entry-open";
+            // typeClass = entry.zapsan ? "exam-entry-closed" : "exam-entry-open";
             var sentense = operation + " exam event " + entry.termIdno;
             action = '<div class="options-list" onclick="ConversationPanel.sendMessage(\'' + sentense + '!\');">' + operation + '</div>';
         }
